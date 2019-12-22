@@ -1,0 +1,187 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4672FB2A-349D-4556-ADD6-1BBEF733D5CB}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>OnBoard</RootNamespace>
+    <AssemblyName>OnBoard</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DevComponents.DotNetBar2">
+      <HintPath>E:\.NET Projeler\EDSCloudComputing\EDSCloudComputing\bin\Debug\DevComponents.DotNetBar2.dll</HintPath>
+    </Reference>
+    <Reference Include="IPAddressControlLib, Version=1.0.3039.20052, Culture=neutral, PublicKeyToken=9695e912950a5d9b">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\IPAddressControlLib.dll</HintPath>
+    </Reference>
+    <Reference Include="MetroTcpLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\MetroTcpLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DateTimeExtensions.cs" />
+    <Compile Include="ListViewHelper.cs" />
+    <Compile Include="Message\Message.cs" />
+    <Compile Include="Message\OBATP_TO_WSATP.cs" />
+    <Compile Include="Settings\CommunicationSettingsModal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Settings\CommunicationSettingsModal.Designer.cs">
+      <DependentUpon>CommunicationSettingsModal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TcpClient.cs" />
+    <Compile Include="TCP\Client.cs" />
+    <Compile Include="TCP\Server.cs" />
+    <Compile Include="TCP\SocketCommunication.cs" />
+    <Compile Include="TrackSettingsModal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TrackSettingsModal.Designer.cs">
+      <DependentUpon>TrackSettingsModal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TrackWithPosition.cs" />
+    <Compile Include="DisplayManager.cs" />
+    <Compile Include="Enums.cs" />
+    <Compile Include="ExceptionMessages.cs" />
+    <Compile Include="FileOperation.cs" />
+    <Compile Include="Settings\GeneralSettingsModal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Settings\GeneralSettingsModal.Designer.cs">
+      <DependentUpon>GeneralSettingsModal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OBATP.cs" />
+    <Compile Include="Oldie.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Route.cs" />
+    <Compile Include="Serialization\DictionarySerializableClass.cs" />
+    <Compile Include="Serialization\Serialization.cs" />
+    <Compile Include="Serialization\SerializationPaths.cs" />
+    <Compile Include="Serialization\XMLSerialization.cs" />
+    <Compile Include="ThreadSafeList.cs" />
+    <Compile Include="Track.cs" />
+    <Compile Include="TrainObserver\ITrainMovementCreate.cs" />
+    <Compile Include="TrainObserver\ITrainMovementWatcher.cs" />
+    <Compile Include="TrainObserver\TrainMovementCreate.cs" />
+    <Compile Include="Settings\TrainSettingsModal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Settings\TrainSettingsModal.Designer.cs">
+      <DependentUpon>TrainSettingsModal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TrainOnTracks.cs" />
+    <Compile Include="TrainSimModal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TrainSimModal.Designer.cs">
+      <DependentUpon>TrainSimModal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UnitConversion.cs" />
+    <Compile Include="Vehicle\IVehicle.cs" />
+    <Compile Include="Vehicle\Vehicle.cs" />
+    <EmbeddedResource Include="Settings\CommunicationSettingsModal.resx">
+      <DependentUpon>CommunicationSettingsModal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Settings\GeneralSettingsModal.resx">
+      <DependentUpon>GeneralSettingsModal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="Settings\TrainSettingsModal.resx">
+      <DependentUpon>TrainSettingsModal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TrackSettingsModal.resx">
+      <DependentUpon>TrackSettingsModal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TrainSimModal.resx">
+      <DependentUpon>TrainSimModal.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="..\.editorconfig">
+      <Link>.editorconfig</Link>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\apply.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\save.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

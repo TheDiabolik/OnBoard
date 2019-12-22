@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<XMLSerialization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ATSToOBATPIPAddress>127.0.0.1</ATSToOBATPIPAddress>
+  <ATSToOBATPPort>5050</ATSToOBATPPort>
+  <OBATPToATSIPAddress>127.0.0.1</OBATPToATSIPAddress>
+  <OBATPToATSPort>5051</OBATPToATSPort>
+  <WSATCToOBATPIPAddress>127.0.0.1</WSATCToOBATPIPAddress>
+  <WSATCToOBATPPort>5052</WSATCToOBATPPort>
+  <OBATPToWSATCIPAddress>127.0.0.1</OBATPToWSATCIPAddress>
+  <OBATPToWSATCPort>5053</OBATPToWSATCPort>
+  <TrainLength>11200</TrainLength>
+  <MaxTrainDeceleration>1.1</MaxTrainDeceleration>
+  <MaxTrainAcceleration>0.8</MaxTrainAcceleration>
+  <TrainSpeedLimit>80</TrainSpeedLimit>
+  <TrainFrequency>5</TrainFrequency>
+  <Trains>
+    <int>0</int>
+  </Trains>
+</XMLSerialization>
