@@ -10,6 +10,8 @@ namespace OnBoard
     {
         public int TrainIndex { get; set; }
 
+        public Enums.Train_ID TrainID { get; set; }
+
         public string TrainName { get; set; }
 
         /// <summary>

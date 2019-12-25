@@ -16,14 +16,16 @@ namespace OnBoard
         #region Gloval
 
         public  Enums.DoorStatus DoorStatus { get; set; }
-
+        public Enums.OBATP_ID OBATP_ID { get; set; }
 
         //public ThreadSafeList<ushort> VirtualOccupationTracks = new ThreadSafeList<ushort>();
         //public ThreadSafeList<ushort> FootPrintTracks = new ThreadSafeList<ushort>();
 
         public static TrainOnTracks TrainOnTracks = new TrainOnTracks();
 
+        public ushort[] footPrintTracks = new ushort[15];
 
+        public ushort[] virtualOccupationTracks = new ushort[20];
         /// <summary>
         /// Trenin gittiği toplam mesafe (m)
         /// </summary>
@@ -34,11 +36,11 @@ namespace OnBoard
         /// </summary>
         public Vehicle Vehicle = new Vehicle();
 
-        TrackWithPosition FrontOfTrainTrackWithFootPrint = new TrackWithPosition();
+        public TrackWithPosition FrontOfTrainTrackWithFootPrint = new TrackWithPosition();
         public TrackWithPosition FrontOfTrainVirtualOccupation = new TrackWithPosition();
 
-        TrackWithPosition RearOfTrainTrackWithFootPrint = new TrackWithPosition(); 
-        TrackWithPosition RearOfTrainVirtualOccupation = new TrackWithPosition(); 
+        public TrackWithPosition RearOfTrainTrackWithFootPrint = new TrackWithPosition();
+        public TrackWithPosition RearOfTrainVirtualOccupation = new TrackWithPosition(); 
        
         #endregion 
 
@@ -78,10 +80,10 @@ namespace OnBoard
         public Enums.Direction Direction { get; set; }
         public Enums.Direction RearDirection { get; set; }
 
-        public int DwellTime { get; set; }
+      
         public System.Timers.Timer m_doorTimer;
         Stopwatch m_stopwatch;
-        public bool DwellTimeFinished { get; set; }
+       
         public int DoorTimerCounter { get; set; }
         double OperationTime = 0.2;
 
@@ -178,16 +180,21 @@ namespace OnBoard
         //}
 
 
-        public OBATP(int index, string name, double maxTrainAcceleration, double maxTrainDeceleration, int maxTrainSpeedKMH, double trainLength, Route route)
+        public OBATP(Enums.Train_ID trainID, string name, double maxTrainAcceleration, double maxTrainDeceleration, int maxTrainSpeedKMH, double trainLength, Route route)
         {
             //tren parametreleri set ediliyor
             Vehicle.MaxTrainAcceleration = maxTrainAcceleration * 100;
             Vehicle.MaxTrainDeceleration = maxTrainDeceleration * 100;
             Vehicle.MaxTrainSpeedKMH = maxTrainSpeedKMH;
             Vehicle.TrainLength = trainLength;
-            Vehicle.TrainIndex = index;
+            Vehicle.TrainIndex = (int)trainID+1;
+            Vehicle.TrainID = trainID;
             Vehicle.TrainName = name;
 
+            OBATP_ID = GetOBATP_ID(name);
+
+            
+                
 
             FrontOfTrainLocationFault = 200;
             //RearTrainLocationFault = 200;
@@ -198,19 +205,22 @@ namespace OnBoard
             
             //RealFrontCurrentLocation = 11200;
             ActualFrontOfTrainCurrentLocation =   trainLength;
-            ActualRearCurrentLocation = 0;
+            ActualRearCurrentLocation = 1;
 
 
             DoorStatus = Enums.DoorStatus.Close;
             DoorTimerCounter = 0;
-            DwellTimeFinished = false;
+            //DwellTimeFinished = false;
             m_stopwatch = new Stopwatch();
             m_doorTimer = new System.Timers.Timer();
-            m_doorTimer.Interval = 1000;
+            m_doorTimer.Interval = 10000;
             m_doorTimer.Elapsed += OnTrainDoorsOpenedEvent;
 
 
             m_route = route;
+
+            //DwellTime = 20;
+
 
             //double  routeLength = 0;
             //foreach (Track track in m_route.Route_Tracks)
@@ -301,64 +311,15 @@ namespace OnBoard
 
 
 
-
-
-
-                    //Message message = new Message();
-                    //message.DS = (UInt32)Enums.Message.DS.DS;
-                    //message.Size = (UInt32)Enums.Message.Size.Size; //(40 + sourceMessageData.Length); //
-                    //message.ID = (UInt32)Enums.Message.ID.OBATO_TO_WSATO;
-                    //message.DST = 61001;
-                    //message.SRC = 25001;
-                    //message.RTC = DateTimeExtensions.GetAllMiliSeconds();
-                    //message.NO = 1;
-
-                    //message.CRC = 47851476196393100;
-                    ////OBATP_TO_WSATP içerik oluşturma
-                    OBATP_TO_WSATP OBATP_TO_WSATP = new OBATP_TO_WSATP();
-                    //OBATP_TO_WSATP.EmergencyBrakeApplied = Convert.ToByte(false);
-                    //OBATP_TO_WSATP.TrainAbsoluteZeroSpeed = Convert.ToByte(false);
-                    //OBATP_TO_WSATP.AllTrainDoorsClosedAndLocked = Convert.ToByte(false);
-                    //OBATP_TO_WSATP.EnablePSD1 = Convert.ToByte(255);
-                    //OBATP_TO_WSATP.EnablePSD2 = Convert.ToByte(255);
-                    ////OBATP_TO_WSATP.ActiveATP = Convert.ToByte("\x02".Substring(2), NumberStyles.HexNumber); // Encoding.ASCII.GetBytes("\x02");
-                    //OBATP_TO_WSATP.ActiveATP = Byte.Parse("0x02".Substring(2), NumberStyles.HexNumber); // Encoding.ASCII.GetBytes("\x02");
-                    //OBATP_TO_WSATP.ActiveCab = Byte.Parse("0x03".Substring(2), NumberStyles.HexNumber);//Convert.ToByte("\x03");
-                    //OBATP_TO_WSATP.TrainDirection = Convert.ToByte(Direction);
-                    //OBATP_TO_WSATP.TrainCoupled = Byte.Parse("0x04".Substring(2), NumberStyles.HexNumber); //Convert.ToByte("\x04");
-                    //OBATP_TO_WSATP.TrainIntegrity = Convert.ToByte(false);
-                    //OBATP_TO_WSATP.TrainLocationDeterminationFault = Convert.ToByte(false);
-                    //OBATP_TO_WSATP.TrackDatabaseVersionMajor = Convert.ToByte(1);
-                    //OBATP_TO_WSATP.TrackDatabaseVersionMinor = Convert.ToByte(1);
-                    //OBATP_TO_WSATP.TrainDerailment = Convert.ToByte(false);
-
-
+                     
                   
 
-                    ushort[] footPrintTracks = FindTrackRangeInAllTracks(FrontOfTrainTrackWithFootPrint.Track, RearOfTrainTrackWithFootPrint.Track, MainForm.allTracks);
+                    footPrintTracks = FindTrackRangeInAllTracks(FrontOfTrainTrackWithFootPrint.Track, RearOfTrainTrackWithFootPrint.Track, MainForm.allTracks);  
+                  
 
 
-                   
-
-
-                    Array.Copy(footPrintTracks, OBATP_TO_WSATP.FootPrintTrackSectionID, footPrintTracks.Length);
-
-
-                    ushort[] virtualOccupationTracks = FindTrackRangeInAllTracks(FrontOfTrainVirtualOccupation.Track, RearOfTrainVirtualOccupation.Track, MainForm.allTracks);
-                    Array.Copy(virtualOccupationTracks, OBATP_TO_WSATP.VirtualOccupancyTrackSectionID, virtualOccupationTracks.Length);
-
-
-                    //this.FootPrintTracks.AddRange(footPrintTracks);
-
-
-                    //TrainOnTracks.VirtualOccupationTracks.
-
-                    //virtualOccupationTracks. 
-
-
-
-
-                 
+                    virtualOccupationTracks = FindTrackRangeInAllTracks(FrontOfTrainVirtualOccupation.Track, RearOfTrainVirtualOccupation.Track, MainForm.allTracks);  
+                    
 
 
                     TrainOnTracks.VirtualOccupationTracks.Clear();
@@ -387,7 +348,7 @@ namespace OnBoard
 
                     MainForm.m_trainMovement.TrainMovementCreated(this);
 
-                    Thread.Sleep(20);
+                    Thread.Sleep(10);
                 }
 
             }
@@ -525,15 +486,15 @@ namespace OnBoard
 
         public double FindPositionFootPrintRear(Track track, Enums.Direction direction, List<Track> route) //bu incelenecek
         {
-            double rearTrainLocationInRouteWithFootPrint = -1;
+            double rearTrainLocationInRouteWithFootPrint = 0;
             // FrontTrainLocationFault değeri belirli aralıklarla artacak hata payı ortaya çıkacak, RFID tag okununca sıfırlanacak
 
             if (route.Count != 0)
             {
                 if (direction == Enums.Direction.One)
                 {
-                    //if (ActualRearCurrentLocation - RearOfTrainLocationFault < track.Track_Start_Position)
-                    if (ActualRearCurrentLocation - RearOfTrainLocationFault < track.StartPositionInRoute)
+                    if (ActualRearCurrentLocation - RearOfTrainLocationFault < track.Track_Start_Position)
+                    //if (ActualRearCurrentLocation - RearOfTrainLocationFault < track.StartPositionInRoute)
                     {
                         Track rearFootPrintTrack = route.Find(x => x == track);
 
@@ -759,18 +720,19 @@ namespace OnBoard
 
 
             // Gitme izni yoksa tren durmalı
-            if (isExceed == Enums.Route.Out )//|| DoorStatus == Enums.DoorStatus.Open)
+            //if (isExceed == Enums.Route.Out || DoorStatus == Enums.DoorStatus.Open || !string.IsNullOrEmpty(frontCurrentTrack.Station_Name) || (!string.IsNullOrEmpty(frontCurrentTrack.Station_Name) && frontCurrentTrack.Station_Name = && DoorStatus == Enums.DoorStatus.Close))//|| DoorStatus == Enums.DoorStatus.Open)
+           if (isExceed == Enums.Route.Out)// || ManageTrainDoors() )// || DoorStatus == Enums.DoorStatus.Open || !string.IsNullOrEmpty(FrontOfTrainCurrentTrack.Station_Name))
             {
                 targetSpeedKM = 0;
             }
-            else  if (FrontOfTrainLocationWithFootPrintInRoute + Vehicle.BrakingDistance >= frontCurrentTrack.StopPositionInRoute)
+            else //  if (FrontOfTrainLocationWithFootPrintInRoute + Vehicle.BrakingDistance >= frontCurrentTrack.StopPositionInRoute)
             {
-                if (IsRouteLimitExceeded() == Enums.Route.Out)
-                {
-                    targetSpeedKM = 0;
-                }
-                else
-                {
+                //if (IsRouteLimitExceeded() == Enums.Route.Out)
+                //{
+                //    targetSpeedKM = 0;
+                //}
+                //else
+                //{
                     int frontCurrentTrackIndex = m_route.Route_Tracks.IndexOf(frontCurrentTrack);
                     int remainingTracks = m_route.Route_Tracks.Count - frontCurrentTrackIndex;
 
@@ -785,62 +747,93 @@ namespace OnBoard
                     {
  
                         //frenleme mesafesi frontcurrenttrackin konumu geçiyorsa
-                        if (FrontOfTrainLocationWithFootPrintInRoute + Vehicle.BrakingDistance >= item.StopPositionInRoute) //item.StartPositionInRoute)
-                        { 
+                        //if (FrontOfTrainLocationWithFootPrintInRoute + Vehicle.BrakingDistance >= item.StopPositionInRoute) //item.StartPositionInRoute)
+                        {
 
-                            do
+                        do
+                        {
+                            Track reverseTracks = reverseRestOfMovementTracks.Pop();
+
+                            double tempSpeed;
+
+
+                            if (item.MaxTrackSpeedCMS < vehicle.CurrentTrainSpeedCMS)
+                                tempSpeed = item.MaxTrackSpeedCMS;
+                            else
+                                tempSpeed = vehicle.CurrentTrainSpeedCMS;
+
+
+                            double differenceOfMaxTrackSpeed = (tempSpeed - reverseTracks.MaxTrackSpeedCMS);
+                            double timeToDifferenceOfMaxTrackSpeed = (differenceOfMaxTrackSpeed / vehicle.MaxTrainDeceleration);
+                            double distanceToArrangeTheSpeed = (tempSpeed * timeToDifferenceOfMaxTrackSpeed);
+
+                            //openDoorTrack != FrontOfTrainCurrentTrack.Station_Name
+
+                            //if (!string.IsNullOrEmpty(item.Station_Name))// && (item.Station_Name != openDoorTrackName))// DwellTimeFinished == false)// && (openDoorTrack != item.Station_Name))
+                            //{
+
+                            //    //this.Vehicle.CurrentAcceleration = (double)StopTrain(vehicle, item.StopPositionInRoute);
+
+                            //    //targetSpeedKM = reverseTracks.MaxTrackSpeedKMH;
+                            //    targetSpeedKM = 0;
+                            //    //StopTrain(Vehicle);
+                            //    return targetSpeedKM;
+                            //    //return targetSpeedKM;
+                            //}
+
+                          
+
+                            ////iki track arasındaki hız farkı için toplam alınan mesafe
+                            double distanceToSpeedDifference = (differenceOfMaxTrackSpeed) * (timeToDifferenceOfMaxTrackSpeed);
+
+                            ////double vehicledistanceToSpeedDifference = (vehicledifferenceOfMaxTrackSpeed) * (vehicletimeToDifferenceOfMaxTrackSpeed);
+
+                            if ((tempSpeed > reverseTracks.MaxTrackSpeedCMS) &&
+                                    (((FrontOfTrainLocationWithFootPrintInRoute + distanceToArrangeTheSpeed) - (0.5 * distanceToSpeedDifference)) < reverseTracks.StartPositionInRoute))
                             {
-                                Track reverseTracks = reverseRestOfMovementTracks.Pop(); 
 
-                                double tempSpeed;
-
-
-                                if (item.MaxTrackSpeedCMS < vehicle.CurrentTrainSpeedCMS)
-                                    tempSpeed = item.MaxTrackSpeedCMS;
-                                else
-                                    tempSpeed = vehicle.CurrentTrainSpeedCMS; 
+                                
+                            }
+                            //mesafe yoksa
+                            else if (tempSpeed > reverseTracks.MaxTrackSpeedCMS)
+                            {
 
 
-                                double differenceOfMaxTrackSpeed = (tempSpeed - reverseTracks.MaxTrackSpeedCMS);
-                                double timeToDifferenceOfMaxTrackSpeed = (differenceOfMaxTrackSpeed / vehicle.MaxTrainDeceleration);
-                                double distanceToArrangeTheSpeed = (tempSpeed * timeToDifferenceOfMaxTrackSpeed);
+                                //double mesafecm = ters.StartPositionInRoute - FrontOfTrainLocationWithFootPrintInRoute;  
+                                //double acc = (ters.MaxTrackSpeedCMS - Math.Pow(vehicle.CurrentTrainSpeedCMS, 2)) / (2 * mesafecm);
+
+                                targetSpeedKM = reverseTracks.MaxTrackSpeedKMH;
 
 
+                                //break;
+                                return targetSpeedKM;
 
-                                ////iki track arasındaki hız farkı için toplam alınan mesafe
-                                double distanceToSpeedDifference = (differenceOfMaxTrackSpeed) * (timeToDifferenceOfMaxTrackSpeed);
-
-                                ////double vehicledistanceToSpeedDifference = (vehicledifferenceOfMaxTrackSpeed) * (vehicletimeToDifferenceOfMaxTrackSpeed);
-
-                                if ((tempSpeed > reverseTracks.MaxTrackSpeedCMS) &&
-                                        (((FrontOfTrainLocationWithFootPrintInRoute + distanceToArrangeTheSpeed) - (0.5 * distanceToSpeedDifference)) < reverseTracks.StartPositionInRoute))
-                                {
+                            }
 
 
-                                  
-                                }
-                                //mesafe yoksa
-                                else if (tempSpeed > reverseTracks.MaxTrackSpeedCMS)
-                                {
-                                    //double mesafecm = ters.StartPositionInRoute - FrontOfTrainLocationWithFootPrintInRoute;  
-                                    //double acc = (ters.MaxTrackSpeedCMS - Math.Pow(vehicle.CurrentTrainSpeedCMS, 2)) / (2 * mesafecm);
-
-                                    targetSpeedKM = reverseTracks.MaxTrackSpeedKMH;
-
-
-                                    //break;
-                                    return targetSpeedKM;
-
-                                } 
-
-
-                            } while (reverseRestOfMovementTracks.Count > 0);
+                        } while (reverseRestOfMovementTracks.Count > 0);
 
 
                             if (item == frontCurrentTrack)
                             {
-                                //trackın maksimum hızı ile trenin hızı arasındakı fark
-                                double differenceBetweenTrainAndTrackSpeed = vehicle.CurrentTrainSpeedCMS - item.MaxTrackSpeedCMS; 
+
+
+                            if (FrontOfTrainLocationWithFootPrintInRoute  + Vehicle.BrakingDistance >= item.StopPositionInRoute )
+                            {
+                                if (!string.IsNullOrEmpty(item.Station_Name) && item.Station_Name != openDoorTrackName)
+                                {
+                                    targetSpeedKM = 0;
+
+
+                                    //break;
+                                    return targetSpeedKM;
+                                }
+                            }
+
+                              
+
+                            //trackın maksimum hızı ile trenin hızı arasındakı fark
+                            double differenceBetweenTrainAndTrackSpeed = vehicle.CurrentTrainSpeedCMS - item.MaxTrackSpeedCMS; 
                                 //trenin hızı trackın maksimum hızına çıkarmak için geçmesi gereken zaman saniye cinsinden
                                 double time = Math.Abs(vehicle.CurrentTrainSpeedCMS - item.MaxTrackSpeedCMS) / vehicle.MaxTrainDeceleration; 
                                 //trenin trackin maksimum hızına çıkmak için alması gereken yol santimetre cinsinden
@@ -848,82 +841,105 @@ namespace OnBoard
 
                                 double kimsin = distanceToArrangeTheSpeed + (Math.Abs(differenceBetweenTrainAndTrackSpeed) * time / 2);
 
-                                // Anlık hız gelecek dikkate alınması gereken sonraki bir Track hızından düşükse
-                                //trenin o anda bulunduğu hız haraket izni bulunan trackin maksimum hızından düşükse (hareket izni bulunan tracklerle sırasıyla karşılaştırıyoruz)
-                                if (vehicle.CurrentTrainSpeedCMS < item.MaxTrackSpeedCMS) // burası end: ten sonraki koşul karşılaştırması
+                            // Anlık hız gelecek dikkate alınması gereken sonraki bir Track hızından düşükse
+                            //trenin o anda bulunduğu hız haraket izni bulunan trackin maksimum hızından düşükse (hareket izni bulunan tracklerle sırasıyla karşılaştırıyoruz)
+                            if (vehicle.CurrentTrainSpeedCMS < item.MaxTrackSpeedCMS) // burası end: ten sonraki koşul karşılaştırması
+                            {
+
+
+                                // O hıza gidebileceği mesafeye geldiyse
+                                if (item.StartPositionInRoute - this.ActualFrontOfTrainCurrentLocation <= distanceToArrangeTheSpeed + (Math.Abs(differenceBetweenTrainAndTrackSpeed) * time / 2))
                                 {
 
-
-                                    // O hıza gidebileceği mesafeye geldiyse
-                                    if (item.StartPositionInRoute - this.ActualFrontOfTrainCurrentLocation <= distanceToArrangeTheSpeed + (Math.Abs(differenceBetweenTrainAndTrackSpeed) * time / 2))
-                                    {
-
-                                        DisplayManager.RichTextBoxInvoke(MainForm.m_mf.m_richTextBox, "O hıza gidebileceği mesafeye geldiyse", System.Drawing.Color.Black);
+                                    DisplayManager.RichTextBoxInvoke(MainForm.m_mf.m_richTextBox, "O hıza gidebileceği mesafeye geldiyse", System.Drawing.Color.Black);
 
 
-                                        targetSpeedKM = FindMinSpeedInTracks(item, rearCurrentTrack, routeTracks); 
+                                    targetSpeedKM = FindMinSpeedInTracks(item, rearCurrentTrack, routeTracks);
 
 
-                                        //break;
-                                        return targetSpeedKM;
-
-
-                                    }
-                                    //tren önünden itibaren bulunduğu trackın içindeyse tek bir trackin içindedir; o trackın hızını al
-                                    else if (this.FrontOfTrainLocationWithFootPrintInRoute - vehicle.TrainLength >= item.StopPositionInRoute) //item.StartPositionInRoute)
-                                    {
-                                        
-
-                                        targetSpeedKM = item.MaxTrackSpeedKMH;
-
- 
-
-                                        DisplayManager.RichTextBoxInvoke(MainForm.m_mf.m_richTextBox, "Train Speed Limit : " + item.MaxTrackSpeedKMH.ToString(), System.Drawing.Color.Black);
-
- 
-                                        return targetSpeedKM;
-                                        //break;
-                                        //return;
-                                    }
-
-                                }
-                                else if (vehicle.CurrentTrainSpeedCMS > item.MaxTrackSpeedCMS) // burası end: ten sonraki koşul karşılaştırması
-                                {
-                                    // O hıza gidebileceği mesafeye geldiyse
-                                    if (item.StartPositionInRoute - this.ActualFrontOfTrainCurrentLocation <= distanceToArrangeTheSpeed - (Math.Abs(differenceBetweenTrainAndTrackSpeed) * time / 2))
-                                    {
-
-                                        DisplayManager.RichTextBoxInvoke(MainForm.m_mf.m_richTextBox, "O hıza gidebileceği mesafeye geldiyse", System.Drawing.Color.Black);
-
-                                        targetSpeedKM = FindMinSpeedInTracks(item, rearCurrentTrack, routeTracks);
-                                        //break;
-
-                                        return targetSpeedKM;
-
-
-                                    }
-                                    //tren önünden itibaren bulunduğu trackın içindeyse tek bir trackin içindedir; o trackın hızını al
-                                    else if (this.FrontOfTrainLocationWithFootPrintInRoute - vehicle.TrainLength >= item.StartPositionInRoute)
-                                    {
-                                        DisplayManager.RichTextBoxInvoke(MainForm.m_mf.m_richTextBox, "tek bir trackin içindedir", System.Drawing.Color.Black);
-
-                                        targetSpeedKM = item.MaxTrackSpeedKMH;
-
-
-                                        DisplayManager.RichTextBoxInvoke(MainForm.m_mf.m_richTextBox, "Front Track ID : " + item.Track_ID.ToString(), System.Drawing.Color.Black);
-                                        DisplayManager.RichTextBoxInvoke(MainForm.m_mf.m_richTextBox, "Rear Track ID : " + rearCurrentTrack.Track_ID.ToString(), System.Drawing.Color.Black);
-
-
-                                        DisplayManager.RichTextBoxInvoke(MainForm.m_mf.m_richTextBox, "Train Speed Limit : " + frontCurrentTrack.MaxTrackSpeedKMH.ToString(), System.Drawing.Color.Black);
-
-
-                                        return targetSpeedKM;
-                                        //break;
-                                        //return;
-                                    }
+                                    //break;
+                                    return targetSpeedKM;
 
 
                                 }
+                                //tren önünden itibaren bulunduğu trackın içindeyse tek bir trackin içindedir; o trackın hızını al
+                                else if (this.FrontOfTrainLocationWithFootPrintInRoute - vehicle.TrainLength >= item.StopPositionInRoute) //item.StartPositionInRoute)
+                                {
+
+
+                                    targetSpeedKM = item.MaxTrackSpeedKMH;
+
+
+
+                                    DisplayManager.RichTextBoxInvoke(MainForm.m_mf.m_richTextBox, "Train Speed Limit : " + item.MaxTrackSpeedKMH.ToString(), System.Drawing.Color.Black);
+
+
+                                    return targetSpeedKM;
+                                    //break;
+                                    //return;
+                                }
+                                else if (Math.Round(FrontOfTrainLocationWithFootPrintInRoute) + Vehicle.BrakingDistance <= item.StopPositionInRoute)
+                                {
+                                    targetSpeedKM = FindMinSpeedInTracks(item, rearCurrentTrack, routeTracks);
+
+
+                                    //break;
+                                    return targetSpeedKM;
+
+                                }
+
+
+
+
+
+
+
+                            }
+                            else if (vehicle.CurrentTrainSpeedCMS > item.MaxTrackSpeedCMS) // burası end: ten sonraki koşul karşılaştırması
+                            {
+                                // O hıza gidebileceği mesafeye geldiyse
+                                if (item.StartPositionInRoute - this.ActualFrontOfTrainCurrentLocation <= distanceToArrangeTheSpeed - (Math.Abs(differenceBetweenTrainAndTrackSpeed) * time / 2))
+                                {
+
+                                    DisplayManager.RichTextBoxInvoke(MainForm.m_mf.m_richTextBox, "O hıza gidebileceği mesafeye geldiyse", System.Drawing.Color.Black);
+
+                                    targetSpeedKM = FindMinSpeedInTracks(item, rearCurrentTrack, routeTracks);
+                                    //break;
+
+                                    return targetSpeedKM;
+
+
+                                }
+                                //tren önünden itibaren bulunduğu trackın içindeyse tek bir trackin içindedir; o trackın hızını al
+                                else if (this.FrontOfTrainLocationWithFootPrintInRoute - vehicle.TrainLength >= item.StartPositionInRoute)
+                                {
+                                    DisplayManager.RichTextBoxInvoke(MainForm.m_mf.m_richTextBox, "tek bir trackin içindedir", System.Drawing.Color.Black);
+
+                                    targetSpeedKM = item.MaxTrackSpeedKMH;
+
+
+                                    DisplayManager.RichTextBoxInvoke(MainForm.m_mf.m_richTextBox, "Front Track ID : " + item.Track_ID.ToString(), System.Drawing.Color.Black);
+                                    DisplayManager.RichTextBoxInvoke(MainForm.m_mf.m_richTextBox, "Rear Track ID : " + rearCurrentTrack.Track_ID.ToString(), System.Drawing.Color.Black);
+
+
+                                    DisplayManager.RichTextBoxInvoke(MainForm.m_mf.m_richTextBox, "Train Speed Limit : " + frontCurrentTrack.MaxTrackSpeedKMH.ToString(), System.Drawing.Color.Black);
+
+
+                                    return targetSpeedKM;
+                                    //break;
+                                    //return;
+                                }
+                                else if (FrontOfTrainLocationWithFootPrintInRoute + Vehicle.BrakingDistance <= item.StopPositionInRoute)
+                                {
+                                    targetSpeedKM = FindMinSpeedInTracks(item, rearCurrentTrack, routeTracks);
+
+
+                                    //break;
+                                    return targetSpeedKM;
+
+                                }
+
+                            }
 
 
                                 break;
@@ -951,27 +967,27 @@ namespace OnBoard
                      
                 }
 
-            }
-            else if (isExceed == Enums.Route.In )// && DoorStatus == Enums.DoorStatus.Close)
+            //}
+            //else if (isExceed == Enums.Route.In && !ManageTrainDoors()  )// && DoorStatus == Enums.DoorStatus.Close)
 
-            {
-
-
-                //frenleme mesafesi frontcurrenttrackin konumu geçiyorsa
-                if (FrontOfTrainLocationWithFootPrintInRoute + Vehicle.BrakingDistance >= frontCurrentTrack.StopPositionInRoute) //item.StartPositionInRoute)
-                {
-
-                }
-
-                DisplayManager.RichTextBoxInvoke(MainForm.m_mf.m_richTextBox, "----------------------------------", System.Drawing.Color.Black);
-                DisplayManager.RichTextBoxInvoke(MainForm.m_mf.m_richTextBox, "gitme izni var ve başka koşul yok ", System.Drawing.Color.Black);
-                DisplayManager.RichTextBoxInvoke(MainForm.m_mf.m_richTextBox, "trenin içinde bulunduğu tracklerin hız limitlerine uy ", System.Drawing.Color.Black);
+            //{
 
 
-                targetSpeedKM = FindMinSpeedInTracks(frontCurrentTrack, rearCurrentTrack, routeTracks);
+            //    //frenleme mesafesi frontcurrenttrackin konumu geçiyorsa
+            //    if (FrontOfTrainLocationWithFootPrintInRoute + Vehicle.BrakingDistance >= frontCurrentTrack.StopPositionInRoute) //item.StartPositionInRoute)
+            //    {
+
+            //    }
+
+            //    DisplayManager.RichTextBoxInvoke(MainForm.m_mf.m_richTextBox, "----------------------------------", System.Drawing.Color.Black);
+            //    DisplayManager.RichTextBoxInvoke(MainForm.m_mf.m_richTextBox, "gitme izni var ve başka koşul yok ", System.Drawing.Color.Black);
+            //    DisplayManager.RichTextBoxInvoke(MainForm.m_mf.m_richTextBox, "trenin içinde bulunduğu tracklerin hız limitlerine uy ", System.Drawing.Color.Black);
 
 
-            }
+            //    targetSpeedKM = FindMinSpeedInTracks(frontCurrentTrack, rearCurrentTrack, routeTracks);
+
+
+            //}
 
 
 
@@ -1020,8 +1036,64 @@ namespace OnBoard
             }
             else if (vehicle.CurrentTrainSpeedCMS > 0)
             {
+                double distanceToTarget;
+
+                Track station = m_route.Route_Tracks.Find(x => (x == FrontOfTrainCurrentTrack) && !string.IsNullOrEmpty(x.Station_Name));
+
+                if (station != null)
+                {
+                    distanceToTarget = station.StopPositionInRoute - FrontOfTrainLocationWithFootPrintInRoute;
+                   
+
+                }
+                else
+                {
+                    //burayı değiştireceğim
+                    distanceToTarget = m_route.Length - FrontOfTrainLocationWithFootPrintInRoute;
+                }
+
+
+
+                //double distanceToTarget = m_route.Route_Tracks[1].StopPositionInRoute - FrontOfTrainLocationWithFootPrintInRoute;
+
+
+                //double distanceToTarget = m_route.Length - RealFrontCurrentLocation;// FrontTrainLocationInRouteWithFootPrint;
+
+                // Vs² = Vi² + 2ax
+                double acc = (0 - Math.Pow(vehicle.CurrentTrainSpeedCMS, 2)) / (2 * distanceToTarget);
+
+                if (Math.Abs(acc) < (vehicle.MaxTrainDeceleration))
+                {
+                    currentAcceleration = acc;
+                }
+                else
+                {
+                    currentAcceleration = -vehicle.MaxTrainDeceleration;
+                }
+            }
+
+            return currentAcceleration;
+        }
+
+        public double? StopTrain(Vehicle vehicle, double length)
+        {
+            double? currentAcceleration = null;
+
+            if (vehicle.CurrentTrainSpeedKMH == 0)
+            {
+                vehicle.CurrentTrainSpeedCMS = 0;
+                vehicle.CurrentAcceleration = 0;
+            }
+            else if (vehicle.CurrentTrainSpeedCMS > 0)
+            {
                 //burayı değiştireceğim
-                double distanceToTarget = m_route.Length - FrontOfTrainLocationWithFootPrintInRoute;
+                double distanceToTarget = length - FrontOfTrainLocationWithFootPrintInRoute;
+
+
+
+                //double distanceToTarget = m_route.Route_Tracks[1].StopPositionInRoute - FrontOfTrainLocationWithFootPrintInRoute;
+
+
                 //double distanceToTarget = m_route.Length - RealFrontCurrentLocation;// FrontTrainLocationInRouteWithFootPrint;
 
                 // Vs² = Vi² + 2ax
@@ -1151,63 +1223,271 @@ namespace OnBoard
             }
         }
 
+
+
+  bool DwellTimeFinished = false;
+
+
+
+        string openDoorTrackName;
+
+        //public void HoldTrainAtStation()
+        //{
+        //    Console.WriteLine("HoldTrainAtStation index = 0");
+        //    m_doorTimer.Interval = 1000;
+        //    m_doorTimer.Enabled = true;
+        //}
+
+        //public bool ManageTrainDoors()
+        //{
+        //    if (!string.IsNullOrEmpty(FrontOfTrainCurrentTrack.Station_Name) && Vehicle.CurrentTrainSpeedKMH == 0 && !m_doorTimer.Enabled)
+        //    {
+        //        Console.WriteLine("ManageTrainDoors index = 0");
+
+        //        OpenTrainDoors();
+        //        HoldTrainAtStation();
+        //        return true;
+        //    }
+        //    else if (DwellTimeFinished)
+        //    {
+        //        Console.WriteLine("ManageTrainDoors index = 1");
+        //        //LeftDoorsOpened = false;
+        //        //RightDoorsOpened = false;
+        //        CloseTrainDoors();
+        //        return false;
+        //    }
+        //    else
+        //    {
+        //        Console.WriteLine("ManageTrainDoors index = 2");
+        //        return Vehicle.IsDoorOpened;
+        //    }
+        //}
+
+
+
+        //public void OpenTrainDoors()
+        //{
+        //    if (!Vehicle.IsDoorOpened)
+        //    {
+        //        Vehicle.IsDoorOpened = true;
+        //    }
+        //}
+        ///// <summary>
+        ///// Tren kapılarını kapat komutu
+        ///// </summary>
+        //public void CloseTrainDoors()
+        //{
+        //    if (Vehicle.IsDoorOpened)
+        //    {
+        //        Vehicle.IsDoorOpened = false;
+        //    }
+        //}
+
+
+
         public Enums.DoorStatus ManageTrainDoors()
         {
 
-            if (!string.IsNullOrEmpty(FrontOfTrainCurrentTrack.Station_Name) && !m_doorTimer.Enabled )
+
+            //if (!string.IsNullOrEmpty(FrontOfTrainCurrentTrack.Station_Name) && FrontOfTrainCurrentTrack.Station_Name == openDoorTrackName)
+            //{
+            //    return DoorStatus;
+            //}
+
+
+            if (!string.IsNullOrEmpty(FrontOfTrainCurrentTrack.Station_Name) && !m_doorTimer.Enabled && (openDoorTrackName != FrontOfTrainCurrentTrack.Station_Name) && Vehicle.CurrentTrainSpeedCMS == 0)
             {
 
-                DoorStatus = OpenTrainDoors(DoorStatus);
-                //HoldTrainAtStation();
+                //if (Vehicle.CurrentTrainSpeedCMS == 0)
+                {
+                    DoorStatus = OpenTrainDoors(DoorStatus);
+
+                    if (DoorStatus == Enums.DoorStatus.Open)
+                    {
+                        m_doorTimer.Start();
+                    }
+
+                    //openDoorTrackName = FrontOfTrainCurrentTrack.Station_Name;
+                    Debug.WriteLine("kapı açıldı");
+
+                    //m_stopwatch.Start();
 
 
-                m_stopwatch.Start();
-                m_doorTimer.Start();
+                    return DoorStatus;
+                }
 
-                return DoorStatus;
+                //return DoorStatus;
+
+
             }
-            else if (DwellTimeFinished)
-            {
-                Console.WriteLine("ManageTrainDoors index = 1");
-                //LeftDoorsOpened = false;
-                //RightDoorsOpened = false;
-                DoorStatus = CloseTrainDoors(DoorStatus);  
-                return DoorStatus;
-            }
+
             else
             {
                 Console.WriteLine("ManageTrainDoors index = 2");
                 return DoorStatus;
             }
+
+
+
         }
+
+
+
+
+
+        //if (!m_doorTimer.Enabled && openDoorTrack == FrontOfTrainCurrentTrack.Station_Name && DwellTimeFinished == true)
+        //{
+        //    DwellTimeFinished = false;
+        //    m_stopwatch.Reset();
+        //}
+        //if ( openDoorTrackName != FrontOfTrainNextTrack.Station_Name && DwellTimeFinished == true)
+        //{
+        //    DwellTimeFinished = false;
+        //    m_stopwatch.Reset();
+        //}
+
+
+        //if (!string.IsNullOrEmpty(FrontOfTrainCurrentTrack.Station_Name) &&  DoorStatus == Enums.DoorStatus.Close && Vehicle.CurrentTrainSpeedKMH == 0)// && openDoorTrack != FrontOfTrainCurrentTrack.Station_Name)//  !m_doorTimer.Enabled && Vehicle.CurrentTrainSpeedKMH == 0 && openDoorTrack != FrontOfTrainCurrentTrack.Station_Name)
+        //{
+
+
+        //    DoorStatus = OpenTrainDoors(DoorStatus);
+        //    //HoldTrainAtStation();
+
+        //    openDoorTrackName = FrontOfTrainCurrentTrack.Station_Name;
+
+
+        //    m_stopwatch.Start();
+        //    m_doorTimer.Start();
+
+        //    return DoorStatus;
+        //}
+        //else if (DwellTimeFinished)
+        //{
+        //    Console.WriteLine("ManageTrainDoors index = 1");
+        //    //LeftDoorsOpened = false;
+        //    //RightDoorsOpened = false;
+        //    m_doorTimer.Stop();
+        //    DoorStatus = CloseTrainDoors(DoorStatus);
+        //    return DoorStatus;
+        //}
+
+
+        //else
+        //{
+        //    Console.WriteLine("ManageTrainDoors index = 2");
+        //    return DoorStatus;
+        //}
+        //}
+
+
+
+
+        //public Enums.DoorStatus ManageTrainDoors()
+        //{
+
+        //    //if (!m_doorTimer.Enabled && openDoorTrack == FrontOfTrainCurrentTrack.Station_Name && DwellTimeFinished == true)
+        //    //{
+        //    //    DwellTimeFinished = false;
+        //    //    m_stopwatch.Reset();
+        //    //}
+
+
+
+        //    if (!string.IsNullOrEmpty(FrontOfTrainCurrentTrack.Station_Name) && !m_doorTimer.Enabled && Vehicle.CurrentTrainSpeedKMH == 0 && openDoorTrack != FrontOfTrainCurrentTrack.Station_Name)
+        //    {
+
+
+        //        DoorStatus = OpenTrainDoors(DoorStatus);
+        //        //HoldTrainAtStation();
+
+        //        openDoorTrack = FrontOfTrainCurrentTrack.Station_Name;
+
+
+        //        m_stopwatch.Start();
+        //        m_doorTimer.Start();
+
+        //        return DoorStatus;
+        //    }
+        //    else if (DwellTimeFinished)
+        //    {
+        //        Console.WriteLine("ManageTrainDoors index = 1");
+        //        //LeftDoorsOpened = false;
+        //        //RightDoorsOpened = false;
+        //        m_doorTimer.Stop();
+        //        DoorStatus = CloseTrainDoors(DoorStatus);
+        //        return DoorStatus;
+        //    }
+
+
+        //    else
+        //    {
+        //        Console.WriteLine("ManageTrainDoors index = 2");
+        //        return DoorStatus;
+        //    }
+        //}
+
+
+
+
+
+
+
         public void OnTrainDoorsOpenedEvent(object sender, System.Timers.ElapsedEventArgs e)
         {
-            //if (m_stopwatch.Elapsed.TotalSeconds >= DwellTime)
-            if (m_stopwatch.Elapsed.TotalSeconds >= DwellTime)
-            {
-                if (Vehicle.CurrentTrainSpeedKMH > 0)
-                {
-                    Console.WriteLine("OnTrainDoorsOpenedEvent index = 0");
-                    m_doorTimer.Stop();
-                    m_stopwatch.Reset();
-                    DoorTimerCounter = 0;
-                    DwellTimeFinished = false;
-                    return;
-                }
-                else
-                {
-                    Console.WriteLine("OnTrainDoorsOpenedEvent index = 1");
-                    DwellTimeFinished = true;
-                    //m_doorTimer.Stop();
-                }
-            }
 
-            DoorTimerCounter++;
+            //if (Vehicle.DoorTimerCounter >= FrontOfTrainCurrentTrack.DwellTime)
+            //{
+            //    if (Vehicle.CurrentTrainSpeedKMH > 0)
+            //    {
+            //        Console.WriteLine("OnTrainDoorsOpenedEvent index = 0");
+            //        m_doorTimer.Enabled = false;
+            //        Vehicle.DoorTimerCounter = 0;
+            //        DwellTimeFinished = false;
+            //        return;
+            //    }
+            //    else
+            //    {
+            //        Console.WriteLine("OnTrainDoorsOpenedEvent index = 1");
+            //        DwellTimeFinished = true;
+            //    }
+            //}
+
+            //Vehicle.DoorTimerCounter++;
+
+            DoorStatus = CloseTrainDoors(DoorStatus);
+            m_doorTimer.Stop();
+            DwellTimeFinished = true;
+
+            openDoorTrackName = FrontOfTrainCurrentTrack.Station_Name;
+
+            Debug.WriteLine("kapı kapandı");
+            ////if (m_stopwatch.Elapsed.TotalSeconds >= DwellTime)
+            //if (m_stopwatch.Elapsed.TotalSeconds >= FrontOfTrainCurrentTrack.DwellTime)
+            //{
+            //    if (Vehicle.CurrentTrainSpeedKMH > 0)
+            //    {
+            //        Console.WriteLine("OnTrainDoorsOpenedEvent index = 0");
+            //        m_doorTimer.Stop();
+            //        m_stopwatch.Reset();
+            //        DoorTimerCounter = 0;
+            //        DwellTimeFinished = false;
+            //        //return;
+            //    }
+            //    else
+            //    {
+            //        Console.WriteLine("OnTrainDoorsOpenedEvent index = 1");
+            //        DwellTimeFinished = true;
+            ////      m_doorTimer.Stop();
+            //    }
+            //}
+
+            //DoorTimerCounter++;
         }
 
         public Enums.DoorStatus OpenTrainDoors(Enums.DoorStatus doorStatus)
         {
-           
+
             if (doorStatus == Enums.DoorStatus.Close)
             {
                 doorStatus = Enums.DoorStatus.Open;
@@ -1227,7 +1507,7 @@ namespace OnBoard
             return doorStatus;
         }
 
-     
+
 
         public double FindMinSpeedInTracks(Track frontTrack, Track rearTrack, List<Track> routeTracks)
         {
@@ -1246,7 +1526,7 @@ namespace OnBoard
 
 
 
-        public ushort[] FindTrackRangeInAllTracks(Track frontTrack, Track rearTrack, List<Track> allTracks)
+        public static ushort[] FindTrackRangeInAllTracks(Track frontTrack, Track rearTrack, List<Track> allTracks)
         {
             ushort[] trackRangeList = new ushort[15];
 
@@ -1260,6 +1540,74 @@ namespace OnBoard
 
             return trackRangeList;
         }
+
+
+
+
+
+        public Enums.OBATP_ID GetOBATP_ID(string trainName)
+        {
+            Enums.OBATP_ID OBATP_ID  = Enums.OBATP_ID.Train1;
+
+            switch (trainName)
+            {
+                case "Train1" :
+                    {
+                        OBATP_ID = Enums.OBATP_ID.Train1;
+                        break;
+                    }
+                case "Train2":
+                    {
+                        OBATP_ID = Enums.OBATP_ID.Train2;
+                        break;
+                    }
+                case "Train3":
+                    {
+                        OBATP_ID = Enums.OBATP_ID.Train3;
+                        break;
+                    }
+                case "Train4":
+                    {
+                        OBATP_ID = Enums.OBATP_ID.Train4;
+                        break;
+                    }
+                case "Train5":
+                    {
+                        OBATP_ID = Enums.OBATP_ID.Train5;
+                        break;
+                    }
+                case "Train6":
+                    {
+                        OBATP_ID = Enums.OBATP_ID.Train6;
+                        break;
+                    }
+                case "Train7":
+                    {
+                        OBATP_ID = Enums.OBATP_ID.Train7;
+                        break;
+                    }
+                case "Train8":
+                    {
+                        OBATP_ID = Enums.OBATP_ID.Train8;
+                        break;
+                    }
+                case "Train9":
+                    {
+                        OBATP_ID = Enums.OBATP_ID.Train9;
+                        break;
+                    }
+                case "Train10":
+                    {
+                        OBATP_ID = Enums.OBATP_ID.Train10;
+                        break;
+                    }
+            }
+
+            return OBATP_ID;
+
+        }
+             
+
 
     }
 }

@@ -1,202 +1,45 @@
+C:\Users\Diabolik\Desktop\İş yeri\OnBoard\OnBoard\bin\Debug\OnBoard.exe.config
+C:\Users\Diabolik\Desktop\İş yeri\OnBoard\OnBoard\bin\Debug\OnBoard.exe
+C:\Users\Diabolik\Desktop\İş yeri\OnBoard\OnBoard\bin\Debug\OnBoard.pdb
+C:\Users\Diabolik\Desktop\İş yeri\OnBoard\OnBoard\obj\Debug\OnBoard.csprojAssemblyReference.cache
+C:\Users\Diabolik\Desktop\İş yeri\OnBoard\OnBoard\obj\Debug\OnBoard.CommunicationSettingsModal.resources
+C:\Users\Diabolik\Desktop\İş yeri\OnBoard\OnBoard\obj\Debug\OnBoard.GeneralSettingsModal.resources
+C:\Users\Diabolik\Desktop\İş yeri\OnBoard\OnBoard\obj\Debug\OnBoard.MainForm.resources
+C:\Users\Diabolik\Desktop\İş yeri\OnBoard\OnBoard\obj\Debug\OnBoard.Properties.Resources.resources
+C:\Users\Diabolik\Desktop\İş yeri\OnBoard\OnBoard\obj\Debug\OnBoard.TrainSettingsModal.resources
+C:\Users\Diabolik\Desktop\İş yeri\OnBoard\OnBoard\obj\Debug\OnBoard.TrackSettingsModal.resources
+C:\Users\Diabolik\Desktop\İş yeri\OnBoard\OnBoard\obj\Debug\OnBoard.TrainSimModal.resources
+C:\Users\Diabolik\Desktop\İş yeri\OnBoard\OnBoard\obj\Debug\OnBoard.csproj.GenerateResource.cache
+C:\Users\Diabolik\Desktop\İş yeri\OnBoard\OnBoard\obj\Debug\OnBoard.csproj.CopyComplete
+C:\Users\Diabolik\Desktop\İş yeri\OnBoard\OnBoard\obj\Debug\OnBoard.exe
+C:\Users\Diabolik\Desktop\İş yeri\OnBoard\OnBoard\obj\Debug\OnBoard.pdb
+C:\Users\sahmet.tacgin\Desktop\Metro İstanbul - OnBoard\OnBoard\OnBoard\bin\Debug\OnBoard.exe.config
+C:\Users\sahmet.tacgin\Desktop\Metro İstanbul - OnBoard\OnBoard\OnBoard\bin\Debug\OnBoard.exe
+C:\Users\sahmet.tacgin\Desktop\Metro İstanbul - OnBoard\OnBoard\OnBoard\bin\Debug\OnBoard.pdb
+C:\Users\sahmet.tacgin\Desktop\Metro İstanbul - OnBoard\OnBoard\OnBoard\bin\Debug\DevComponents.DotNetBar2.dll
+C:\Users\sahmet.tacgin\Desktop\Metro İstanbul - OnBoard\OnBoard\OnBoard\obj\Debug\OnBoard.CommunicationSettingsModal.resources
+C:\Users\sahmet.tacgin\Desktop\Metro İstanbul - OnBoard\OnBoard\OnBoard\obj\Debug\OnBoard.GeneralSettingsModal.resources
+C:\Users\sahmet.tacgin\Desktop\Metro İstanbul - OnBoard\OnBoard\OnBoard\obj\Debug\OnBoard.MainForm.resources
+C:\Users\sahmet.tacgin\Desktop\Metro İstanbul - OnBoard\OnBoard\OnBoard\obj\Debug\OnBoard.Properties.Resources.resources
+C:\Users\sahmet.tacgin\Desktop\Metro İstanbul - OnBoard\OnBoard\OnBoard\obj\Debug\OnBoard.TrainSettingsModal.resources
+C:\Users\sahmet.tacgin\Desktop\Metro İstanbul - OnBoard\OnBoard\OnBoard\obj\Debug\OnBoard.TrackSettingsModal.resources
+C:\Users\sahmet.tacgin\Desktop\Metro İstanbul - OnBoard\OnBoard\OnBoard\obj\Debug\OnBoard.TrainSimModal.resources
+C:\Users\sahmet.tacgin\Desktop\Metro İstanbul - OnBoard\OnBoard\OnBoard\obj\Debug\OnBoard.csproj.GenerateResource.cache
+C:\Users\sahmet.tacgin\Desktop\Metro İstanbul - OnBoard\OnBoard\OnBoard\obj\Debug\OnBoard.csproj.CoreCompileInputs.cache
+C:\Users\sahmet.tacgin\Desktop\Metro İstanbul - OnBoard\OnBoard\OnBoard\obj\Debug\OnBoard.csproj.CopyComplete
+C:\Users\sahmet.tacgin\Desktop\Metro İstanbul - OnBoard\OnBoard\OnBoard\obj\Debug\OnBoard.exe
+C:\Users\sahmet.tacgin\Desktop\Metro İstanbul - OnBoard\OnBoard\OnBoard\obj\Debug\OnBoard.pdb
 C:\Users\Diabolik\Desktop\OnBoard\OnBoard\bin\Debug\OnBoard.exe.config
-C:\Users\Diabolik\Desktop\OnBoard\OnBoard\obj\Debug\OnBoard.exe
-C:\Users\Diabolik\Desktop\OnBoard\OnBoard\obj\Debug\OnBoard.pdb
-C:\Users\Diabolik\Desktop\OnBoard\OnBoard\obj\Debug\OnBoard.csprojResolveAssemblyReference.cache
-C:\Users\Diabolik\Desktop\OnBoard\OnBoard\obj\Debug\OnBoard.MainForm.resources
-C:\Users\Diabolik\Desktop\OnBoard\OnBoard\obj\Debug\OnBoard.Properties.Resources.resources
-C:\Users\Diabolik\Desktop\OnBoard\OnBoard\obj\Debug\OnBoard.csproj.GenerateResource.Cache
 C:\Users\Diabolik\Desktop\OnBoard\OnBoard\bin\Debug\OnBoard.exe
 C:\Users\Diabolik\Desktop\OnBoard\OnBoard\bin\Debug\OnBoard.pdb
-C:\Users\Diabolik\Desktop\OnBoard\OnBoard\obj\Debug\OnBoard.TrainSettings.resources
-H:\OnBoard\OnBoard\bin\Debug\OnBoard.exe.config
-H:\OnBoard\OnBoard\obj\Debug\OnBoard.exe
-H:\OnBoard\OnBoard\obj\Debug\OnBoard.pdb
-C:\Users\Diabolik\Desktop\Evde bakarsın\Yeni klasör\OnBoard\OnBoard\bin\Debug\OnBoard.exe.config
-C:\Users\Diabolik\Desktop\Evde bakarsın\Yeni klasör\OnBoard\OnBoard\bin\Debug\OnBoard.exe
-C:\Users\Diabolik\Desktop\Evde bakarsın\Yeni klasör\OnBoard\OnBoard\bin\Debug\OnBoard.pdb
-C:\Users\Diabolik\Desktop\Evde bakarsın\Yeni klasör\OnBoard\OnBoard\obj\Debug\OnBoard.GeneralSettingsModal.resources
-C:\Users\Diabolik\Desktop\Evde bakarsın\Yeni klasör\OnBoard\OnBoard\obj\Debug\OnBoard.MainForm.resources
-C:\Users\Diabolik\Desktop\Evde bakarsın\Yeni klasör\OnBoard\OnBoard\obj\Debug\OnBoard.Properties.Resources.resources
-C:\Users\Diabolik\Desktop\Evde bakarsın\Yeni klasör\OnBoard\OnBoard\obj\Debug\OnBoard.TrainSettingsModal.resources
-C:\Users\Diabolik\Desktop\Evde bakarsın\Yeni klasör\OnBoard\OnBoard\obj\Debug\OnBoard.csproj.GenerateResource.Cache
-C:\Users\Diabolik\Desktop\Evde bakarsın\Yeni klasör\OnBoard\OnBoard\obj\Debug\OnBoard.exe
-C:\Users\Diabolik\Desktop\Evde bakarsın\Yeni klasör\OnBoard\OnBoard\obj\Debug\OnBoard.pdb
-C:\Users\Diabolik\Desktop\Evde bakarsın\Yeni klasör\OnBoard\OnBoard\obj\Debug\OnBoard.csprojResolveAssemblyReference.cache
-C:\Users\sahmet.tacgin\Documents\Visual Studio 2017\Projects\OnBoard\OnBoard\bin\Debug\OnBoard.exe.config
-C:\Users\sahmet.tacgin\Documents\Visual Studio 2017\Projects\OnBoard\OnBoard\bin\Debug\OnBoard.exe
-C:\Users\sahmet.tacgin\Documents\Visual Studio 2017\Projects\OnBoard\OnBoard\bin\Debug\OnBoard.pdb
-C:\Users\sahmet.tacgin\Documents\Visual Studio 2017\Projects\OnBoard\OnBoard\bin\Debug\DevComponents.DotNetBar2.dll
-C:\Users\sahmet.tacgin\Documents\Visual Studio 2017\Projects\OnBoard\OnBoard\obj\Debug\OnBoard.GeneralSettingsModal.resources
-C:\Users\sahmet.tacgin\Documents\Visual Studio 2017\Projects\OnBoard\OnBoard\obj\Debug\OnBoard.MainForm.resources
-C:\Users\sahmet.tacgin\Documents\Visual Studio 2017\Projects\OnBoard\OnBoard\obj\Debug\OnBoard.Properties.Resources.resources
-C:\Users\sahmet.tacgin\Documents\Visual Studio 2017\Projects\OnBoard\OnBoard\obj\Debug\OnBoard.TrainSettingsModal.resources
-C:\Users\sahmet.tacgin\Documents\Visual Studio 2017\Projects\OnBoard\OnBoard\obj\Debug\OnBoard.csproj.GenerateResource.cache
-C:\Users\sahmet.tacgin\Documents\Visual Studio 2017\Projects\OnBoard\OnBoard\obj\Debug\OnBoard.csproj.CoreCompileInputs.cache
-C:\Users\sahmet.tacgin\Documents\Visual Studio 2017\Projects\OnBoard\OnBoard\obj\Debug\OnBoard.csproj.CopyComplete
-C:\Users\sahmet.tacgin\Documents\Visual Studio 2017\Projects\OnBoard\OnBoard\obj\Debug\OnBoard.exe
-C:\Users\sahmet.tacgin\Documents\Visual Studio 2017\Projects\OnBoard\OnBoard\obj\Debug\OnBoard.pdb
-C:\Users\Diabolik\Desktop\13.12.2019\OnBoard\OnBoard\bin\Debug\OnBoard.exe.config
-C:\Users\Diabolik\Desktop\13.12.2019\OnBoard\OnBoard\bin\Debug\OnBoard.exe
-C:\Users\Diabolik\Desktop\13.12.2019\OnBoard\OnBoard\bin\Debug\OnBoard.pdb
-C:\Users\Diabolik\Desktop\13.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.GeneralSettingsModal.resources
-C:\Users\Diabolik\Desktop\13.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.MainForm.resources
-C:\Users\Diabolik\Desktop\13.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.Properties.Resources.resources
-C:\Users\Diabolik\Desktop\13.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.TrainSettingsModal.resources
-C:\Users\Diabolik\Desktop\13.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.csproj.GenerateResource.cache
-C:\Users\Diabolik\Desktop\13.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.csproj.CopyComplete
-C:\Users\Diabolik\Desktop\13.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.exe
-C:\Users\Diabolik\Desktop\13.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.pdb
-C:\Users\sahmet.tacgin\Desktop\15.12.2019\OnBoard\OnBoard\bin\Debug\OnBoard.exe.config
-C:\Users\sahmet.tacgin\Desktop\15.12.2019\OnBoard\OnBoard\bin\Debug\OnBoard.exe
-C:\Users\sahmet.tacgin\Desktop\15.12.2019\OnBoard\OnBoard\bin\Debug\OnBoard.pdb
-C:\Users\sahmet.tacgin\Desktop\15.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.csprojAssemblyReference.cache
-C:\Users\sahmet.tacgin\Desktop\15.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.CommunicationSettingsModal.resources
-C:\Users\sahmet.tacgin\Desktop\15.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.GeneralSettingsModal.resources
-C:\Users\sahmet.tacgin\Desktop\15.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.MainForm.resources
-C:\Users\sahmet.tacgin\Desktop\15.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.Properties.Resources.resources
-C:\Users\sahmet.tacgin\Desktop\15.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.TrainSettingsModal.resources
-C:\Users\sahmet.tacgin\Desktop\15.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.csproj.GenerateResource.cache
-C:\Users\sahmet.tacgin\Desktop\15.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.csproj.CoreCompileInputs.cache
-C:\Users\sahmet.tacgin\Desktop\15.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.csproj.CopyComplete
-C:\Users\sahmet.tacgin\Desktop\15.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.exe
-C:\Users\sahmet.tacgin\Desktop\15.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.pdb
-C:\Users\Diabolik\Desktop\15.12.2019\OnBoard\OnBoard\bin\Debug\OnBoard.exe.config
-C:\Users\Diabolik\Desktop\15.12.2019\OnBoard\OnBoard\bin\Debug\OnBoard.exe
-C:\Users\Diabolik\Desktop\15.12.2019\OnBoard\OnBoard\bin\Debug\OnBoard.pdb
-C:\Users\Diabolik\Desktop\15.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.CommunicationSettingsModal.resources
-C:\Users\Diabolik\Desktop\15.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.GeneralSettingsModal.resources
-C:\Users\Diabolik\Desktop\15.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.MainForm.resources
-C:\Users\Diabolik\Desktop\15.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.Properties.Resources.resources
-C:\Users\Diabolik\Desktop\15.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.TrainSettingsModal.resources
-C:\Users\Diabolik\Desktop\15.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.csproj.GenerateResource.cache
-C:\Users\Diabolik\Desktop\15.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.csproj.CopyComplete
-C:\Users\Diabolik\Desktop\15.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.exe
-C:\Users\Diabolik\Desktop\15.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.pdb
-C:\Users\Diabolik\Desktop\16.12.2019\OnBoard\OnBoard\bin\Debug\OnBoard.exe.config
-C:\Users\Diabolik\Desktop\16.12.2019\OnBoard\OnBoard\bin\Debug\OnBoard.exe
-C:\Users\Diabolik\Desktop\16.12.2019\OnBoard\OnBoard\bin\Debug\OnBoard.pdb
-C:\Users\Diabolik\Desktop\16.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.CommunicationSettingsModal.resources
-C:\Users\Diabolik\Desktop\16.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.GeneralSettingsModal.resources
-C:\Users\Diabolik\Desktop\16.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.MainForm.resources
-C:\Users\Diabolik\Desktop\16.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.Properties.Resources.resources
-C:\Users\Diabolik\Desktop\16.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.TrainSettingsModal.resources
-C:\Users\Diabolik\Desktop\16.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.csproj.GenerateResource.cache
-C:\Users\Diabolik\Desktop\16.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.csproj.CopyComplete
-C:\Users\Diabolik\Desktop\16.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.exe
-C:\Users\Diabolik\Desktop\16.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.pdb
-C:\Users\Diabolik\Desktop\16.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.csprojAssemblyReference.cache
-C:\Users\sahmet.tacgin\Desktop\16.12.2019\OnBoard\OnBoard\bin\Debug\OnBoard.exe.config
-C:\Users\sahmet.tacgin\Desktop\16.12.2019\OnBoard\OnBoard\bin\Debug\OnBoard.exe
-C:\Users\sahmet.tacgin\Desktop\16.12.2019\OnBoard\OnBoard\bin\Debug\OnBoard.pdb
-C:\Users\sahmet.tacgin\Desktop\16.12.2019\OnBoard\OnBoard\bin\Debug\DevComponents.DotNetBar2.dll
-C:\Users\sahmet.tacgin\Desktop\16.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.CommunicationSettingsModal.resources
-C:\Users\sahmet.tacgin\Desktop\16.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.GeneralSettingsModal.resources
-C:\Users\sahmet.tacgin\Desktop\16.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.MainForm.resources
-C:\Users\sahmet.tacgin\Desktop\16.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.Properties.Resources.resources
-C:\Users\sahmet.tacgin\Desktop\16.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.TrainSettingsModal.resources
-C:\Users\sahmet.tacgin\Desktop\16.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.csproj.GenerateResource.cache
-C:\Users\sahmet.tacgin\Desktop\16.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.csproj.CoreCompileInputs.cache
-C:\Users\sahmet.tacgin\Desktop\16.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.csproj.CopyComplete
-C:\Users\sahmet.tacgin\Desktop\16.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.exe
-C:\Users\sahmet.tacgin\Desktop\16.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.pdb
-C:\Users\sahmet.tacgin\Desktop\16.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.csprojAssemblyReference.cache
-C:\Users\Diabolik\Desktop\17.12.2019\OnBoard\OnBoard\bin\Debug\OnBoard.exe.config
-C:\Users\Diabolik\Desktop\17.12.2019\OnBoard\OnBoard\bin\Debug\OnBoard.exe
-C:\Users\Diabolik\Desktop\17.12.2019\OnBoard\OnBoard\bin\Debug\OnBoard.pdb
-C:\Users\Diabolik\Desktop\17.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.csprojAssemblyReference.cache
-C:\Users\Diabolik\Desktop\17.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.CommunicationSettingsModal.resources
-C:\Users\Diabolik\Desktop\17.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.GeneralSettingsModal.resources
-C:\Users\Diabolik\Desktop\17.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.MainForm.resources
-C:\Users\Diabolik\Desktop\17.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.Properties.Resources.resources
-C:\Users\Diabolik\Desktop\17.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.TrainSettingsModal.resources
-C:\Users\Diabolik\Desktop\17.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.csproj.GenerateResource.cache
-C:\Users\Diabolik\Desktop\17.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.csproj.CopyComplete
-C:\Users\Diabolik\Desktop\17.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.exe
-C:\Users\Diabolik\Desktop\17.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.pdb
-C:\Users\Diabolik\Desktop\18.12.2019\OnBoard\OnBoard\bin\Debug\OnBoard.exe.config
-C:\Users\Diabolik\Desktop\18.12.2019\OnBoard\OnBoard\bin\Debug\OnBoard.exe
-C:\Users\Diabolik\Desktop\18.12.2019\OnBoard\OnBoard\bin\Debug\OnBoard.pdb
-C:\Users\Diabolik\Desktop\18.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.csprojAssemblyReference.cache
-C:\Users\Diabolik\Desktop\18.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.CommunicationSettingsModal.resources
-C:\Users\Diabolik\Desktop\18.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.GeneralSettingsModal.resources
-C:\Users\Diabolik\Desktop\18.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.MainForm.resources
-C:\Users\Diabolik\Desktop\18.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.Properties.Resources.resources
-C:\Users\Diabolik\Desktop\18.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.TrainSettingsModal.resources
-C:\Users\Diabolik\Desktop\18.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.csproj.GenerateResource.cache
-C:\Users\Diabolik\Desktop\18.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.csproj.CopyComplete
-C:\Users\Diabolik\Desktop\18.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.exe
-C:\Users\Diabolik\Desktop\18.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.pdb
-C:\Users\Diabolik\Desktop\18.12.2019_\OnBoard\OnBoard\bin\Debug\OnBoard.exe.config
-C:\Users\Diabolik\Desktop\18.12.2019_\OnBoard\OnBoard\bin\Debug\OnBoard.exe
-C:\Users\Diabolik\Desktop\18.12.2019_\OnBoard\OnBoard\bin\Debug\OnBoard.pdb
-C:\Users\Diabolik\Desktop\18.12.2019_\OnBoard\OnBoard\obj\Debug\OnBoard.csprojAssemblyReference.cache
-C:\Users\Diabolik\Desktop\18.12.2019_\OnBoard\OnBoard\obj\Debug\OnBoard.CommunicationSettingsModal.resources
-C:\Users\Diabolik\Desktop\18.12.2019_\OnBoard\OnBoard\obj\Debug\OnBoard.GeneralSettingsModal.resources
-C:\Users\Diabolik\Desktop\18.12.2019_\OnBoard\OnBoard\obj\Debug\OnBoard.MainForm.resources
-C:\Users\Diabolik\Desktop\18.12.2019_\OnBoard\OnBoard\obj\Debug\OnBoard.Properties.Resources.resources
-C:\Users\Diabolik\Desktop\18.12.2019_\OnBoard\OnBoard\obj\Debug\OnBoard.TrainSettingsModal.resources
-C:\Users\Diabolik\Desktop\18.12.2019_\OnBoard\OnBoard\obj\Debug\OnBoard.csproj.GenerateResource.cache
-C:\Users\Diabolik\Desktop\18.12.2019_\OnBoard\OnBoard\obj\Debug\OnBoard.csproj.CopyComplete
-C:\Users\Diabolik\Desktop\18.12.2019_\OnBoard\OnBoard\obj\Debug\OnBoard.exe
-C:\Users\Diabolik\Desktop\18.12.2019_\OnBoard\OnBoard\obj\Debug\OnBoard.pdb
-C:\Users\Diabolik\Desktop\18.12.2019_\OnBoard\OnBoard\obj\Debug\OnBoard.TrainSimModal.resources
-C:\Users\sahmet.tacgin\Desktop\19.12.2019 - evde\OnBoard\OnBoard\bin\Debug\OnBoard.exe.config
-C:\Users\sahmet.tacgin\Desktop\19.12.2019 - evde\OnBoard\OnBoard\bin\Debug\OnBoard.exe
-C:\Users\sahmet.tacgin\Desktop\19.12.2019 - evde\OnBoard\OnBoard\bin\Debug\OnBoard.pdb
-C:\Users\sahmet.tacgin\Desktop\19.12.2019 - evde\OnBoard\OnBoard\bin\Debug\DevComponents.DotNetBar2.dll
-C:\Users\sahmet.tacgin\Desktop\19.12.2019 - evde\OnBoard\OnBoard\obj\Debug\OnBoard.csprojAssemblyReference.cache
-C:\Users\sahmet.tacgin\Desktop\19.12.2019 - evde\OnBoard\OnBoard\obj\Debug\OnBoard.CommunicationSettingsModal.resources
-C:\Users\sahmet.tacgin\Desktop\19.12.2019 - evde\OnBoard\OnBoard\obj\Debug\OnBoard.GeneralSettingsModal.resources
-C:\Users\sahmet.tacgin\Desktop\19.12.2019 - evde\OnBoard\OnBoard\obj\Debug\OnBoard.MainForm.resources
-C:\Users\sahmet.tacgin\Desktop\19.12.2019 - evde\OnBoard\OnBoard\obj\Debug\OnBoard.Properties.Resources.resources
-C:\Users\sahmet.tacgin\Desktop\19.12.2019 - evde\OnBoard\OnBoard\obj\Debug\OnBoard.TrainSettingsModal.resources
-C:\Users\sahmet.tacgin\Desktop\19.12.2019 - evde\OnBoard\OnBoard\obj\Debug\OnBoard.TrainSimModal.resources
-C:\Users\sahmet.tacgin\Desktop\19.12.2019 - evde\OnBoard\OnBoard\obj\Debug\OnBoard.csproj.GenerateResource.cache
-C:\Users\sahmet.tacgin\Desktop\19.12.2019 - evde\OnBoard\OnBoard\obj\Debug\OnBoard.csproj.CoreCompileInputs.cache
-C:\Users\sahmet.tacgin\Desktop\19.12.2019 - evde\OnBoard\OnBoard\obj\Debug\OnBoard.csproj.CopyComplete
-C:\Users\sahmet.tacgin\Desktop\19.12.2019 - evde\OnBoard\OnBoard\obj\Debug\OnBoard.exe
-C:\Users\sahmet.tacgin\Desktop\19.12.2019 - evde\OnBoard\OnBoard\obj\Debug\OnBoard.pdb
-C:\Users\Diabolik\Desktop\19.12.2019 - evde\OnBoard\OnBoard\bin\Debug\OnBoard.exe.config
-C:\Users\Diabolik\Desktop\19.12.2019 - evde\OnBoard\OnBoard\bin\Debug\OnBoard.exe
-C:\Users\Diabolik\Desktop\19.12.2019 - evde\OnBoard\OnBoard\bin\Debug\OnBoard.pdb
-C:\Users\Diabolik\Desktop\19.12.2019 - evde\OnBoard\OnBoard\obj\Debug\OnBoard.CommunicationSettingsModal.resources
-C:\Users\Diabolik\Desktop\19.12.2019 - evde\OnBoard\OnBoard\obj\Debug\OnBoard.GeneralSettingsModal.resources
-C:\Users\Diabolik\Desktop\19.12.2019 - evde\OnBoard\OnBoard\obj\Debug\OnBoard.MainForm.resources
-C:\Users\Diabolik\Desktop\19.12.2019 - evde\OnBoard\OnBoard\obj\Debug\OnBoard.Properties.Resources.resources
-C:\Users\Diabolik\Desktop\19.12.2019 - evde\OnBoard\OnBoard\obj\Debug\OnBoard.TrainSettingsModal.resources
-C:\Users\Diabolik\Desktop\19.12.2019 - evde\OnBoard\OnBoard\obj\Debug\OnBoard.TrainSimModal.resources
-C:\Users\Diabolik\Desktop\19.12.2019 - evde\OnBoard\OnBoard\obj\Debug\OnBoard.csproj.GenerateResource.cache
-C:\Users\Diabolik\Desktop\19.12.2019 - evde\OnBoard\OnBoard\obj\Debug\OnBoard.csproj.CopyComplete
-C:\Users\Diabolik\Desktop\19.12.2019 - evde\OnBoard\OnBoard\obj\Debug\OnBoard.exe
-C:\Users\Diabolik\Desktop\19.12.2019 - evde\OnBoard\OnBoard\obj\Debug\OnBoard.pdb
-C:\Users\sahmet.tacgin\Desktop\20.12.2019\OnBoard\OnBoard\bin\Debug\OnBoard.exe.config
-C:\Users\sahmet.tacgin\Desktop\20.12.2019\OnBoard\OnBoard\bin\Debug\OnBoard.exe
-C:\Users\sahmet.tacgin\Desktop\20.12.2019\OnBoard\OnBoard\bin\Debug\OnBoard.pdb
-C:\Users\sahmet.tacgin\Desktop\20.12.2019\OnBoard\OnBoard\bin\Debug\DevComponents.DotNetBar2.dll
-C:\Users\sahmet.tacgin\Desktop\20.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.CommunicationSettingsModal.resources
-C:\Users\sahmet.tacgin\Desktop\20.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.GeneralSettingsModal.resources
-C:\Users\sahmet.tacgin\Desktop\20.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.MainForm.resources
-C:\Users\sahmet.tacgin\Desktop\20.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.Properties.Resources.resources
-C:\Users\sahmet.tacgin\Desktop\20.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.TrainSettingsModal.resources
-C:\Users\sahmet.tacgin\Desktop\20.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.TrackSettingsModal.resources
-C:\Users\sahmet.tacgin\Desktop\20.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.TrainSimModal.resources
-C:\Users\sahmet.tacgin\Desktop\20.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.csproj.GenerateResource.cache
-C:\Users\sahmet.tacgin\Desktop\20.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.csproj.CoreCompileInputs.cache
-C:\Users\sahmet.tacgin\Desktop\20.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.csproj.CopyComplete
-C:\Users\sahmet.tacgin\Desktop\20.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.exe
-C:\Users\sahmet.tacgin\Desktop\20.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.pdb
-C:\Users\Diabolik\Desktop\21.12.2019\OnBoard\OnBoard\bin\Debug\OnBoard.exe.config
-C:\Users\Diabolik\Desktop\21.12.2019\OnBoard\OnBoard\bin\Debug\OnBoard.exe
-C:\Users\Diabolik\Desktop\21.12.2019\OnBoard\OnBoard\bin\Debug\OnBoard.pdb
-C:\Users\Diabolik\Desktop\21.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.CommunicationSettingsModal.resources
-C:\Users\Diabolik\Desktop\21.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.GeneralSettingsModal.resources
-C:\Users\Diabolik\Desktop\21.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.MainForm.resources
-C:\Users\Diabolik\Desktop\21.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.Properties.Resources.resources
-C:\Users\Diabolik\Desktop\21.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.TrainSettingsModal.resources
-C:\Users\Diabolik\Desktop\21.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.TrackSettingsModal.resources
-C:\Users\Diabolik\Desktop\21.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.TrainSimModal.resources
-C:\Users\Diabolik\Desktop\21.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.csproj.GenerateResource.cache
-C:\Users\Diabolik\Desktop\21.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.csproj.CopyComplete
-C:\Users\Diabolik\Desktop\21.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.exe
-C:\Users\Diabolik\Desktop\21.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.pdb
-C:\Users\Diabolik\Desktop\21.12.2019\OnBoard\OnBoard\obj\Debug\OnBoard.csprojAssemblyReference.cache
+C:\Users\Diabolik\Desktop\OnBoard\OnBoard\obj\Debug\OnBoard.CommunicationSettingsModal.resources
+C:\Users\Diabolik\Desktop\OnBoard\OnBoard\obj\Debug\OnBoard.GeneralSettingsModal.resources
+C:\Users\Diabolik\Desktop\OnBoard\OnBoard\obj\Debug\OnBoard.MainForm.resources
+C:\Users\Diabolik\Desktop\OnBoard\OnBoard\obj\Debug\OnBoard.Properties.Resources.resources
+C:\Users\Diabolik\Desktop\OnBoard\OnBoard\obj\Debug\OnBoard.TrainSettingsModal.resources
+C:\Users\Diabolik\Desktop\OnBoard\OnBoard\obj\Debug\OnBoard.TrackSettingsModal.resources
+C:\Users\Diabolik\Desktop\OnBoard\OnBoard\obj\Debug\OnBoard.TrainSimModal.resources
+C:\Users\Diabolik\Desktop\OnBoard\OnBoard\obj\Debug\OnBoard.csproj.GenerateResource.cache
+C:\Users\Diabolik\Desktop\OnBoard\OnBoard\obj\Debug\OnBoard.csproj.CopyComplete
+C:\Users\Diabolik\Desktop\OnBoard\OnBoard\obj\Debug\OnBoard.exe
+C:\Users\Diabolik\Desktop\OnBoard\OnBoard\obj\Debug\OnBoard.pdb

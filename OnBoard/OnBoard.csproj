@@ -15,7 +15,7 @@
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -41,10 +41,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\IPAddressControlLib.dll</HintPath>
     </Reference>
-    <Reference Include="MetroTcpLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\MetroTcpLibrary.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -67,22 +63,29 @@
   <ItemGroup>
     <Compile Include="DateTimeExtensions.cs" />
     <Compile Include="ListViewHelper.cs" />
-    <Compile Include="Message\Message.cs" />
-    <Compile Include="Message\OBATP_TO_WSATP.cs" />
+    <Compile Include="MessagePatterns\MessageBuilder\IMessage.cs" />
+    <Compile Include="MessagePatterns\MessageFactory\IMessageType.cs" />
+    <Compile Include="MessagePatterns\Message.cs" />
+    <Compile Include="MessagePatterns\MessageBuilder\MessageBuilder.cs" />
+    <Compile Include="MessagePatterns\MessageBuilder\MessageCreator.cs" />
+    <Compile Include="MessagePatterns\MessageFactory\MessageSelector.cs" />
+    <Compile Include="MessagePatterns\OBATP_TO_WSATP.cs" />
+    <Compile Include="MessagePatterns\MessageBuilder\OBATP_TO_WSATP_MessageBuilder.cs" />
+    <Compile Include="MessagePatterns\WSATP_TO_OBATP.cs" />
+    <Compile Include="MessagePatterns\MessageBuilder\WSATP_TO_OBATP_MessageBuilder.cs" />
     <Compile Include="Settings\CommunicationSettingsModal.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Settings\CommunicationSettingsModal.Designer.cs">
       <DependentUpon>CommunicationSettingsModal.cs</DependentUpon>
     </Compile>
-    <Compile Include="TcpClient.cs" />
-    <Compile Include="TCP\Client.cs" />
-    <Compile Include="TCP\Server.cs" />
-    <Compile Include="TCP\SocketCommunication.cs" />
-    <Compile Include="TrackSettingsModal.cs">
+    <Compile Include="TCPCommunication\Client.cs" />
+    <Compile Include="TCPCommunication\Server.cs" />
+    <Compile Include="TCPCommunication\SocketCommunication.cs" />
+    <Compile Include="ModalForms\TrackSettingsModal.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TrackSettingsModal.Designer.cs">
+    <Compile Include="ModalForms\TrackSettingsModal.Designer.cs">
       <DependentUpon>TrackSettingsModal.cs</DependentUpon>
     </Compile>
     <Compile Include="TrackWithPosition.cs" />
@@ -123,12 +126,13 @@
       <DependentUpon>TrainSettingsModal.cs</DependentUpon>
     </Compile>
     <Compile Include="TrainOnTracks.cs" />
-    <Compile Include="TrainSimModal.cs">
+    <Compile Include="ModalForms\TrainSimModal.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TrainSimModal.Designer.cs">
+    <Compile Include="ModalForms\TrainSimModal.Designer.cs">
       <DependentUpon>TrainSimModal.cs</DependentUpon>
     </Compile>
+    <Compile Include="UIOperation\UIOperation.cs" />
     <Compile Include="UnitConversion.cs" />
     <Compile Include="Vehicle\IVehicle.cs" />
     <Compile Include="Vehicle\Vehicle.cs" />
@@ -154,15 +158,12 @@
     <EmbeddedResource Include="Settings\TrainSettingsModal.resx">
       <DependentUpon>TrainSettingsModal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TrackSettingsModal.resx">
+    <EmbeddedResource Include="ModalForms\TrackSettingsModal.resx">
       <DependentUpon>TrackSettingsModal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TrainSimModal.resx">
+    <EmbeddedResource Include="ModalForms\TrainSimModal.resx">
       <DependentUpon>TrainSimModal.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="..\.editorconfig">
-      <Link>.editorconfig</Link>
-    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

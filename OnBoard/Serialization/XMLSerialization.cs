@@ -72,7 +72,11 @@ namespace OnBoard
 
 
 
-        public DataTable RouteTrack { get; set; } = new DataTable();
+        public int StartTrackID { get; set; }
+        public int EndTrackID { get; set; }
+        public Enums.TrackInput  TrackInput{ get; set; }
+
+    public DataTable RouteTrack { get; set; } = new DataTable();
 
 
 

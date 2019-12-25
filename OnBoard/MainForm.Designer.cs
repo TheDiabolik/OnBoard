@@ -117,11 +117,11 @@
             this.m_groupBoxTrainSettings.Controls.Add(this.m_labelRearCurrentLocation);
             this.m_groupBoxTrainSettings.Controls.Add(this.m_labelCurrentTrainSpeedKM);
             this.m_groupBoxTrainSettings.Controls.Add(this.m_labelTrains);
-            this.m_groupBoxTrainSettings.Location = new System.Drawing.Point(335, 241);
-            this.m_groupBoxTrainSettings.Margin = new System.Windows.Forms.Padding(2);
+            this.m_groupBoxTrainSettings.Location = new System.Drawing.Point(9, 188);
+            this.m_groupBoxTrainSettings.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.m_groupBoxTrainSettings.Name = "m_groupBoxTrainSettings";
-            this.m_groupBoxTrainSettings.Padding = new System.Windows.Forms.Padding(2);
-            this.m_groupBoxTrainSettings.Size = new System.Drawing.Size(720, 531);
+            this.m_groupBoxTrainSettings.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.m_groupBoxTrainSettings.Size = new System.Drawing.Size(654, 338);
             this.m_groupBoxTrainSettings.TabIndex = 2;
             this.m_groupBoxTrainSettings.TabStop = false;
             this.m_groupBoxTrainSettings.Text = "Train Settings";
@@ -137,7 +137,7 @@
             this.m_listView.GridLines = true;
             this.m_listView.HideSelection = false;
             this.m_listView.Location = new System.Drawing.Point(391, 133);
-            this.m_listView.Margin = new System.Windows.Forms.Padding(2);
+            this.m_listView.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.m_listView.MultiSelect = false;
             this.m_listView.Name = "m_listView";
             this.m_listView.Size = new System.Drawing.Size(295, 383);
@@ -167,9 +167,9 @@
             this.m_groupBoxRearCurrentTrack.Controls.Add(this.m_labelRearCurrentTrackSpeedChangeVMax);
             this.m_groupBoxRearCurrentTrack.Controls.Add(this.m_labelRearCurrentTrackID);
             this.m_groupBoxRearCurrentTrack.Location = new System.Drawing.Point(21, 374);
-            this.m_groupBoxRearCurrentTrack.Margin = new System.Windows.Forms.Padding(2);
+            this.m_groupBoxRearCurrentTrack.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.m_groupBoxRearCurrentTrack.Name = "m_groupBoxRearCurrentTrack";
-            this.m_groupBoxRearCurrentTrack.Padding = new System.Windows.Forms.Padding(2);
+            this.m_groupBoxRearCurrentTrack.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.m_groupBoxRearCurrentTrack.Size = new System.Drawing.Size(352, 141);
             this.m_groupBoxRearCurrentTrack.TabIndex = 14;
             this.m_groupBoxRearCurrentTrack.TabStop = false;
@@ -178,7 +178,7 @@
             // m_textBoxRearCurrentVirtualOccupationTrackLocation
             // 
             this.m_textBoxRearCurrentVirtualOccupationTrackLocation.Location = new System.Drawing.Point(195, 102);
-            this.m_textBoxRearCurrentVirtualOccupationTrackLocation.Margin = new System.Windows.Forms.Padding(2);
+            this.m_textBoxRearCurrentVirtualOccupationTrackLocation.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.m_textBoxRearCurrentVirtualOccupationTrackLocation.Name = "m_textBoxRearCurrentVirtualOccupationTrackLocation";
             this.m_textBoxRearCurrentVirtualOccupationTrackLocation.Size = new System.Drawing.Size(125, 20);
             this.m_textBoxRearCurrentVirtualOccupationTrackLocation.TabIndex = 28;
@@ -196,7 +196,7 @@
             // m_textBoxRearCurrentTrackVirtualOccupationTrackID
             // 
             this.m_textBoxRearCurrentTrackVirtualOccupationTrackID.Location = new System.Drawing.Point(195, 80);
-            this.m_textBoxRearCurrentTrackVirtualOccupationTrackID.Margin = new System.Windows.Forms.Padding(2);
+            this.m_textBoxRearCurrentTrackVirtualOccupationTrackID.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.m_textBoxRearCurrentTrackVirtualOccupationTrackID.Name = "m_textBoxRearCurrentTrackVirtualOccupationTrackID";
             this.m_textBoxRearCurrentTrackVirtualOccupationTrackID.Size = new System.Drawing.Size(125, 20);
             this.m_textBoxRearCurrentTrackVirtualOccupationTrackID.TabIndex = 26;
@@ -214,7 +214,7 @@
             // m_textBoxRearCurrentTrackSpeedChangeVMax
             // 
             this.m_textBoxRearCurrentTrackSpeedChangeVMax.Location = new System.Drawing.Point(195, 57);
-            this.m_textBoxRearCurrentTrackSpeedChangeVMax.Margin = new System.Windows.Forms.Padding(2);
+            this.m_textBoxRearCurrentTrackSpeedChangeVMax.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.m_textBoxRearCurrentTrackSpeedChangeVMax.Name = "m_textBoxRearCurrentTrackSpeedChangeVMax";
             this.m_textBoxRearCurrentTrackSpeedChangeVMax.Size = new System.Drawing.Size(125, 20);
             this.m_textBoxRearCurrentTrackSpeedChangeVMax.TabIndex = 22;
@@ -222,7 +222,7 @@
             // m_textBoxRearCurrentTrackID
             // 
             this.m_textBoxRearCurrentTrackID.Location = new System.Drawing.Point(195, 34);
-            this.m_textBoxRearCurrentTrackID.Margin = new System.Windows.Forms.Padding(2);
+            this.m_textBoxRearCurrentTrackID.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.m_textBoxRearCurrentTrackID.Name = "m_textBoxRearCurrentTrackID";
             this.m_textBoxRearCurrentTrackID.Size = new System.Drawing.Size(125, 20);
             this.m_textBoxRearCurrentTrackID.TabIndex = 18;
@@ -266,9 +266,9 @@
             this.m_groupBoxFrontCurrentTrack.Controls.Add(this.m_labelFrontCurrentTrackLength);
             this.m_groupBoxFrontCurrentTrack.Controls.Add(this.m_labelFrontCurrentTrackID);
             this.m_groupBoxFrontCurrentTrack.Location = new System.Drawing.Point(21, 133);
-            this.m_groupBoxFrontCurrentTrack.Margin = new System.Windows.Forms.Padding(2);
+            this.m_groupBoxFrontCurrentTrack.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.m_groupBoxFrontCurrentTrack.Name = "m_groupBoxFrontCurrentTrack";
-            this.m_groupBoxFrontCurrentTrack.Padding = new System.Windows.Forms.Padding(2);
+            this.m_groupBoxFrontCurrentTrack.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.m_groupBoxFrontCurrentTrack.Size = new System.Drawing.Size(352, 236);
             this.m_groupBoxFrontCurrentTrack.TabIndex = 13;
             this.m_groupBoxFrontCurrentTrack.TabStop = false;
@@ -277,7 +277,7 @@
             // m_textBoxFrontCurrentVirtualOccupationTrackLocation
             // 
             this.m_textBoxFrontCurrentVirtualOccupationTrackLocation.Location = new System.Drawing.Point(195, 193);
-            this.m_textBoxFrontCurrentVirtualOccupationTrackLocation.Margin = new System.Windows.Forms.Padding(2);
+            this.m_textBoxFrontCurrentVirtualOccupationTrackLocation.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.m_textBoxFrontCurrentVirtualOccupationTrackLocation.Name = "m_textBoxFrontCurrentVirtualOccupationTrackLocation";
             this.m_textBoxFrontCurrentVirtualOccupationTrackLocation.Size = new System.Drawing.Size(125, 20);
             this.m_textBoxFrontCurrentVirtualOccupationTrackLocation.TabIndex = 28;
@@ -295,7 +295,7 @@
             // m_textBoxFrontCurrentTrackVirtualOccupationTrackID
             // 
             this.m_textBoxFrontCurrentTrackVirtualOccupationTrackID.Location = new System.Drawing.Point(195, 171);
-            this.m_textBoxFrontCurrentTrackVirtualOccupationTrackID.Margin = new System.Windows.Forms.Padding(2);
+            this.m_textBoxFrontCurrentTrackVirtualOccupationTrackID.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.m_textBoxFrontCurrentTrackVirtualOccupationTrackID.Name = "m_textBoxFrontCurrentTrackVirtualOccupationTrackID";
             this.m_textBoxFrontCurrentTrackVirtualOccupationTrackID.Size = new System.Drawing.Size(125, 20);
             this.m_textBoxFrontCurrentTrackVirtualOccupationTrackID.TabIndex = 26;
@@ -313,7 +313,7 @@
             // m_textBoxFrontCurrentTrackMaxSpeedKM
             // 
             this.m_textBoxFrontCurrentTrackMaxSpeedKM.Location = new System.Drawing.Point(195, 148);
-            this.m_textBoxFrontCurrentTrackMaxSpeedKM.Margin = new System.Windows.Forms.Padding(2);
+            this.m_textBoxFrontCurrentTrackMaxSpeedKM.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.m_textBoxFrontCurrentTrackMaxSpeedKM.Name = "m_textBoxFrontCurrentTrackMaxSpeedKM";
             this.m_textBoxFrontCurrentTrackMaxSpeedKM.Size = new System.Drawing.Size(125, 20);
             this.m_textBoxFrontCurrentTrackMaxSpeedKM.TabIndex = 24;
@@ -331,7 +331,7 @@
             // m_textBoxFrontCurrentTrackSpeedChangeVMax
             // 
             this.m_textBoxFrontCurrentTrackSpeedChangeVMax.Location = new System.Drawing.Point(195, 102);
-            this.m_textBoxFrontCurrentTrackSpeedChangeVMax.Margin = new System.Windows.Forms.Padding(2);
+            this.m_textBoxFrontCurrentTrackSpeedChangeVMax.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.m_textBoxFrontCurrentTrackSpeedChangeVMax.Name = "m_textBoxFrontCurrentTrackSpeedChangeVMax";
             this.m_textBoxFrontCurrentTrackSpeedChangeVMax.Size = new System.Drawing.Size(125, 20);
             this.m_textBoxFrontCurrentTrackSpeedChangeVMax.TabIndex = 22;
@@ -339,7 +339,7 @@
             // m_textBoxFrontCurrentTrackStation
             // 
             this.m_textBoxFrontCurrentTrackStation.Location = new System.Drawing.Point(195, 125);
-            this.m_textBoxFrontCurrentTrackStation.Margin = new System.Windows.Forms.Padding(2);
+            this.m_textBoxFrontCurrentTrackStation.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.m_textBoxFrontCurrentTrackStation.Name = "m_textBoxFrontCurrentTrackStation";
             this.m_textBoxFrontCurrentTrackStation.Size = new System.Drawing.Size(125, 20);
             this.m_textBoxFrontCurrentTrackStation.TabIndex = 21;
@@ -347,7 +347,7 @@
             // m_textBoxFrontCurrentTrackDwellTime
             // 
             this.m_textBoxFrontCurrentTrackDwellTime.Location = new System.Drawing.Point(195, 80);
-            this.m_textBoxFrontCurrentTrackDwellTime.Margin = new System.Windows.Forms.Padding(2);
+            this.m_textBoxFrontCurrentTrackDwellTime.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.m_textBoxFrontCurrentTrackDwellTime.Name = "m_textBoxFrontCurrentTrackDwellTime";
             this.m_textBoxFrontCurrentTrackDwellTime.Size = new System.Drawing.Size(125, 20);
             this.m_textBoxFrontCurrentTrackDwellTime.TabIndex = 20;
@@ -355,7 +355,7 @@
             // m_textBoxFrontCurrentTrackLength
             // 
             this.m_textBoxFrontCurrentTrackLength.Location = new System.Drawing.Point(195, 57);
-            this.m_textBoxFrontCurrentTrackLength.Margin = new System.Windows.Forms.Padding(2);
+            this.m_textBoxFrontCurrentTrackLength.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.m_textBoxFrontCurrentTrackLength.Name = "m_textBoxFrontCurrentTrackLength";
             this.m_textBoxFrontCurrentTrackLength.Size = new System.Drawing.Size(125, 20);
             this.m_textBoxFrontCurrentTrackLength.TabIndex = 19;
@@ -363,7 +363,7 @@
             // m_textBoxFrontCurrentTrackID
             // 
             this.m_textBoxFrontCurrentTrackID.Location = new System.Drawing.Point(195, 34);
-            this.m_textBoxFrontCurrentTrackID.Margin = new System.Windows.Forms.Padding(2);
+            this.m_textBoxFrontCurrentTrackID.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.m_textBoxFrontCurrentTrackID.Name = "m_textBoxFrontCurrentTrackID";
             this.m_textBoxFrontCurrentTrackID.Size = new System.Drawing.Size(125, 20);
             this.m_textBoxFrontCurrentTrackID.TabIndex = 18;
@@ -421,7 +421,7 @@
             // m_textBoxDoorTimerCounter
             // 
             this.m_textBoxDoorTimerCounter.Location = new System.Drawing.Point(561, 102);
-            this.m_textBoxDoorTimerCounter.Margin = new System.Windows.Forms.Padding(2);
+            this.m_textBoxDoorTimerCounter.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.m_textBoxDoorTimerCounter.Name = "m_textBoxDoorTimerCounter";
             this.m_textBoxDoorTimerCounter.Size = new System.Drawing.Size(125, 20);
             this.m_textBoxDoorTimerCounter.TabIndex = 12;
@@ -440,7 +440,7 @@
             // 
             this.m_comboBoxTrain.FormattingEnabled = true;
             this.m_comboBoxTrain.Location = new System.Drawing.Point(216, 32);
-            this.m_comboBoxTrain.Margin = new System.Windows.Forms.Padding(2);
+            this.m_comboBoxTrain.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.m_comboBoxTrain.Name = "m_comboBoxTrain";
             this.m_comboBoxTrain.Size = new System.Drawing.Size(470, 21);
             this.m_comboBoxTrain.TabIndex = 3;
@@ -448,7 +448,7 @@
             // m_textBoxCurrentLocation
             // 
             this.m_textBoxCurrentLocation.Location = new System.Drawing.Point(561, 57);
-            this.m_textBoxCurrentLocation.Margin = new System.Windows.Forms.Padding(2);
+            this.m_textBoxCurrentLocation.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.m_textBoxCurrentLocation.Name = "m_textBoxCurrentLocation";
             this.m_textBoxCurrentLocation.Size = new System.Drawing.Size(125, 20);
             this.m_textBoxCurrentLocation.TabIndex = 10;
@@ -456,7 +456,7 @@
             // m_textBoxDoorStatus
             // 
             this.m_textBoxDoorStatus.Location = new System.Drawing.Point(561, 80);
-            this.m_textBoxDoorStatus.Margin = new System.Windows.Forms.Padding(2);
+            this.m_textBoxDoorStatus.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.m_textBoxDoorStatus.Name = "m_textBoxDoorStatus";
             this.m_textBoxDoorStatus.Size = new System.Drawing.Size(125, 20);
             this.m_textBoxDoorStatus.TabIndex = 9;
@@ -464,7 +464,7 @@
             // m_textBoxCurrentAcceleration
             // 
             this.m_textBoxCurrentAcceleration.Location = new System.Drawing.Point(216, 102);
-            this.m_textBoxCurrentAcceleration.Margin = new System.Windows.Forms.Padding(2);
+            this.m_textBoxCurrentAcceleration.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.m_textBoxCurrentAcceleration.Name = "m_textBoxCurrentAcceleration";
             this.m_textBoxCurrentAcceleration.Size = new System.Drawing.Size(125, 20);
             this.m_textBoxCurrentAcceleration.TabIndex = 8;
@@ -472,7 +472,7 @@
             // m_textBoxRearCurrentLocation
             // 
             this.m_textBoxRearCurrentLocation.Location = new System.Drawing.Point(216, 80);
-            this.m_textBoxRearCurrentLocation.Margin = new System.Windows.Forms.Padding(2);
+            this.m_textBoxRearCurrentLocation.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.m_textBoxRearCurrentLocation.Name = "m_textBoxRearCurrentLocation";
             this.m_textBoxRearCurrentLocation.Size = new System.Drawing.Size(125, 20);
             this.m_textBoxRearCurrentLocation.TabIndex = 7;
@@ -480,7 +480,7 @@
             // m_textBoxCurrentTrainSpeedKM
             // 
             this.m_textBoxCurrentTrainSpeedKM.Location = new System.Drawing.Point(216, 57);
-            this.m_textBoxCurrentTrainSpeedKM.Margin = new System.Windows.Forms.Padding(2);
+            this.m_textBoxCurrentTrainSpeedKM.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.m_textBoxCurrentTrainSpeedKM.Name = "m_textBoxCurrentTrainSpeedKM";
             this.m_textBoxCurrentTrainSpeedKM.Size = new System.Drawing.Size(125, 20);
             this.m_textBoxCurrentTrainSpeedKM.TabIndex = 6;
@@ -547,7 +547,7 @@
             // 
             // m_buttonSave
             // 
-            this.m_buttonSave.Location = new System.Drawing.Point(236, 504);
+            this.m_buttonSave.Location = new System.Drawing.Point(364, 561);
             this.m_buttonSave.Name = "m_buttonSave";
             this.m_buttonSave.Size = new System.Drawing.Size(75, 35);
             this.m_buttonSave.TabIndex = 3;
@@ -557,7 +557,7 @@
             // 
             // m_buttonStart
             // 
-            this.m_buttonStart.Location = new System.Drawing.Point(96, 504);
+            this.m_buttonStart.Location = new System.Drawing.Point(97, 561);
             this.m_buttonStart.Name = "m_buttonStart";
             this.m_buttonStart.Size = new System.Drawing.Size(75, 35);
             this.m_buttonStart.TabIndex = 4;
@@ -572,14 +572,14 @@
             this.m_dataGridViewAllTrains.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
             this.m_dataGridViewAllTrains.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.m_dataGridViewAllTrains.Location = new System.Drawing.Point(9, 28);
-            this.m_dataGridViewAllTrains.Margin = new System.Windows.Forms.Padding(2);
+            this.m_dataGridViewAllTrains.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.m_dataGridViewAllTrains.MultiSelect = false;
             this.m_dataGridViewAllTrains.Name = "m_dataGridViewAllTrains";
             this.m_dataGridViewAllTrains.ReadOnly = true;
             this.m_dataGridViewAllTrains.RowHeadersVisible = false;
             this.m_dataGridViewAllTrains.RowTemplate.Height = 24;
             this.m_dataGridViewAllTrains.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.m_dataGridViewAllTrains.Size = new System.Drawing.Size(831, 157);
+            this.m_dataGridViewAllTrains.Size = new System.Drawing.Size(1046, 157);
             this.m_dataGridViewAllTrains.TabIndex = 5;
             this.m_dataGridViewAllTrains.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.m_dataGridViewAllTrains_CellContentClick);
             this.m_dataGridViewAllTrains.SelectionChanged += new System.EventHandler(this.m_dataGridViewAllTrains_SelectionChanged);
@@ -592,7 +592,7 @@
             this.m_mainMenu.Location = new System.Drawing.Point(0, 0);
             this.m_mainMenu.Name = "m_mainMenu";
             this.m_mainMenu.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
-            this.m_mainMenu.Size = new System.Drawing.Size(1443, 24);
+            this.m_mainMenu.Size = new System.Drawing.Size(1432, 24);
             this.m_mainMenu.TabIndex = 7;
             this.m_mainMenu.Text = "menuStrip1";
             this.m_mainMenu.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.m_mainMenu_ItemClicked);
@@ -612,36 +612,36 @@
             // m_generalItem
             // 
             this.m_generalItem.Name = "m_generalItem";
-            this.m_generalItem.Size = new System.Drawing.Size(161, 22);
+            this.m_generalItem.Size = new System.Drawing.Size(180, 22);
             this.m_generalItem.Text = "General";
             this.m_generalItem.Click += new System.EventHandler(this.m_generalItem_Click);
             // 
             // m_trainItem
             // 
             this.m_trainItem.Name = "m_trainItem";
-            this.m_trainItem.Size = new System.Drawing.Size(161, 22);
+            this.m_trainItem.Size = new System.Drawing.Size(180, 22);
             this.m_trainItem.Text = "Train";
             this.m_trainItem.Click += new System.EventHandler(this.m_trainItem_Click);
             // 
             // m_communicationItem
             // 
             this.m_communicationItem.Name = "m_communicationItem";
-            this.m_communicationItem.Size = new System.Drawing.Size(161, 22);
+            this.m_communicationItem.Size = new System.Drawing.Size(180, 22);
             this.m_communicationItem.Text = "Communication";
             this.m_communicationItem.Click += new System.EventHandler(this.m_communicationItem_Click);
             // 
             // m_trainSimItem
             // 
             this.m_trainSimItem.Name = "m_trainSimItem";
-            this.m_trainSimItem.Size = new System.Drawing.Size(161, 22);
+            this.m_trainSimItem.Size = new System.Drawing.Size(180, 22);
             this.m_trainSimItem.Text = "Train Sim";
             this.m_trainSimItem.Click += new System.EventHandler(this.m_trainSimItem_Click);
             // 
             // m_routeItem
             // 
             this.m_routeItem.Name = "m_routeItem";
-            this.m_routeItem.Size = new System.Drawing.Size(161, 22);
-            this.m_routeItem.Text = "Route";
+            this.m_routeItem.Size = new System.Drawing.Size(180, 22);
+            this.m_routeItem.Text = "Tracks";
             this.m_routeItem.Click += new System.EventHandler(this.m_routeItem_Click);
             // 
             // m_backgroundWorker
@@ -658,7 +658,7 @@
             this.m_listViewVirtualOccupation.GridLines = true;
             this.m_listViewVirtualOccupation.HideSelection = false;
             this.m_listViewVirtualOccupation.Location = new System.Drawing.Point(1074, 26);
-            this.m_listViewVirtualOccupation.Margin = new System.Windows.Forms.Padding(2);
+            this.m_listViewVirtualOccupation.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.m_listViewVirtualOccupation.MultiSelect = false;
             this.m_listViewVirtualOccupation.Name = "m_listViewVirtualOccupation";
             this.m_listViewVirtualOccupation.Size = new System.Drawing.Size(104, 383);
@@ -674,10 +674,10 @@
             // 
             // m_richTextBox
             // 
-            this.m_richTextBox.Location = new System.Drawing.Point(9, 186);
-            this.m_richTextBox.Margin = new System.Windows.Forms.Padding(2);
+            this.m_richTextBox.Location = new System.Drawing.Point(668, 188);
+            this.m_richTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.m_richTextBox.Name = "m_richTextBox";
-            this.m_richTextBox.Size = new System.Drawing.Size(719, 281);
+            this.m_richTextBox.Size = new System.Drawing.Size(323, 281);
             this.m_richTextBox.TabIndex = 8;
             this.m_richTextBox.Text = "";
             this.m_richTextBox.TextChanged += new System.EventHandler(this.m_richTextBox_TextChanged);
@@ -691,8 +691,9 @@
             this.m_listViewFootPrintTracks.FullRowSelect = true;
             this.m_listViewFootPrintTracks.GridLines = true;
             this.m_listViewFootPrintTracks.HideSelection = false;
-            this.m_listViewFootPrintTracks.Location = new System.Drawing.Point(1182, 26);
-            this.m_listViewFootPrintTracks.Margin = new System.Windows.Forms.Padding(2);
+            this.m_listViewFootPrintTracks.LabelWrap = false;
+            this.m_listViewFootPrintTracks.Location = new System.Drawing.Point(1193, 24);
+            this.m_listViewFootPrintTracks.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.m_listViewFootPrintTracks.MultiSelect = false;
             this.m_listViewFootPrintTracks.Name = "m_listViewFootPrintTracks";
             this.m_listViewFootPrintTracks.Size = new System.Drawing.Size(104, 383);
@@ -713,7 +714,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1443, 732);
+            this.ClientSize = new System.Drawing.Size(1432, 599);
             this.Controls.Add(this.m_listViewFootPrintTracks);
             this.Controls.Add(this.m_listViewVirtualOccupation);
             this.Controls.Add(this.m_richTextBox);

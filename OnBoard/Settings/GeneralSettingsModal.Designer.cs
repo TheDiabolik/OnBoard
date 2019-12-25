@@ -33,16 +33,27 @@
             this.m_checkedListBoxTrains = new System.Windows.Forms.CheckedListBox();
             this.m_labelTrainFrequency = new System.Windows.Forms.Label();
             this.m_numericUpDownTrainFrequency = new System.Windows.Forms.NumericUpDown();
+            this.m_groupBoxTrain = new System.Windows.Forms.GroupBox();
+            this.m_groupBoxRoute = new System.Windows.Forms.GroupBox();
+            this.m_radioButtonManuelInputTracks = new System.Windows.Forms.RadioButton();
+            this.m_radioButtonFromFileTracks = new System.Windows.Forms.RadioButton();
+            this.m_labelStartTrackID = new System.Windows.Forms.Label();
+            this.m_labelEndTrackID = new System.Windows.Forms.Label();
+            this.m_textBoxStartRangeTrackID = new System.Windows.Forms.TextBox();
+            this.m_textBoxEndRangeTrackID = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.m_numericUpDownTrainFrequency)).BeginInit();
+            this.m_groupBoxTrain.SuspendLayout();
+            this.m_groupBoxRoute.SuspendLayout();
             this.SuspendLayout();
             // 
             // m_buttonApply
             // 
             this.m_buttonApply.Image = global::OnBoard.Properties.Resources.apply;
             this.m_buttonApply.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.m_buttonApply.Location = new System.Drawing.Point(427, 236);
+            this.m_buttonApply.Location = new System.Drawing.Point(498, 286);
+            this.m_buttonApply.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.m_buttonApply.Name = "m_buttonApply";
-            this.m_buttonApply.Size = new System.Drawing.Size(111, 59);
+            this.m_buttonApply.Size = new System.Drawing.Size(83, 48);
             this.m_buttonApply.TabIndex = 10;
             this.m_buttonApply.Text = "Apply";
             this.m_buttonApply.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -52,9 +63,10 @@
             // m_buttonSave
             // 
             this.m_buttonSave.Image = global::OnBoard.Properties.Resources.save;
-            this.m_buttonSave.Location = new System.Drawing.Point(310, 236);
+            this.m_buttonSave.Location = new System.Drawing.Point(410, 286);
+            this.m_buttonSave.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.m_buttonSave.Name = "m_buttonSave";
-            this.m_buttonSave.Size = new System.Drawing.Size(111, 59);
+            this.m_buttonSave.Size = new System.Drawing.Size(83, 48);
             this.m_buttonSave.TabIndex = 9;
             this.m_buttonSave.Text = "Save";
             this.m_buttonSave.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -65,46 +77,131 @@
             // m_checkedListBoxTrains
             // 
             this.m_checkedListBoxTrains.FormattingEnabled = true;
-            this.m_checkedListBoxTrains.Location = new System.Drawing.Point(13, 35);
-            this.m_checkedListBoxTrains.Margin = new System.Windows.Forms.Padding(4);
+            this.m_checkedListBoxTrains.Location = new System.Drawing.Point(8, 56);
             this.m_checkedListBoxTrains.Name = "m_checkedListBoxTrains";
-            this.m_checkedListBoxTrains.Size = new System.Drawing.Size(225, 174);
+            this.m_checkedListBoxTrains.Size = new System.Drawing.Size(237, 199);
             this.m_checkedListBoxTrains.TabIndex = 11;
             // 
             // m_labelTrainFrequency
             // 
             this.m_labelTrainFrequency.AutoSize = true;
-            this.m_labelTrainFrequency.Location = new System.Drawing.Point(282, 35);
+            this.m_labelTrainFrequency.Location = new System.Drawing.Point(5, 32);
+            this.m_labelTrainFrequency.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.m_labelTrainFrequency.Name = "m_labelTrainFrequency";
-            this.m_labelTrainFrequency.Size = new System.Drawing.Size(156, 17);
+            this.m_labelTrainFrequency.Size = new System.Drawing.Size(115, 13);
             this.m_labelTrainFrequency.TabIndex = 12;
             this.m_labelTrainFrequency.Text = "Train Frequency(min) : ";
             // 
             // m_numericUpDownTrainFrequency
             // 
-            this.m_numericUpDownTrainFrequency.Location = new System.Drawing.Point(482, 33);
+            this.m_numericUpDownTrainFrequency.Location = new System.Drawing.Point(155, 31);
+            this.m_numericUpDownTrainFrequency.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.m_numericUpDownTrainFrequency.Name = "m_numericUpDownTrainFrequency";
-            this.m_numericUpDownTrainFrequency.Size = new System.Drawing.Size(120, 22);
+            this.m_numericUpDownTrainFrequency.Size = new System.Drawing.Size(90, 20);
             this.m_numericUpDownTrainFrequency.TabIndex = 13;
+            // 
+            // m_groupBoxTrain
+            // 
+            this.m_groupBoxTrain.Controls.Add(this.m_checkedListBoxTrains);
+            this.m_groupBoxTrain.Controls.Add(this.m_numericUpDownTrainFrequency);
+            this.m_groupBoxTrain.Controls.Add(this.m_labelTrainFrequency);
+            this.m_groupBoxTrain.Location = new System.Drawing.Point(12, 12);
+            this.m_groupBoxTrain.Name = "m_groupBoxTrain";
+            this.m_groupBoxTrain.Size = new System.Drawing.Size(259, 269);
+            this.m_groupBoxTrain.TabIndex = 14;
+            this.m_groupBoxTrain.TabStop = false;
+            this.m_groupBoxTrain.Text = "Train Start";
+            // 
+            // m_groupBoxRoute
+            // 
+            this.m_groupBoxRoute.Controls.Add(this.m_textBoxEndRangeTrackID);
+            this.m_groupBoxRoute.Controls.Add(this.m_textBoxStartRangeTrackID);
+            this.m_groupBoxRoute.Controls.Add(this.m_labelEndTrackID);
+            this.m_groupBoxRoute.Controls.Add(this.m_labelStartTrackID);
+            this.m_groupBoxRoute.Controls.Add(this.m_radioButtonFromFileTracks);
+            this.m_groupBoxRoute.Controls.Add(this.m_radioButtonManuelInputTracks);
+            this.m_groupBoxRoute.Location = new System.Drawing.Point(277, 12);
+            this.m_groupBoxRoute.Name = "m_groupBoxRoute";
+            this.m_groupBoxRoute.Size = new System.Drawing.Size(342, 269);
+            this.m_groupBoxRoute.TabIndex = 15;
+            this.m_groupBoxRoute.TabStop = false;
+            this.m_groupBoxRoute.Text = "Route";
+            // 
+            // m_radioButtonManuelInputTracks
+            // 
+            this.m_radioButtonManuelInputTracks.AutoSize = true;
+            this.m_radioButtonManuelInputTracks.Location = new System.Drawing.Point(41, 160);
+            this.m_radioButtonManuelInputTracks.Name = "m_radioButtonManuelInputTracks";
+            this.m_radioButtonManuelInputTracks.Size = new System.Drawing.Size(123, 17);
+            this.m_radioButtonManuelInputTracks.TabIndex = 0;
+            this.m_radioButtonManuelInputTracks.TabStop = true;
+            this.m_radioButtonManuelInputTracks.Text = "Manuel Input Tracks";
+            this.m_radioButtonManuelInputTracks.UseVisualStyleBackColor = true;
+            // 
+            // m_radioButtonFromFileTracks
+            // 
+            this.m_radioButtonFromFileTracks.AutoSize = true;
+            this.m_radioButtonFromFileTracks.Location = new System.Drawing.Point(205, 160);
+            this.m_radioButtonFromFileTracks.Name = "m_radioButtonFromFileTracks";
+            this.m_radioButtonFromFileTracks.Size = new System.Drawing.Size(99, 17);
+            this.m_radioButtonFromFileTracks.TabIndex = 1;
+            this.m_radioButtonFromFileTracks.TabStop = true;
+            this.m_radioButtonFromFileTracks.Text = "From File Tracls";
+            this.m_radioButtonFromFileTracks.UseVisualStyleBackColor = true;
+            // 
+            // m_labelStartTrackID
+            // 
+            this.m_labelStartTrackID.AutoSize = true;
+            this.m_labelStartTrackID.Location = new System.Drawing.Point(38, 93);
+            this.m_labelStartTrackID.Name = "m_labelStartTrackID";
+            this.m_labelStartTrackID.Size = new System.Drawing.Size(83, 13);
+            this.m_labelStartTrackID.TabIndex = 2;
+            this.m_labelStartTrackID.Text = "Start Track ID : ";
+            // 
+            // m_labelEndTrackID
+            // 
+            this.m_labelEndTrackID.AutoSize = true;
+            this.m_labelEndTrackID.Location = new System.Drawing.Point(41, 119);
+            this.m_labelEndTrackID.Name = "m_labelEndTrackID";
+            this.m_labelEndTrackID.Size = new System.Drawing.Size(80, 13);
+            this.m_labelEndTrackID.TabIndex = 3;
+            this.m_labelEndTrackID.Text = "End Track ID : ";
+            // 
+            // m_textBoxStartRangeTrackID
+            // 
+            this.m_textBoxStartRangeTrackID.Location = new System.Drawing.Point(157, 90);
+            this.m_textBoxStartRangeTrackID.Name = "m_textBoxStartRangeTrackID";
+            this.m_textBoxStartRangeTrackID.Size = new System.Drawing.Size(147, 20);
+            this.m_textBoxStartRangeTrackID.TabIndex = 4;
+            // 
+            // m_textBoxEndRangeTrackID
+            // 
+            this.m_textBoxEndRangeTrackID.Location = new System.Drawing.Point(157, 116);
+            this.m_textBoxEndRangeTrackID.Name = "m_textBoxEndRangeTrackID";
+            this.m_textBoxEndRangeTrackID.Size = new System.Drawing.Size(147, 20);
+            this.m_textBoxEndRangeTrackID.TabIndex = 5;
             // 
             // GeneralSettingsModal
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(621, 339);
-            this.Controls.Add(this.m_numericUpDownTrainFrequency);
-            this.Controls.Add(this.m_labelTrainFrequency);
-            this.Controls.Add(this.m_checkedListBoxTrains);
+            this.ClientSize = new System.Drawing.Size(630, 339);
+            this.Controls.Add(this.m_groupBoxRoute);
+            this.Controls.Add(this.m_groupBoxTrain);
             this.Controls.Add(this.m_buttonApply);
             this.Controls.Add(this.m_buttonSave);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.MaximizeBox = false;
             this.Name = "GeneralSettingsModal";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "General Settings";
             this.Load += new System.EventHandler(this.GeneralSettingsModal_Load);
             ((System.ComponentModel.ISupportInitialize)(this.m_numericUpDownTrainFrequency)).EndInit();
+            this.m_groupBoxTrain.ResumeLayout(false);
+            this.m_groupBoxTrain.PerformLayout();
+            this.m_groupBoxRoute.ResumeLayout(false);
+            this.m_groupBoxRoute.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -115,5 +212,13 @@
         private System.Windows.Forms.CheckedListBox m_checkedListBoxTrains;
         private System.Windows.Forms.Label m_labelTrainFrequency;
         private System.Windows.Forms.NumericUpDown m_numericUpDownTrainFrequency;
+        private System.Windows.Forms.GroupBox m_groupBoxTrain;
+        private System.Windows.Forms.GroupBox m_groupBoxRoute;
+        private System.Windows.Forms.TextBox m_textBoxEndRangeTrackID;
+        private System.Windows.Forms.TextBox m_textBoxStartRangeTrackID;
+        private System.Windows.Forms.Label m_labelEndTrackID;
+        private System.Windows.Forms.Label m_labelStartTrackID;
+        private System.Windows.Forms.RadioButton m_radioButtonFromFileTracks;
+        private System.Windows.Forms.RadioButton m_radioButtonManuelInputTracks;
     }
 }
