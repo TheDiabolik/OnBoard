@@ -11,7 +11,7 @@ namespace OnBoard
         private MessageBuilder m_messageBuilder;
 
 
-        public void SetCameraBuilder(MessageBuilder messageBuilder)
+        public void SetMessageBuilder(MessageBuilder messageBuilder)
         {
             this.m_messageBuilder = messageBuilder;
         }

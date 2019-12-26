@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Net;
@@ -19,7 +20,7 @@ namespace OnBoard
             private static Client m_do = null;
             internal Socket m_clientSock; 
            
-            string incomingMsg, imageName, exitImageName;
+           
            
             private byte[] m_clientBufRecv, m_clientBufSend;
             private int m_clientIndexRecv, m_clientLeftRecv, m_clientIndexSend, m_clientLeftSend; 
@@ -46,22 +47,27 @@ namespace OnBoard
 
             void m_stopWatch_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
             {
-                //if (m_clientSock != null)
-                //{
-                //    if (m_stopWatch.Elapsed.TotalSeconds > 5)
-                //    {
-                //        SendMsgToServer("AREYOUALIVE$");
-                //        //DisplayManager.RichTextBoxInvoke(SocketCommunication.Singleton().m_speedCorridor.richTextBox1, "Bağlantı Kontrol Ediliyor...!", Color.DarkRed);
-                //    }
-                //}
-                //else
-                //{
-                //    //m_clientSock.Dispose(); 
-                //    StartClient(SocketCommunication.Singleton().m_settings.m_entryTagIP, "stopwatch");
-                //}
+               
+
+                if (m_clientSock != null)
+                {
+                    if (m_stopWatch.Elapsed.TotalSeconds > 5)
+                    {
+                        SendMsgToServer("AREYOUALIVE$");
+                        DisplayManager.RichTextBoxInvoke(MainForm.m_mf.m_richTextBox, "Connect Check to WaySide...", Color.DarkRed);
+
+                        //DisplayManager.RichTextBoxInvoke(SocketCommunication.Singleton().m_speedCorridor.richTextBox1, "Bağlantı Kontrol Ediliyor...!", Color.DarkRed);
+                    }
+                }
+                else
+                {
+                    //m_clientSock.Dispose(); 
+                    StartClient( "127.0.0.1", 5050);
+                    DisplayManager.RichTextBoxInvoke(MainForm.m_mf.m_richTextBox, "Try to ReConnect to WaySide...", Color.DarkRed);
+                }
 
 
-                //m_stopWatch.Restart();
+                m_stopWatch.Restart();
             }
 
             #endregion
@@ -79,11 +85,16 @@ namespace OnBoard
  
             public void StartClient(string ipAddress, int port)
             {
+
+                DisplayManager.RichTextBoxInvoke(MainForm.m_mf.m_richTextBox, "Try to Connect WaySide...", Color.DarkRed);
+
+
                 if (m_timer.Enabled)
                     m_timer.Stop();
 
 
                 m_timer.Start();
+                m_stopWatch.Start();
                  
 
                 m_clientSock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -125,17 +136,17 @@ namespace OnBoard
                     //alma
                     m_clientIndexRecv = 0;
                     m_clientLeftRecv = m_clientBufRecv.Length;
-                   
+
 
                     //SendMsgToServer("CONNECT$" );
 
-                   
+                    DisplayManager.RichTextBoxInvoke(MainForm.m_mf.m_richTextBox, "Connect to WaySide...", Color.DarkRed);
 
                     m_clientSock.BeginReceive(m_clientBufRecv, m_clientIndexRecv, m_clientLeftRecv,  SocketFlags.None, new AsyncCallback(ClientReceiveProc), null);
                 }
                 catch (Exception e)
                 {
-                    
+                    DisplayManager.RichTextBoxInvoke(MainForm.m_mf.m_richTextBox, "Connection Failure to WaySide...", Color.DarkRed);
                 }
             }
 
@@ -148,19 +159,47 @@ namespace OnBoard
 
                     receivedBytes = m_clientSock.EndReceive(iar);
 
-                   
-                    uint messageLength =  BitConverter.ToUInt32(m_clientBufRecv, 4);   
-                    byte[] incomingBytes = new byte[messageLength]; 
-                    Array.Copy(m_clientBufRecv, incomingBytes, messageLength);
 
-                    uint messageID = BitConverter.ToUInt32(incomingBytes, 8);
+                    uint messageBase = BitConverter.ToUInt32(m_clientBufRecv, 0);
 
-                    Message message = new Message(incomingBytes);
 
-                    MessageSelector messageSelector = new MessageSelector();
-                    IMessageType messageType = messageSelector.GetMessageType((Enums.Message.ID)messageID);
+                    if(messageBase == 2)
+                    {
+                        uint messageLength = BitConverter.ToUInt32(m_clientBufRecv, 4);
+                        byte[] incomingBytes = new byte[messageLength];
+                        Array.Copy(m_clientBufRecv, incomingBytes, messageLength);
+                         
 
-                    IMessageType dsdfsfds = messageType.CreateMessage(message.DATA);
+                        uint messageID = BitConverter.ToUInt32(incomingBytes, 8);
+
+
+
+                        if(messageID == (UInt32) Enums.Message.ID.WSATP_TO_OBATP)
+                        {
+                            Message message = new Message(incomingBytes);
+
+                            MessageSelector messageSelector = new MessageSelector();
+                            IMessageType messageType = messageSelector.GetMessageType((Enums.Message.ID)messageID);
+                            IMessageType dataorj = messageType.CreateMessage(message.DATA);
+
+
+
+                            WSATP_TO_OBATPAdapter adap = new WSATP_TO_OBATPAdapter(dataorj); 
+                             
+                        }
+
+
+
+
+
+                    }
+
+
+
+
+
+
+
 
                     //if (messageID == (uint)Enums.Message.ID.OBATP_TO_WSATP)
                     //{
@@ -173,13 +212,13 @@ namespace OnBoard
                     //    MessageSelector messageSelector = new MessageSelector();
                     //    IMessageType messageType = messageSelector.GetMessageType((Enums.Message.ID)messageID);
 
-                      
+
 
                     //}
 
 
 
- 
+
 
                     if (!m_stopWatch.IsRunning)
                     {
@@ -349,7 +388,7 @@ namespace OnBoard
                         OBATP_TO_WSATP_MessageBuilder OBATP_TO_WSATP_Message = new OBATP_TO_WSATP_MessageBuilder(); 
 
 
-                        messageCreator.SetCameraBuilder(OBATP_TO_WSATP_Message);
+                        messageCreator.SetMessageBuilder(OBATP_TO_WSATP_Message);
                         messageCreator.CreateMessage(61001, (UInt32)OBATP.OBATP_ID, DateTimeExtensions.GetAllMiliSeconds(), 1, OBATP_TO_WSATP_ByteArray, 47851476196393100);
 
 

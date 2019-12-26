@@ -8,7 +8,8 @@ namespace OnBoard
 {
     public class TrainOnTracks
     {
-        public List<ushort> FootPrintTracks = new List<ushort>();
-        public List<ushort> VirtualOccupationTracks = new List<ushort>();
+        public List<Track> ActualLocationTracks = new List<Track>();
+        public List<Track> FootPrintTracks = new List<Track>();
+        public List<Track> VirtualOccupationTracks = new List<Track>();
     }
 }

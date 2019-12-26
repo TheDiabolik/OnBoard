@@ -69,10 +69,13 @@
     <Compile Include="MessagePatterns\MessageBuilder\MessageBuilder.cs" />
     <Compile Include="MessagePatterns\MessageBuilder\MessageCreator.cs" />
     <Compile Include="MessagePatterns\MessageFactory\MessageSelector.cs" />
-    <Compile Include="MessagePatterns\OBATP_TO_WSATP.cs" />
+    <Compile Include="MessagePatterns\DataPackets\OBATP_TO_WSATP.cs" />
     <Compile Include="MessagePatterns\MessageBuilder\OBATP_TO_WSATP_MessageBuilder.cs" />
-    <Compile Include="MessagePatterns\WSATP_TO_OBATP.cs" />
+    <Compile Include="MessagePatterns\DataPackets\WSATP_TO_OBATP\WSATP_TO_OBATP.cs" />
     <Compile Include="MessagePatterns\MessageBuilder\WSATP_TO_OBATP_MessageBuilder.cs" />
+    <Compile Include="MessagePatterns\DataPackets\WSATP_TO_OBATP\WSATP_TO_OBATPAdaptee.cs" />
+    <Compile Include="MessagePatterns\DataPackets\WSATP_TO_OBATP\WSATP_TO_OBATPAdapter.cs" />
+    <Compile Include="OBATPPool.cs" />
     <Compile Include="Settings\CommunicationSettingsModal.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -182,6 +185,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\doorclose.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\dooropen.png" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

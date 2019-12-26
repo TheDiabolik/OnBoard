@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OnBoard
 {
-    interface IMessageType
+    interface IMessageType 
     {
         IMessageType CreateMessage(byte[] message);
     }

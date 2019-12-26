@@ -126,7 +126,7 @@ namespace OnBoard
 
 
 
-        public IMessageType CreateMessage(byte[] message)
+        public  virtual IMessageType CreateMessage(byte[] message)
         {
             this.EmergencyBrakeCommand = (byte)message.GetValue(0);
 
@@ -207,7 +207,7 @@ namespace OnBoard
             this.SpeedLimit19 = (byte)message.GetValue(61);
 
             this.TrackSectionID20 = BitConverter.ToUInt16(message, 62);
-            this.TrackSectionID20 = (byte)message.GetValue(64);
+            this.SpeedLimit20 = (byte)message.GetValue(64);
 
             //
 
@@ -215,6 +215,12 @@ namespace OnBoard
             return this;
         }
 
+        public virtual WSATP_TO_OBATPAdaptee Request()
+        {
+
+            return null;
+
+        }
 
         public byte[] ToByte()
         {
