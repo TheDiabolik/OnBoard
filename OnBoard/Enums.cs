@@ -95,7 +95,7 @@ namespace OnBoard
                 WSATO_TO_OBATO = 50,  
                 WSATP_TO_OBATP = 105,  
                 ATS_SERVER_TO_OBATO = 80,  
-                ATS_SERVER_TO_OBATO_Init = 45, 
+                ATS_SERVER_TO_OBATO_Init = 165, 
                 OBATO_TO_ATS_SERVER = 228,
             }
             public enum ID : UInt32

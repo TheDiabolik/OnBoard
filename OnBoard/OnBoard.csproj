@@ -63,13 +63,16 @@
   <ItemGroup>
     <Compile Include="DateTimeExtensions.cs" />
     <Compile Include="ListViewHelper.cs" />
+    <Compile Include="MessagePatterns\DataPackets\ATS_TO_OBATO\ATS_TO_OBATO.cs" />
+    <Compile Include="MessagePatterns\DataPackets\ATS_TO_OBATO\ATS_TO_OBATO_Init.cs" />
+    <Compile Include="MessagePatterns\DataPackets\OBATO_TO_ATS\OBATO_TO_ATS.cs" />
     <Compile Include="MessagePatterns\MessageBuilder\IMessage.cs" />
     <Compile Include="MessagePatterns\MessageFactory\IMessageType.cs" />
     <Compile Include="MessagePatterns\Message.cs" />
     <Compile Include="MessagePatterns\MessageBuilder\MessageBuilder.cs" />
     <Compile Include="MessagePatterns\MessageBuilder\MessageCreator.cs" />
     <Compile Include="MessagePatterns\MessageFactory\MessageSelector.cs" />
-    <Compile Include="MessagePatterns\DataPackets\OBATP_TO_WSATP.cs" />
+    <Compile Include="MessagePatterns\DataPackets\OBATP_TO_WSATP\OBATP_TO_WSATP.cs" />
     <Compile Include="MessagePatterns\MessageBuilder\OBATP_TO_WSATP_MessageBuilder.cs" />
     <Compile Include="MessagePatterns\DataPackets\WSATP_TO_OBATP\WSATP_TO_OBATP.cs" />
     <Compile Include="MessagePatterns\MessageBuilder\WSATP_TO_OBATP_MessageBuilder.cs" />
@@ -139,6 +142,9 @@
     <Compile Include="UnitConversion.cs" />
     <Compile Include="Vehicle\IVehicle.cs" />
     <Compile Include="Vehicle\Vehicle.cs" />
+    <Compile Include="WSATP_TO_OBATPMessageObserver\IWSATP_TO_OBATPMessageCreate.cs" />
+    <Compile Include="WSATP_TO_OBATPMessageObserver\IWSATP_TO_OBATPMessageWatcher.cs" />
+    <Compile Include="WSATP_TO_OBATPMessageObserver\WSATP_TO_OBATPMessageInComing.cs" />
     <EmbeddedResource Include="Settings\CommunicationSettingsModal.resx">
       <DependentUpon>CommunicationSettingsModal.cs</DependentUpon>
     </EmbeddedResource>

@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace OnBoard
 {
-    public interface IMessageType 
+    public interface IWSATP_TO_OBATPMessageCreate
     {
-        IMessageType CreateMessage(byte[] message);
+        void InformWatcher();
+
+        void AddWatcher(IWSATP_TO_OBATPMessageWatcher watcher);
     }
 }

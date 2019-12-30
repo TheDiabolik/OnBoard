@@ -18,6 +18,7 @@ namespace OnBoard
     {
         XMLSerialization m_settings;
         internal static TrainMovementCreate m_trainMovement;
+        internal static WSATP_TO_OBATPMessageInComing m_WSATP_TO_OBATPMessageInComing;
         public static MainForm m_mf;
         readonly object m_lolo = new object();
 
@@ -52,6 +53,7 @@ namespace OnBoard
             m_allOBATP = new ConcurrentDictionary<int, OBATP>();
             m_socketCommunication = SocketCommunication.Singleton();
             m_trainMovement = new TrainMovementCreate();
+            m_WSATP_TO_OBATPMessageInComing = new WSATP_TO_OBATPMessageInComing();
 
             //excel tablosundan track listesini ve özelliklerini okuyoruz    
             m_fromFileTracks = FileOperation.ReadTrackTableInExcel(); 
@@ -70,7 +72,7 @@ namespace OnBoard
 
 
             m_route = Route.CreateNewRoute(m_settings.StartTrackID, m_settings.EndTrackID, allTracks);
-
+            //m_route = Route.CreateNewRoute(m_settings.StartTrackID, 10309, allTracks);
 
             //DataTable rt = FileOperation.ReadRouteTableInExcel();  
             //allRoute = Route.AllRoute(rt, asasas);
@@ -224,7 +226,7 @@ namespace OnBoard
 
 
                         row.SetField("Rear_Track", OBATP.RearOfTrainCurrentTrack.Track_ID.ToString());
-                        row.SetField("Rear_Track_Location", OBATP.ActualRearCurrentLocation.ToString("0.##"));
+                        row.SetField("Rear_Track_Location", OBATP.ActualRearOfTrainCurrentLocation.ToString("0.##"));
                         row.SetField("Rear_Track_Length", OBATP.RearOfTrainCurrentTrack.Track_Length.ToString());
                         row.SetField("Rear_Track_Max_Speed", OBATP.RearOfTrainCurrentTrack.MaxTrackSpeedKMH.ToString());
 
@@ -275,7 +277,7 @@ namespace OnBoard
                     //general train
                     DisplayManager.TextBoxInvoke(m_textBoxCurrentTrainSpeedKM, OBATP.Vehicle.CurrentTrainSpeedKMH.ToString());
                     DisplayManager.TextBoxInvoke(m_textBoxCurrentLocation, OBATP.ActualFrontOfTrainCurrentLocation.ToString("0.##"));
-                    DisplayManager.TextBoxInvoke(m_textBoxRearCurrentLocation, OBATP.ActualRearCurrentLocation.ToString("0.##"));
+                    DisplayManager.TextBoxInvoke(m_textBoxRearCurrentLocation, OBATP.ActualRearOfTrainCurrentLocation.ToString("0.##"));
                     DisplayManager.TextBoxInvoke(m_textBoxCurrentAcceleration, (OBATP.Vehicle.CurrentAcceleration / 100).ToString("0.##"));
 
                     if (OBATP.DoorStatus == Enums.DoorStatus.Open)
@@ -361,17 +363,17 @@ namespace OnBoard
 
 
                 OBATP oBATP = new OBATP(Enums.Train_ID.Train1, trainName, m_settings.MaxTrainAcceleration, m_settings.MaxTrainDeceleration, m_settings.TrainSpeedLimit, m_settings.TrainLength, m_route);
-                 
+
+                MainForm.m_WSATP_TO_OBATPMessageInComing.AddWatcher(oBATP);
 
 
-                
-                 //pool.PutObject(oBATP);
+                //pool.PutObject(oBATP);
 
 
                 // //m_allOBATP.TryAdd(trainIndex, oBATP);
                 // //m_allOBATP.AddOrUpdate(trainIndex, oBATP, (s, i) => oBATP);
 
-                // oBATP.RequestStartProcess();
+                oBATP.RequestStartProcess();
 
 
                 // int sleepTime = Convert.ToInt32(m_settings.TrainFrequency);

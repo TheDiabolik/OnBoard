@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OnBoard
 {
-    class WSATP_TO_OBATPAdaptee
+    public class WSATP_TO_OBATPAdaptee
     {
         WSATP_TO_OBATP m_messageType;
         public WSATP_TO_OBATPAdaptee(IMessageType WSATP_TO_OBATP)

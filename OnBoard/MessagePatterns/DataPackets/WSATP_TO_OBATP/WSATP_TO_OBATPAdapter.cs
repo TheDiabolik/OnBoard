@@ -8,7 +8,7 @@ namespace OnBoard
 
 {
 
-    class WSATP_TO_OBATPAdapter// : IWSATP_TO_OBATPAdapter//WSATP_TO_OBATP, WSATP_TO_OBATPAdaptee
+  public  class WSATP_TO_OBATPAdapter// : IWSATP_TO_OBATPAdapter//WSATP_TO_OBATP, WSATP_TO_OBATPAdaptee
     {
         private WSATP_TO_OBATPAdaptee _adaptee; 
 
@@ -27,7 +27,7 @@ namespace OnBoard
             AdaptData(WSATP_TO_OBATP);
         }
        
-        private void AdaptData(WSATP_TO_OBATP WSATP_TO_OBATP)
+        public void AdaptData(WSATP_TO_OBATP WSATP_TO_OBATP)
         { 
 
             this.EmergencyBrakeCommand = Convert.ToBoolean(WSATP_TO_OBATP.EmergencyBrakeCommand);

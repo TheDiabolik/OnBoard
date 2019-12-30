@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OnBoard
 {
-    class WSATP_TO_OBATP : IMessageType, IDisposable
+    public class WSATP_TO_OBATP : IMessageType, IDisposable
     {
         private bool m_disposed = false;
 

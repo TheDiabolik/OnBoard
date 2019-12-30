@@ -14,7 +14,7 @@ namespace OnBoard
 {
     partial class SocketCommunication
     {
-        public class Client : ITrainMovementWatcher
+        public class Client : ITrainMovementWatcher 
         {
             #region variables
             private static Client m_do = null;
@@ -39,10 +39,16 @@ namespace OnBoard
                 m_clientBufSend = new byte[1024];
 
                 m_stopWatch = new Stopwatch();
-                m_timer = new System.Timers.Timer(15000);
+                m_timer = new System.Timers.Timer(1000);
                 m_timer.Elapsed += m_stopWatch_Elapsed;
 
                 MainForm.m_trainMovement.AddWatcher(this);
+
+
+
+                //MainForm.m_WSATP_TO_OBATPMessageInComing.AddWatcher((MainForm.m_mf);
+
+              
             }
 
             void m_stopWatch_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
@@ -51,7 +57,7 @@ namespace OnBoard
 
                 if (m_clientSock != null)
                 {
-                    if (m_stopWatch.Elapsed.TotalSeconds > 5)
+                    if (m_stopWatch.Elapsed.TotalSeconds > 3)
                     {
                         SendMsgToServer("AREYOUALIVE$");
                         DisplayManager.RichTextBoxInvoke(MainForm.m_mf.m_richTextBox, "Connect Check to WaySide...", Color.DarkRed);
@@ -182,10 +188,14 @@ namespace OnBoard
                             IMessageType messageType = messageSelector.GetMessageType((Enums.Message.ID)messageID);
                             IMessageType dataorj = messageType.CreateMessage(message.DATA);
 
+                       
 
+                            WSATP_TO_OBATPAdapter adap = new WSATP_TO_OBATPAdapter(dataorj);
 
-                            WSATP_TO_OBATPAdapter adap = new WSATP_TO_OBATPAdapter(dataorj); 
-                             
+                            //obatpye wsatp gelen wsatp mesajını gönderiyor
+                            Enums.OBATP_ID OBATPID = (Enums.OBATP_ID)message.DST;
+                            MainForm.m_WSATP_TO_OBATPMessageInComing.WSATP_TO_OBATPNewMessageInComing(OBATPID, adap);
+
                         }
 
 
