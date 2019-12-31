@@ -35,6 +35,11 @@ namespace OnBoard
         public int Y2_Point { get; set; }
 
 
+        //kapı için
+
+        public int DwellTime { get; set; }
+        public bool DwellTimeFinished { get; set; }
+
         //ahmet rota konum bilgisi
         public double StartPositionInRoute { get; set; }
         public double StopPositionInRoute { get; set; }
@@ -87,7 +92,7 @@ namespace OnBoard
         }
 
 
-        public  List<Track> AllTracks(DataTable dt)
+        public static List<Track> AllTracks(DataTable dt)
         {
             List<Track> trackList = new List<Track>();   
 
@@ -145,6 +150,12 @@ namespace OnBoard
                 //SpeedLimitCommand(track.SpeedChangeVMax);
 
 
+
+                if (!string.IsNullOrEmpty(track.Station_Name))
+                    track.DwellTime = 20;
+
+
+
                 trackList.Add(track); 
             } 
 
@@ -154,7 +165,7 @@ namespace OnBoard
         }
 
 
-        public List<Track> AllTracksAAA(DataTable dt)
+        public static List<Track> AllTracksAAA(DataTable dt)
         {
             List<Track> trackList = new List<Track>();
 

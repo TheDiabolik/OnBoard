@@ -15,7 +15,7 @@
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -41,10 +41,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\IPAddressControlLib.dll</HintPath>
     </Reference>
-    <Reference Include="MetroTcpLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\MetroTcpLibrary.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -65,24 +61,50 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MessagePatterns\DataPackets\OBATP_TO_WSATP\OBATP_TO_WSATPAdaptee.cs" />
+    <Compile Include="MessagePatterns\DataPackets\OBATP_TO_WSATP\OBATP_TO_WSATPAdapter.cs" />
+    <Compile Include="MessagePatterns\MessageObserver\ATS_TO_OBATO_Init_MessageObserver\ATS_TO_OBATO_InitMessageInComing.cs" />
+    <Compile Include="MessagePatterns\MessageObserver\ATS_TO_OBATO_Init_MessageObserver\IATS_TO_OBATO_InitMessageCreate.cs" />
+    <Compile Include="MessagePatterns\MessageObserver\ATS_TO_OBATO_Init_MessageObserver\IATS_TO_OBATO_InitMessageWatcher.cs" />
+    <Compile Include="MessagePatterns\MessageObserver\ATS_TO_OBATO_MessageObserver\ATS_TO_OBATO_MessageInComing.cs" />
+    <Compile Include="MessagePatterns\MessageObserver\ATS_TO_OBATO_MessageObserver\IATS_TO_OBATO_MessageCreate.cs" />
+    <Compile Include="MessagePatterns\MessageObserver\ATS_TO_OBATO_MessageObserver\IATS_TO_OBATO_MessageWatcher.cs" />
     <Compile Include="DateTimeExtensions.cs" />
     <Compile Include="ListViewHelper.cs" />
-    <Compile Include="Message\Message.cs" />
-    <Compile Include="Message\OBATP_TO_WSATP.cs" />
+    <Compile Include="MessagePatterns\DataPackets\ATS_TO_OBATO\ATS_TO_OBATO.cs" />
+    <Compile Include="MessagePatterns\DataPackets\ATS_TO_OBATO\Adapter\ATS_TO_OBATOAdaptee.cs" />
+    <Compile Include="MessagePatterns\DataPackets\ATS_TO_OBATO\Adapter\ATS_TO_OBATOAdapter.cs" />
+    <Compile Include="MessagePatterns\DataPackets\ATS_TO_OBATO_Init\ATS_TO_OBATO_Init.cs" />
+    <Compile Include="MessagePatterns\DataPackets\ATS_TO_OBATO_Init\Adapter\ATS_TO_OBATO_InitAdaptee.cs" />
+    <Compile Include="MessagePatterns\DataPackets\ATS_TO_OBATO_Init\Adapter\ATS_TO_OBATO_InitAdapter.cs" />
+    <Compile Include="MessagePatterns\DataPackets\OBATO_TO_ATS\OBATO_TO_ATS.cs" />
+    <Compile Include="MessagePatterns\MessageBuilder\ATS_TO_OBATO_Init_MessageBuilder.cs" />
+    <Compile Include="MessagePatterns\MessageBuilder\IMessage.cs" />
+    <Compile Include="MessagePatterns\MessageFactory\IMessageType.cs" />
+    <Compile Include="MessagePatterns\Message.cs" />
+    <Compile Include="MessagePatterns\MessageBuilder\MessageBuilder.cs" />
+    <Compile Include="MessagePatterns\MessageBuilder\MessageCreator.cs" />
+    <Compile Include="MessagePatterns\MessageFactory\MessageSelector.cs" />
+    <Compile Include="MessagePatterns\DataPackets\OBATP_TO_WSATP\OBATP_TO_WSATP.cs" />
+    <Compile Include="MessagePatterns\MessageBuilder\OBATP_TO_WSATP_MessageBuilder.cs" />
+    <Compile Include="MessagePatterns\DataPackets\WSATP_TO_OBATP\WSATP_TO_OBATP.cs" />
+    <Compile Include="MessagePatterns\MessageBuilder\WSATP_TO_OBATP_MessageBuilder.cs" />
+    <Compile Include="MessagePatterns\DataPackets\WSATP_TO_OBATP\Adapter\WSATP_TO_OBATPAdaptee.cs" />
+    <Compile Include="MessagePatterns\DataPackets\WSATP_TO_OBATP\Adapter\WSATP_TO_OBATPAdapter.cs" />
+    <Compile Include="OBATPPool.cs" />
     <Compile Include="Settings\CommunicationSettingsModal.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Settings\CommunicationSettingsModal.Designer.cs">
       <DependentUpon>CommunicationSettingsModal.cs</DependentUpon>
     </Compile>
-    <Compile Include="TcpClient.cs" />
-    <Compile Include="TCP\Client.cs" />
-    <Compile Include="TCP\Server.cs" />
-    <Compile Include="TCP\SocketCommunication.cs" />
-    <Compile Include="TrackSettingsModal.cs">
+    <Compile Include="TCPCommunication\Client.cs" />
+    <Compile Include="TCPCommunication\Server.cs" />
+    <Compile Include="TCPCommunication\SocketCommunication.cs" />
+    <Compile Include="ModalForms\TrackSettingsModal.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TrackSettingsModal.Designer.cs">
+    <Compile Include="ModalForms\TrackSettingsModal.Designer.cs">
       <DependentUpon>TrackSettingsModal.cs</DependentUpon>
     </Compile>
     <Compile Include="TrackWithPosition.cs" />
@@ -123,15 +145,19 @@
       <DependentUpon>TrainSettingsModal.cs</DependentUpon>
     </Compile>
     <Compile Include="TrainOnTracks.cs" />
-    <Compile Include="TrainSimModal.cs">
+    <Compile Include="ModalForms\TrainSimModal.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TrainSimModal.Designer.cs">
+    <Compile Include="ModalForms\TrainSimModal.Designer.cs">
       <DependentUpon>TrainSimModal.cs</DependentUpon>
     </Compile>
+    <Compile Include="UIOperation\UIOperation.cs" />
     <Compile Include="UnitConversion.cs" />
     <Compile Include="Vehicle\IVehicle.cs" />
     <Compile Include="Vehicle\Vehicle.cs" />
+    <Compile Include="MessagePatterns\MessageObserver\WSATP_TO_OBATP_MessageObserver\IWSATP_TO_OBATPMessageCreate.cs" />
+    <Compile Include="MessagePatterns\MessageObserver\WSATP_TO_OBATP_MessageObserver\IWSATP_TO_OBATPMessageWatcher.cs" />
+    <Compile Include="MessagePatterns\MessageObserver\WSATP_TO_OBATP_MessageObserver\WSATP_TO_OBATPMessageInComing.cs" />
     <EmbeddedResource Include="Settings\CommunicationSettingsModal.resx">
       <DependentUpon>CommunicationSettingsModal.cs</DependentUpon>
     </EmbeddedResource>
@@ -154,15 +180,12 @@
     <EmbeddedResource Include="Settings\TrainSettingsModal.resx">
       <DependentUpon>TrainSettingsModal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TrackSettingsModal.resx">
+    <EmbeddedResource Include="ModalForms\TrackSettingsModal.resx">
       <DependentUpon>TrackSettingsModal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TrainSimModal.resx">
+    <EmbeddedResource Include="ModalForms\TrainSimModal.resx">
       <DependentUpon>TrainSimModal.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="..\.editorconfig">
-      <Link>.editorconfig</Link>
-    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -181,6 +204,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\doorclose.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\dooropen.png" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

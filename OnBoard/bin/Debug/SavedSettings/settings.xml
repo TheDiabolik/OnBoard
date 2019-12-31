@@ -12,6 +12,9 @@
   <MaxTrainDeceleration>1.1</MaxTrainDeceleration>
   <MaxTrainAcceleration>0.8</MaxTrainAcceleration>
   <TrainSpeedLimit>80</TrainSpeedLimit>
+  <StartTrackID>10103</StartTrackID>
+  <EndTrackID>10305</EndTrackID>
+  <TrackInput>FromFile</TrackInput>
   <RouteTrack>
     <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
       <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:MainDataTable="RouteTrack" msdata:UseCurrentLocale="true">

@@ -10,8 +10,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms;
-using MetroTcpLibrary;
+using System.Windows.Forms; 
 
 namespace OnBoard
 {
@@ -19,10 +18,13 @@ namespace OnBoard
     {
         XMLSerialization m_settings;
         internal static TrainMovementCreate m_trainMovement;
+        internal static WSATP_TO_OBATPMessageInComing m_WSATP_TO_OBATPMessageInComing;
+        internal static ATS_TO_OBATO_InitMessageInComing m_ATS_TO_OBATO_InitMessageInComing;
+        internal static ATS_TO_OBATO_MessageInComing m_ATS_TO_OBATO_MessageInComing;
         public static MainForm m_mf;
+        readonly object m_lolo = new object();
 
-
-        public static TcpClient m_conn;
+        SocketCommunication m_socketCommunication;
 
 
         //public List<Track> rou;
@@ -31,7 +33,12 @@ namespace OnBoard
         public static List<Route> allRoute;
 
         DataTable m_dataTable = GetTable();
-        //ListViewHelper listViewHelper;
+
+        DataTable ahmet = new DataTable("VirOcc");
+
+        internal static DataTable m_fromFileTracks;
+
+        internal static Route m_route;
         public MainForm()
         {
             InitializeComponent();
@@ -46,70 +53,59 @@ namespace OnBoard
             CheckForIllegalCrossThreadCalls = false;
 
             m_allOBATP = new ConcurrentDictionary<int, OBATP>();
-
+            m_socketCommunication = SocketCommunication.Singleton();
             m_trainMovement = new TrainMovementCreate();
-
+            m_WSATP_TO_OBATPMessageInComing = new WSATP_TO_OBATPMessageInComing();
+            m_ATS_TO_OBATO_InitMessageInComing = new  ATS_TO_OBATO_InitMessageInComing();
+            m_ATS_TO_OBATO_MessageInComing = new ATS_TO_OBATO_MessageInComing();
             //excel tablosundan track listesini ve özelliklerini okuyoruz    
-            //DataTable dt = FileOperation.ReadTrackTableInExcel();
-            DataTable dt = m_settings.RouteTrack;
+            m_fromFileTracks = FileOperation.ReadTrackTableInExcel(); 
+  
+
+            if (m_settings.TrackInput == Enums.TrackInput.Manuel)
+            {
+                allTracks = Track.AllTracksAAA(m_settings.RouteTrack);
+            }
+            else if (m_settings.TrackInput == Enums.TrackInput.FromFile)
+            {
+                allTracks = Track.AllTracks(m_fromFileTracks);
+            }
 
 
 
-            Track se = new Track();
 
+            m_route = Route.CreateNewRoute(m_settings.StartTrackID, m_settings.EndTrackID, allTracks);
+            //m_route = Route.CreateNewRoute(m_settings.StartTrackID, 10309, allTracks);
 
-            List<Track> asasas = new List<Track>(se.AllTracksAAA(dt));
-
-            allTracks = se.AllTracksAAA(dt);
-
-            //List<Track> asasas = new List<Track>(se.AllTracks(dt));
-
-            //allTracks = se.AllTracks(dt);
-            //DataTable rt = FileOperation.ReadRouteTableInExcel();
-
-
-
-            //m_conn = new TcpClient(205, "10.2.149.17", 1010);
-
+            //DataTable rt = FileOperation.ReadRouteTableInExcel();  
             //allRoute = Route.AllRoute(rt, asasas);
 
             //Route route = new Route();
             //allRoute = route.AllRoute(rt, asasas);
 
 
-            //foreach (Route item in allRoute)
-            //{
-            //    double routeLength = 0;
-            //    foreach (Track track in item.Route_Tracks)
-            //    {
-            //        track.StartPositionInRoute = routeLength;
-            //        track.StopPositionInRoute = routeLength + track.Track_Length;
-            //        routeLength += track.Track_Length;
-            //    }
-            //    item.Length = routeLength;
-            //}
-
             //List<Route> asdasdasdasdasd =  Route.AllRoute(rt, allTracks);
 
-     
-
-           
 
 
-            typeof(ListView).InvokeMember("DoubleBuffered", BindingFlags.SetProperty
-           | BindingFlags.Instance | BindingFlags.NonPublic, null,
-           m_listViewFootPrintTracks, new object[] { true });
+            ahmet.Columns.Add("ID");
 
-            typeof(ListView).InvokeMember("DoubleBuffered", BindingFlags.SetProperty
-          | BindingFlags.Instance | BindingFlags.NonPublic, null,
-          m_listViewVirtualOccupation, new object[] { true });
 
-           
-            //ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint
+            UIOperation.SetDoubleBuffered(m_listViewFootPrintTracks);
+            UIOperation.SetDoubleBuffered(m_listViewVirtualOccupation);
+
+
+            //m_socketCommunication.Start(SocketCommunication.CommunicationType.Client, "10.2.149.17", 205);
+            m_socketCommunication.Start(SocketCommunication.CommunicationType.Client, "127.0.0.1", 5050);
+
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+
+           
+
+
             TrainSimModal trainSimModal = new TrainSimModal();
             trainSimModal.Owner = this;
             trainSimModal.Show();
@@ -128,6 +124,8 @@ namespace OnBoard
 
 
             m_dataGridViewAllTrains.DataSource = m_dataTable;
+
+            //m_listViewVirtualOccupation.DataBindings = ahmet;
 
             //m_dataGridViewAllTrains.ColumnCount = 7;
 
@@ -172,8 +170,8 @@ namespace OnBoard
 
         private void m_buttonSave_Click(object sender, EventArgs e)
         {
-           
 
+            
 
         }
 
@@ -181,129 +179,134 @@ namespace OnBoard
         {
 
        
-
-            m_backgroundWorker.RunWorkerAsync();
+            if(!m_backgroundWorker.IsBusy)
+                m_backgroundWorker.RunWorkerAsync();
 
 
            
         }
 
 
-      
-        readonly object m_lolo = new object();
 
         #region createdevent
         public void TrainMovementCreated(OBATP OBATP)
-        { 
+        {
 
             lock (m_lolo)
-            {
+            { 
+
+                List<int> listValuesVirtualOccupation = m_listViewVirtualOccupation.Items.Cast<ListViewItem>().Select(item => Convert.ToInt32(item.Text)).ToList();
+                bool difflistValuesVirtualOccupation = OBATP.TrainOnTracks.VirtualOccupationTracks.Select(x => x.Track_ID).ToList().SequenceEqual(listValuesVirtualOccupation);
 
 
-                m_listViewVirtualOccupation.Items.Clear();
-                //m_listViewVirtualOccupation.Items.AddRange(OBATP.TrainOnTracks.VirtualOccupationTracks);
-                OBATP.TrainOnTracks.VirtualOccupationTracks.ForEach(x => m_listViewVirtualOccupation.Items.Add( x.ToString() )  );
+                if (!difflistValuesVirtualOccupation)
+                {
+                    m_listViewVirtualOccupation.Items.Clear();
+                    OBATP.TrainOnTracks.VirtualOccupationTracks.ForEach(x => m_listViewVirtualOccupation.Items.Add(x.Track_ID.ToString()));
+                }
+                //new ListViewItem(new string[] { x.Track_ID.ToString(), x.Station_Name })
 
-                m_listViewFootPrintTracks.Items.Clear();
-                OBATP.TrainOnTracks.FootPrintTracks.ForEach(x => m_listViewFootPrintTracks.Items.Add( x.ToString()  ));
+                List<int> listValuesFootPrintTracks = m_listViewFootPrintTracks.Items.Cast<ListViewItem>().Select(item => Convert.ToInt32(item.Text)).ToList();
+                bool difflistValuesFootPrintTracks = OBATP.TrainOnTracks.FootPrintTracks.Select(x => x.Track_ID).ToList().SequenceEqual(listValuesFootPrintTracks);
+
+                if (!difflistValuesFootPrintTracks)
+                {
+                    m_listViewFootPrintTracks.Items.Clear();
+                    OBATP.TrainOnTracks.FootPrintTracks.ForEach(x => m_listViewFootPrintTracks.Items.Add(x.Track_ID.ToString()));
+                }
 
 
 
-                //foreach (DataRow row in m_dataTable.Rows)
+
+
+
+                foreach (DataRow row in m_dataTable.Rows)
+                {
+                    if (row["Train_Name"].ToString() == OBATP.Vehicle.TrainName)
+                    {
+                        row.SetField("Speed", OBATP.Vehicle.CurrentTrainSpeedKMH.ToString());
+
+                        row.SetField("Front_Track", OBATP.FrontOfTrainCurrentTrack.Track_ID.ToString());
+                        row.SetField("Front_Track_Location", OBATP.ActualFrontOfTrainCurrentLocation.ToString("0.##"));
+                        row.SetField("Front_Track_Length", OBATP.FrontOfTrainCurrentTrack.Track_Length.ToString());
+                        row.SetField("Front_Track_Max_Speed", OBATP.FrontOfTrainCurrentTrack.MaxTrackSpeedKMH.ToString());
+
+
+                        row.SetField("Rear_Track", OBATP.RearOfTrainCurrentTrack.Track_ID.ToString());
+                        row.SetField("Rear_Track_Location", OBATP.ActualRearOfTrainCurrentLocation.ToString("0.##"));
+                        row.SetField("Rear_Track_Length", OBATP.RearOfTrainCurrentTrack.Track_Length.ToString());
+                        row.SetField("Rear_Track_Max_Speed", OBATP.RearOfTrainCurrentTrack.MaxTrackSpeedKMH.ToString());
+
+                        row.SetField("Total_Route_Distance", OBATP.TotalTrainDistance.ToString("0.##"));
+                    }
+
+                }
+
+
+                foreach (ListViewItem li in m_listView.Items)
+                {
+
+                    int itemText = Convert.ToInt32(li.Text);
+
+
+                   Track lolo = OBATP.TrainOnTracks.ActualLocationTracks.Find(x => x.Track_ID == itemText);
+
+                    if (lolo != null )
+                    {
+                        //li.ForeColor = Color.Red;
+                        li.BackColor = Color.Red;
+                    }
+                    else
+                    {
+                        li.BackColor = Color.White;
+                    }
+                }
+
+
+                //foreach (Track item in OBATP.TrainOnTracks.ActualLocationTracks)
                 //{
-                //    if (row["Train_Name"].ToString() == OBATP.Vehicle.TrainName)
-                //    {
-                //        row.SetField("Speed", OBATP.Vehicle.CurrentTrainSpeedKMH.ToString()); 
+                //   ListViewItem sdffsd = m_listView.FindItemWithText(item.Track_ID.ToString());
 
-                //        row.SetField("Front_Track", OBATP.FrontOfTrainCurrentTrack.Track_ID.ToString());
-                //        row.SetField("Front_Track_Location", OBATP.ActualFrontOfTrainCurrentLocation.ToString("0.##"));
-                //        row.SetField("Front_Track_Length", OBATP.FrontOfTrainCurrentTrack.Track_Length.ToString());
-                //        row.SetField("Front_Track_Max_Speed", OBATP.FrontOfTrainCurrentTrack.MaxTrackSpeedKMH.ToString());
+                //    sdffsd.ForeColor = Color.Red;
+                //}
+                //foreach (Track item in OBATP.fdgkldfgkljdlfkgf)
+                //{
+                //    ListViewItem sdffsd = m_listView.FindItemWithText(item.Track_ID.ToString());
 
-
-                //        row.SetField("Rear_Track", OBATP.RearOfTrainCurrentTrack.Track_ID.ToString());
-                //        row.SetField("Rear_Track_Location", OBATP.ActualRearCurrentLocation.ToString("0.##"));
-                //        row.SetField("Rear_Track_Length", OBATP.RearOfTrainCurrentTrack.Track_Length.ToString());
-                //        row.SetField("Rear_Track_Max_Speed", OBATP.RearOfTrainCurrentTrack.MaxTrackSpeedKMH.ToString());
-
-                //        row.SetField("Total_Route_Distance", OBATP.TotalTrainDistance.ToString("0.##"));
-                //    }
-
+                //    sdffsd.ForeColor = Color.Red;
                 //}
 
 
 
-
-
-                //string[] row = { textBox1.Text, textBox2.Text, textBox3.Text };
-                //var satir = new ListViewItem(row);
-
-                //foreach (var item in OBATP.TrainOnTracks.VirtualOccupationTracks)
-                //{
-                //    //m_listViewVirtualOccupation.Items.Add(new ListViewItem(new string[] { item.ToString() }));
-
-                //    bool hjhjhj = m_listViewVirtualOccupation.Items.Contains(new ListViewItem( item.ToString() ));
-
-                //    if (hjhjhj == false)
-                //        m_listViewVirtualOccupation.Items.Add(new ListViewItem( item.ToString() ));
-                //    else
-                //    {
-
-                //    }
-                //}
-
-
-
-
-               
-
-
-                //var sdf = m_dataGridViewAllTrains.SelectedRows[0].Cells;
-
-
-                int rowindex = m_dataGridViewAllTrains.CurrentCell.RowIndex;
-            int columnindex = m_dataGridViewAllTrains.CurrentCell.ColumnIndex;
-
-            string id = m_dataGridViewAllTrains.SelectedCells[1].Value.ToString();
-
-
-                if (m_comboBoxTrain.SelectedIndex == OBATP.Vehicle.TrainIndex)
+                if (m_comboBoxTrain.SelectedIndex == OBATP.Vehicle.TrainIndex - 1)
                 {
 
                     //general train
                     DisplayManager.TextBoxInvoke(m_textBoxCurrentTrainSpeedKM, OBATP.Vehicle.CurrentTrainSpeedKMH.ToString());
                     DisplayManager.TextBoxInvoke(m_textBoxCurrentLocation, OBATP.ActualFrontOfTrainCurrentLocation.ToString("0.##"));
-                    DisplayManager.TextBoxInvoke(m_textBoxRearCurrentLocation, OBATP.ActualRearCurrentLocation.ToString("0.##"));
+                    DisplayManager.TextBoxInvoke(m_textBoxRearCurrentLocation, OBATP.ActualRearOfTrainCurrentLocation.ToString("0.##"));
                     DisplayManager.TextBoxInvoke(m_textBoxCurrentAcceleration, (OBATP.Vehicle.CurrentAcceleration / 100).ToString("0.##"));
 
-                    //front current track
-                    DisplayManager.TextBoxInvoke(m_textBoxFrontCurrentTrackID, OBATP.FrontOfTrainCurrentTrack.Track_ID.ToString());
-                    DisplayManager.TextBoxInvoke(m_textBoxFrontCurrentTrackLength, OBATP.FrontOfTrainCurrentTrack.Track_Length.ToString());
-                    //DisplayManager.TextBoxInvoke(m_textBoxFrontCurrentTrackDwellTime, );
-                    DisplayManager.TextBoxInvoke(m_textBoxFrontCurrentTrackSpeedChangeVMax, OBATP.FrontOfTrainCurrentTrack.SpeedChangeVMax.ToString());
-                    DisplayManager.TextBoxInvoke(m_textBoxFrontCurrentTrackStation, OBATP.FrontOfTrainCurrentTrack.Station_Name);
-                    DisplayManager.TextBoxInvoke(m_textBoxFrontCurrentTrackMaxSpeedKM, OBATP.FrontOfTrainCurrentTrack.MaxTrackSpeedKMH.ToString());
-                    DisplayManager.TextBoxInvoke(m_textBoxFrontCurrentTrackVirtualOccupationTrackID, OBATP.FrontOfTrainVirtualOccupation.Track.Track_ID.ToString());
-                    DisplayManager.TextBoxInvoke(m_textBoxFrontCurrentVirtualOccupationTrackLocation, OBATP.FrontOfTrainVirtualOccupation.Location.ToString("0.##"));
-
-                    //rear current track
-                    DisplayManager.TextBoxInvoke(m_textBoxRearCurrentTrackID, OBATP.RearOfTrainCurrentTrack.Track_ID.ToString());
-                    DisplayManager.TextBoxInvoke(m_textBoxRearCurrentTrackSpeedChangeVMax, OBATP.RearOfTrainCurrentTrack.SpeedChangeVMax.ToString());
-                    //DisplayManager.TextBoxInvoke(m_textBoxRearCurrentTrackVirtualOccupationTrackID, OBATP.VirtualOccupationRearTrack.Track_ID.ToString());
-                    //DisplayManager.TextBoxInvoke(m_textBoxRearCurrentVirtualOccupationTrackLocation, OBATP.VirtualOccupationRearTrackLocation.ToString());
-
-                    DisplayManager.TextBoxInvoke(m_textBoxFrontCurrentTrackDwellTime, OBATP.DwellTime.ToString());
-                    DisplayManager.TextBoxInvoke(m_textBoxDoorTimerCounter, OBATP.DoorTimerCounter.ToString());
-
-                    if(OBATP.DoorStatus == Enums.DoorStatus.Open)
-                        DisplayManager.TextBoxInvoke(m_textBoxDoorStatus, "Open");
+                    if (OBATP.DoorStatus == Enums.DoorStatus.Open)
+                        m_pictureBoxDoorStatus.Image = Properties.Resources.dooropen;
                     else
-                        DisplayManager.TextBoxInvoke(m_textBoxDoorStatus, "Close");
+                        m_pictureBoxDoorStatus.Image = Properties.Resources.doorclose;
 
-                   
+ 
+ 
+
+               
+                    //DisplayManager.TextBoxInvoke(m_textBoxDoorTimerCounter, OBATP.DoorTimerCounter.ToString());
+
+                    //if (OBATP.DoorStatus == Enums.DoorStatus.Open)
+                    //    DisplayManager.TextBoxInvoke(m_textBoxDoorStatus, "Open");
+                    //else
+                    //    DisplayManager.TextBoxInvoke(m_textBoxDoorStatus, "Close");
+
+
                 }
 
-             
+
             }
 
 
@@ -315,7 +318,7 @@ namespace OnBoard
             //if (m_comboBoxTrain.SelectedIndex == OBATP.Vehicle.TrainIndex)
             //{
             m_listView.Items.Clear();
-            route.Route_Tracks.ForEach(x => m_listView.Items.Add(new ListViewItem(new string[] { x.Track_ID.ToString(), x.Station_Name })));
+            route.Route_Tracks.ForEach(x => m_listView.Items.Add(new ListViewItem(new string[] { x.Track_ID.ToString(), x.Station_Name, x.SpeedChangeVMax.ToString() })));
             //}
         }
         #endregion
@@ -346,61 +349,62 @@ namespace OnBoard
             int counter = 0;
 
 
+            OBATPPool<OBATP> pool = new OBATPPool<OBATP>(() => new OBATP());
+
+
             foreach (var item in m_settings.Trains)
             {
                 counter++;
-                //Route route = allRoute.Find(x => x.Entry_Track_ID == 10105 && x.Exit_Track_ID == 10107);
-                //Route route = allRoute.Find(x => x.Entry_Track_ID == 10107 && x.Exit_Track_ID == 10201);
-                //Route route = allRoute.Find(x => x.Entry_Track_ID == 10103 && x.Exit_Track_ID == 10201);
-
-                //Route.CreateNewRoute(route);
-
-                //10107, 10203
-                Route route = Route.CreateNewRoute(10101, 10211, allTracks);
-
-                //Route route = Route.CreateNewRoute(10101, 10211, allTracks);
-                //Route route = Route.CreateNewRoute(10103, 10301, allTracks);
-
 
 
                 int trainIndex = item;
-                string trainName  = "Train" + (trainIndex + 1).ToString();
+                string trainName = "Train" + (trainIndex + 1).ToString();
 
                 DataRow row2 = m_dataTable.NewRow();
                 row2["ID"] = counter;
                 row2["Train_Name"] = trainName;
-               m_dataTable.Rows.Add(row2);
+                m_dataTable.Rows.Add(row2);
 
-                DisplayManager.RichTextBoxInvoke(m_richTextBox, trainName + " is Created...", Color.Black);
+                // DisplayManager.RichTextBoxInvoke(m_richTextBox, trainName + " is Created...", Color.Black);
 
 
+              
+               
 
-                OBATP oBATP = new OBATP(trainIndex, trainName, m_settings.MaxTrainAcceleration, m_settings.MaxTrainDeceleration, m_settings.TrainSpeedLimit, m_settings.TrainLength, route);
 
-                //m_allOBATP.TryAdd(trainIndex, oBATP);
-                //m_allOBATP.AddOrUpdate(trainIndex, oBATP, (s, i) => oBATP);
+                OBATP oBATP = new OBATP(Enums.Train_ID.Train1, trainName, m_settings.MaxTrainAcceleration, m_settings.MaxTrainDeceleration, m_settings.TrainSpeedLimit, m_settings.TrainLength, m_route);
+
+                MainForm.m_WSATP_TO_OBATPMessageInComing.AddWatcher(oBATP);
+                MainForm.m_ATS_TO_OBATO_InitMessageInComing.AddWatcher(oBATP);
+                MainForm.m_ATS_TO_OBATO_MessageInComing.AddWatcher(oBATP);
+
+                //pool.PutObject(oBATP);
+
+
+                // //m_allOBATP.TryAdd(trainIndex, oBATP);
+                // //m_allOBATP.AddOrUpdate(trainIndex, oBATP, (s, i) => oBATP);
 
                 oBATP.RequestStartProcess();
 
 
-                int sleepTime = Convert.ToInt32(m_settings.TrainFrequency);
+                // int sleepTime = Convert.ToInt32(m_settings.TrainFrequency);
 
-                sw.Start();
+                // sw.Start();
 
 
 
-                while (sw.Elapsed.TotalSeconds < (sleepTime))
-                {
+                // while (sw.Elapsed.TotalSeconds < (sleepTime))
+                // {
 
-                }
+                // }
 
-                sw.Reset();
+                // sw.Reset();
 
 
             }
 
 
-
+            //OBATP dsfregr = pool.GetObject();
         }
 
 
@@ -475,7 +479,7 @@ namespace OnBoard
 
         private void m_mainMenu_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
-
+           
         }
 
         private void m_communicationItem_Click(object sender, EventArgs e)
@@ -497,39 +501,14 @@ namespace OnBoard
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
+       
 
-
-            int saf =  CentimeterToPixel(1);
-
-            //Graphics g = panel1.CreateGraphics();
-
-
-
-
-            ////Graphics g = e.Graphics;
-
-            //g.DrawLine(Pens.Blue, new Point(50, 100), new Point(100, 40));
-
-            //g.Dispose();
-        }
-
-        int CentimeterToPixel(double Centimeter)
-        {
-            double pixel = -1;
-            using (Graphics g = this.CreateGraphics())
-            {
-                pixel = Centimeter * g.DpiY / 2.54d;
-            }
-            return (int)pixel;
-        }
-
+    
         private void m_trainSimItem_Click(object sender, EventArgs e)
         {
             TrainSimModal trainSimModal = new TrainSimModal();
             trainSimModal.Owner = this;
-            trainSimModal.ShowDialog();
+            trainSimModal.Show();
         }
 
         private void m_routeItem_Click(object sender, EventArgs e)

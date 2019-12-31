@@ -193,5 +193,45 @@ namespace OnBoard
             //    return;
             //}
         }
+
+
+        public Track FindNextTrack(Track track, Enums.Direction direction, List<Track> route, List<Track> allTracks)// rota zaten bütün trackleri içermiyor mu? burayı inceleyip anlamak lazım
+        {
+            // Tekrar bir gözden geçir
+            Track nextTrack = null;
+
+            if (route.Count > 1)
+            {
+                if (track != route[route.Count - 1])
+                {
+                    nextTrack = route[route.IndexOf(track) + 1];
+                }
+                else if (track == route[route.Count - 1])
+                {
+                    if (direction == Enums.Direction.Right)
+                    {
+                        //neden sonraki tracki bütün trackler tablosundan arıyoruz?? anlamadım
+                        nextTrack = allTracks.Find(x => x.Track_ID == track.Track_Connection_Exit_1);
+                    }
+                    else if (direction == Enums.Direction.Left)
+                    {
+                        //neden sonraki tracki bütün trackler tablosundan arıyoruz?? anlamadım
+                        // tren geri geldiği için ama emin değilim ters gelişi sormak lazım
+                        nextTrack = allTracks.Find(x => x.Track_ID == track.Track_Connection_Entry_1);
+
+
+                    }
+                }
+            }
+            else
+            {
+                ////şimdilik kal
+                //FrontOfTrainNextTrack = null;
+                //RearOfTrainNextTrack = null;
+            }
+
+            return nextTrack;
+
+        }
     }
 }

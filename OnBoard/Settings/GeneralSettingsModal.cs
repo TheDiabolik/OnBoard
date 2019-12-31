@@ -26,6 +26,17 @@ namespace OnBoard
 
 
 
+            m_textBoxStartRangeTrackID.Text = m_settings.StartTrackID.ToString();
+            m_textBoxEndRangeTrackID.Text = m_settings.EndTrackID.ToString();
+
+
+            if (m_settings.TrackInput == Enums.TrackInput.Manuel)
+                m_radioButtonManuelInputTracks.Checked = true;
+            else
+                m_radioButtonFromFileTracks.Checked = true;
+             
+
+
             m_numericUpDownTrainFrequency.Value = m_settings.TrainFrequency;
         }
 
@@ -60,7 +71,20 @@ namespace OnBoard
             }
 
 
-            m_settings.TrainFrequency = m_numericUpDownTrainFrequency.Value; 
+            m_settings.TrainFrequency = m_numericUpDownTrainFrequency.Value;
+
+
+
+
+            m_settings.StartTrackID = Convert.ToInt32(m_textBoxStartRangeTrackID.Text);
+            m_settings.EndTrackID = Convert.ToInt32(m_textBoxEndRangeTrackID.Text);
+
+            if (m_radioButtonManuelInputTracks.Checked)
+                m_settings.TrackInput = Enums.TrackInput.Manuel;
+
+            if (m_radioButtonFromFileTracks.Checked)
+                m_settings.TrackInput = Enums.TrackInput.FromFile;
+
 
             m_settings.Serialize(m_settings);
 
