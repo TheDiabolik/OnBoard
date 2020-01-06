@@ -9,6 +9,7 @@ namespace OnBoard
     public interface ITrainMovementWatcher
     {
         void TrainMovementCreated(OBATP OBATP);
+        void TrainMovementUI(UIOBATP UIOBATP);
         void TrainMovementRouteCreated(Route route);
     }
 }

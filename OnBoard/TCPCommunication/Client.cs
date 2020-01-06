@@ -14,7 +14,7 @@ namespace OnBoard
 {
     partial class SocketCommunication
     {
-        public class Client : ITrainMovementWatcher
+        public class Client : ITrainCreateWatcher, ITrainMovementWatcher
         {
             #region variables
             private static Client m_do = null;
@@ -42,9 +42,14 @@ namespace OnBoard
                 m_timer = new System.Timers.Timer(1000);
                 m_timer.Elapsed += m_stopWatch_Elapsed;
 
+                //train create
+                MainForm.m_trainCreate.AddWatcher(this);
+
+
+                //movement
                 MainForm.m_trainMovement.AddWatcher(this);
 
-
+               
 
                 //MainForm.m_WSATP_TO_OBATPMessageInComing.AddWatcher((MainForm.m_mf);
 
@@ -91,23 +96,31 @@ namespace OnBoard
  
             public void StartClient(string ipAddress, int port)
             {
-
-                DisplayManager.RichTextBoxInvoke(MainForm.m_mf.m_richTextBox, "Try to Connect WaySide...", Color.DarkRed);
-
-
-                if (m_timer.Enabled)
-                    m_timer.Stop();
+                try
+                {
+                    DisplayManager.RichTextBoxInvoke(MainForm.m_mf.m_richTextBox, "Try to Connect WaySide...", Color.DarkRed);
 
 
-                m_timer.Start();
-                m_stopWatch.Start();
-                 
+                    if (m_timer.Enabled)
+                        m_timer.Stop();
 
-                m_clientSock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                m_clientSock.NoDelay = true;
-                m_clientSock.SetSocketOption(SocketOptionLevel.Tcp, SocketOptionName.NoDelay, true);
 
-                m_clientSock.BeginConnect(new IPEndPoint(IPAddress.Parse(ipAddress), port), new AsyncCallback(ClientConnectProc), null);
+                    m_timer.Start();
+                    m_stopWatch.Start();
+
+
+                    m_clientSock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                    m_clientSock.NoDelay = true;
+                    m_clientSock.SetSocketOption(SocketOptionLevel.Tcp, SocketOptionName.NoDelay, true);
+
+                    m_clientSock.BeginConnect(new IPEndPoint(IPAddress.Parse(ipAddress), port), new AsyncCallback(ClientConnectProc), null);
+                }
+                catch(Exception ex)
+                {
+                    Logging.WriteLog(ex.Message.ToString(), ex.StackTrace.ToString(), ex.TargetSite.ToString(), "StartClient");
+
+                }
+              
 
             }
 
@@ -246,28 +259,7 @@ namespace OnBoard
 
 
 
-
-
-
-
-
-                    //if (messageID == (uint)Enums.Message.ID.OBATP_TO_WSATP)
-                    //{
-                    //    Message message = new Message(incomingBytes);
-                    //}
-                    //else if(messageID == (uint)Enums.Message.ID.WSATP_TO_OBATP)
-                    //{
-                    //    Message message = new Message(incomingBytes);
-
-                    //    MessageSelector messageSelector = new MessageSelector();
-                    //    IMessageType messageType = messageSelector.GetMessageType((Enums.Message.ID)messageID);
-
-
-
-                    //}
-
-
-
+  
 
 
                     if (!m_stopWatch.IsRunning)
@@ -397,6 +389,30 @@ namespace OnBoard
             #endregion
 
 
+            #region train created
+            public void TrainCreated(OBATP OBATP)
+            {
+
+                lock (OBATP)
+                {
+                    using (OBATO_TO_ATSAdapter adappppppppp = new OBATO_TO_ATSAdapter(OBATP))
+                    {
+                        byte[] OBATO_TO_ATS_ByteArray = adappppppppp.ToByte();
+
+                        MessageCreator messageCreator = new MessageCreator();
+                        OBATO_TO_ATS_MessageBuilder OBATO_TO_ATS_Message = new OBATO_TO_ATS_MessageBuilder();
+
+                        messageCreator.SetMessageBuilder(OBATO_TO_ATS_Message);
+                        messageCreator.CreateMessage(1, (UInt32)OBATP.OBATP_ID, DateTimeExtensions.GetAllMiliSeconds(), 1, OBATO_TO_ATS_ByteArray, 47851476196393100);
+
+                        Message message = messageCreator.GetMessage();
+
+                        var dsfsd = message.ToByte();
+                        //SendMsgToServer(message.ToByte());
+                    }
+                }
+            }
+            #endregion
 
 
             #region createdevent
@@ -529,8 +545,13 @@ namespace OnBoard
             {
                
             }
-            #endregion
 
+            public void TrainMovementUI(UIOBATP UIOBATP)
+            {
+
+            }
+                #endregion
+
+            }
         }
-    }
 }

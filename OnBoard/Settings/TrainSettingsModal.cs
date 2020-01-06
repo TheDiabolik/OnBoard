@@ -24,13 +24,13 @@ namespace OnBoard
             m_settings = m_settings.DeSerialize(m_settings);
 
             //ayarları atama
-            m_textBoxTrainLength.Text = m_settings.TrainLength.ToString();
+            m_textBoxTrainLength.Text = Convert.ToString(m_settings.TrainLength);
             m_textBoxTrainDeceleration.Text = m_settings.MaxTrainDeceleration.ToString();
             m_textBoxTrainAcceleration.Text = m_settings.MaxTrainAcceleration.ToString();
             m_textBoxTrainSpeedLimit.Text = m_settings.TrainSpeedLimit.ToString();
 
-
-          
+            //focuslama için
+            this.ActiveControl = m_labelMaxTrainAcceleration; 
         }
 
         public TrainSettingsModal(MainForm mf) : this()
@@ -40,7 +40,7 @@ namespace OnBoard
 
         private void TrainSettings_Load(object sender, EventArgs e)
         {
-            
+           
         }
 
         private void m_buttonSave_Click(object sender, EventArgs e)

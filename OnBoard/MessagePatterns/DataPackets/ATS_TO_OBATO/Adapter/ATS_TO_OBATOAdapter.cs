@@ -70,6 +70,8 @@ namespace OnBoard
             this.SkipStation = Convert.ToBoolean(ATS_TO_OBATO.SkipStation);
             this.CancelSkipStation = Convert.ToBoolean(ATS_TO_OBATO.CancelSkipStation);
             this.StandbyCmd = Convert.ToBoolean(ATS_TO_OBATO.StandbyCmd);
+
+            //buna bakılacak
             this.WakeUpTrain = Convert.ToBoolean(ATS_TO_OBATO.WakeUpTrain);
 
             //

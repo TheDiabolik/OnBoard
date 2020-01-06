@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TrackSettingsModal));
             this.m_dataGridViewManuelInputTrack = new System.Windows.Forms.DataGridView();
             this.m_buttonApply = new System.Windows.Forms.Button();
             this.m_buttonSave = new System.Windows.Forms.Button();
@@ -48,7 +49,7 @@
             this.m_dataGridViewManuelInputTrack.AllowUserToDeleteRows = false;
             this.m_dataGridViewManuelInputTrack.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.m_dataGridViewManuelInputTrack.Location = new System.Drawing.Point(2, 5);
-            this.m_dataGridViewManuelInputTrack.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.m_dataGridViewManuelInputTrack.Margin = new System.Windows.Forms.Padding(2);
             this.m_dataGridViewManuelInputTrack.MultiSelect = false;
             this.m_dataGridViewManuelInputTrack.Name = "m_dataGridViewManuelInputTrack";
             this.m_dataGridViewManuelInputTrack.RowTemplate.Height = 24;
@@ -61,7 +62,7 @@
             this.m_buttonApply.Image = global::OnBoard.Properties.Resources.apply;
             this.m_buttonApply.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.m_buttonApply.Location = new System.Drawing.Point(871, 428);
-            this.m_buttonApply.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.m_buttonApply.Margin = new System.Windows.Forms.Padding(2);
             this.m_buttonApply.Name = "m_buttonApply";
             this.m_buttonApply.Size = new System.Drawing.Size(83, 48);
             this.m_buttonApply.TabIndex = 30;
@@ -74,7 +75,7 @@
             // 
             this.m_buttonSave.Image = global::OnBoard.Properties.Resources.save;
             this.m_buttonSave.Location = new System.Drawing.Point(784, 428);
-            this.m_buttonSave.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.m_buttonSave.Margin = new System.Windows.Forms.Padding(2);
             this.m_buttonSave.Name = "m_buttonSave";
             this.m_buttonSave.Size = new System.Drawing.Size(83, 48);
             this.m_buttonSave.TabIndex = 29;
@@ -134,7 +135,8 @@
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.m_buttonApply);
             this.Controls.Add(this.m_buttonSave);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.Name = "TrackSettingsModal";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

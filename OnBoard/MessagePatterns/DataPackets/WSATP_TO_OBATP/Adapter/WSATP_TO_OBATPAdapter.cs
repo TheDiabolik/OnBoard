@@ -38,7 +38,7 @@ namespace OnBoard
 
 
 
-            Track TrackSectionID1 = MainForm.allTracks.Find(x => x.Track_ID == Convert.ToInt32(WSATP_TO_OBATP.TrackSectionID1));
+            Track TrackSectionID1 = MainForm.m_allTracks.Find(x => x.Track_ID == Convert.ToInt32(WSATP_TO_OBATP.TrackSectionID1));
 
             if (TrackSectionID1 != null)
             {
@@ -47,7 +47,7 @@ namespace OnBoard
             }
 
 
-            Track TrackSectionID2 = MainForm.allTracks.Find(x => x.Track_ID == Convert.ToInt32(WSATP_TO_OBATP.TrackSectionID2));
+            Track TrackSectionID2 = MainForm.m_allTracks.Find(x => x.Track_ID == Convert.ToInt32(WSATP_TO_OBATP.TrackSectionID2));
 
             if (TrackSectionID2 != null)
             {
@@ -55,7 +55,7 @@ namespace OnBoard
                 this.MovementAuthorityTracks.Add(TrackSectionID2);
             }
 
-            Track TrackSectionID3 = MainForm.allTracks.Find(x => x.Track_ID == Convert.ToInt32(WSATP_TO_OBATP.TrackSectionID3));
+            Track TrackSectionID3 = MainForm.m_allTracks.Find(x => x.Track_ID == Convert.ToInt32(WSATP_TO_OBATP.TrackSectionID3));
 
             if (TrackSectionID3 != null)
             {
@@ -63,7 +63,7 @@ namespace OnBoard
                 this.MovementAuthorityTracks.Add(TrackSectionID3);
             }
 
-            Track TrackSectionID4 = MainForm.allTracks.Find(x => x.Track_ID == Convert.ToInt32(WSATP_TO_OBATP.TrackSectionID4));
+            Track TrackSectionID4 = MainForm.m_allTracks.Find(x => x.Track_ID == Convert.ToInt32(WSATP_TO_OBATP.TrackSectionID4));
 
             if (TrackSectionID4 != null)
             {
@@ -71,7 +71,7 @@ namespace OnBoard
                 this.MovementAuthorityTracks.Add(TrackSectionID4);
             }
 
-            Track TrackSectionID5 = MainForm.allTracks.Find(x => x.Track_ID == Convert.ToInt32(WSATP_TO_OBATP.TrackSectionID5));
+            Track TrackSectionID5 = MainForm.m_allTracks.Find(x => x.Track_ID == Convert.ToInt32(WSATP_TO_OBATP.TrackSectionID5));
 
             if (TrackSectionID5 != null)
             {
@@ -79,7 +79,7 @@ namespace OnBoard
                 this.MovementAuthorityTracks.Add(TrackSectionID5);
             }
 
-            Track TrackSectionID6 = MainForm.allTracks.Find(x => x.Track_ID == Convert.ToInt32(WSATP_TO_OBATP.TrackSectionID6));
+            Track TrackSectionID6 = MainForm.m_allTracks.Find(x => x.Track_ID == Convert.ToInt32(WSATP_TO_OBATP.TrackSectionID6));
 
             if (TrackSectionID6 != null)
             {
@@ -89,7 +89,7 @@ namespace OnBoard
 
 
 
-            Track TrackSectionID7 = MainForm.allTracks.Find(x => x.Track_ID == Convert.ToInt32(WSATP_TO_OBATP.TrackSectionID7));
+            Track TrackSectionID7 = MainForm.m_allTracks.Find(x => x.Track_ID == Convert.ToInt32(WSATP_TO_OBATP.TrackSectionID7));
 
             if (TrackSectionID7 != null)
             {
@@ -99,7 +99,7 @@ namespace OnBoard
 
 
 
-            Track TrackSectionID8 = MainForm.allTracks.Find(x => x.Track_ID == Convert.ToInt32(WSATP_TO_OBATP.TrackSectionID8));
+            Track TrackSectionID8 = MainForm.m_allTracks.Find(x => x.Track_ID == Convert.ToInt32(WSATP_TO_OBATP.TrackSectionID8));
 
             if (TrackSectionID8 != null)
             {
@@ -107,7 +107,7 @@ namespace OnBoard
                 this.MovementAuthorityTracks.Add(TrackSectionID8);
             }
 
-            Track TrackSectionID9 = MainForm.allTracks.Find(x => x.Track_ID == Convert.ToInt32(WSATP_TO_OBATP.TrackSectionID9));
+            Track TrackSectionID9 = MainForm.m_allTracks.Find(x => x.Track_ID == Convert.ToInt32(WSATP_TO_OBATP.TrackSectionID9));
 
             if (TrackSectionID9 != null)
             {
@@ -115,7 +115,7 @@ namespace OnBoard
                 this.MovementAuthorityTracks.Add(TrackSectionID9);
             }
 
-            Track TrackSectionID10 = MainForm.allTracks.Find(x => x.Track_ID == Convert.ToInt32(WSATP_TO_OBATP.TrackSectionID10));
+            Track TrackSectionID10 = MainForm.m_allTracks.Find(x => x.Track_ID == Convert.ToInt32(WSATP_TO_OBATP.TrackSectionID10));
 
             if (TrackSectionID10 != null)
             {
@@ -127,7 +127,7 @@ namespace OnBoard
             ///
 
 
-            Track TrackSectionID11 = MainForm.allTracks.Find(x => x.Track_ID == Convert.ToInt32(WSATP_TO_OBATP.TrackSectionID11));
+            Track TrackSectionID11 = MainForm.m_allTracks.Find(x => x.Track_ID == Convert.ToInt32(WSATP_TO_OBATP.TrackSectionID11));
 
             if (TrackSectionID11 != null)
             {
@@ -136,7 +136,7 @@ namespace OnBoard
             }
 
 
-            Track TrackSectionID12 = MainForm.allTracks.Find(x => x.Track_ID == Convert.ToInt32(WSATP_TO_OBATP.TrackSectionID12));
+            Track TrackSectionID12 = MainForm.m_allTracks.Find(x => x.Track_ID == Convert.ToInt32(WSATP_TO_OBATP.TrackSectionID12));
 
             if (TrackSectionID12 != null)
             {
@@ -144,7 +144,7 @@ namespace OnBoard
                 this.MovementAuthorityTracks.Add(TrackSectionID12);
             }
 
-            Track TrackSectionID13 = MainForm.allTracks.Find(x => x.Track_ID == Convert.ToInt32(WSATP_TO_OBATP.TrackSectionID13));
+            Track TrackSectionID13 = MainForm.m_allTracks.Find(x => x.Track_ID == Convert.ToInt32(WSATP_TO_OBATP.TrackSectionID13));
 
             if (TrackSectionID13 != null)
             {
@@ -152,7 +152,7 @@ namespace OnBoard
                 this.MovementAuthorityTracks.Add(TrackSectionID13);
             }
 
-            Track TrackSectionID14 = MainForm.allTracks.Find(x => x.Track_ID == Convert.ToInt32(WSATP_TO_OBATP.TrackSectionID14));
+            Track TrackSectionID14 = MainForm.m_allTracks.Find(x => x.Track_ID == Convert.ToInt32(WSATP_TO_OBATP.TrackSectionID14));
 
             if (TrackSectionID14 != null)
             {
@@ -160,7 +160,7 @@ namespace OnBoard
                 this.MovementAuthorityTracks.Add(TrackSectionID14);
             }
 
-            Track TrackSectionID15 = MainForm.allTracks.Find(x => x.Track_ID == Convert.ToInt32(WSATP_TO_OBATP.TrackSectionID15));
+            Track TrackSectionID15 = MainForm.m_allTracks.Find(x => x.Track_ID == Convert.ToInt32(WSATP_TO_OBATP.TrackSectionID15));
 
             if (TrackSectionID15 != null)
             {
@@ -168,7 +168,7 @@ namespace OnBoard
                 this.MovementAuthorityTracks.Add(TrackSectionID15);
             }
 
-            Track TrackSectionID16 = MainForm.allTracks.Find(x => x.Track_ID == Convert.ToInt32(WSATP_TO_OBATP.TrackSectionID16));
+            Track TrackSectionID16 = MainForm.m_allTracks.Find(x => x.Track_ID == Convert.ToInt32(WSATP_TO_OBATP.TrackSectionID16));
 
             if (TrackSectionID16 != null)
             {
@@ -178,7 +178,7 @@ namespace OnBoard
 
 
 
-            Track TrackSectionID17 = MainForm.allTracks.Find(x => x.Track_ID == Convert.ToInt32(WSATP_TO_OBATP.TrackSectionID17));
+            Track TrackSectionID17 = MainForm.m_allTracks.Find(x => x.Track_ID == Convert.ToInt32(WSATP_TO_OBATP.TrackSectionID17));
 
             if (TrackSectionID17 != null)
             {
@@ -188,7 +188,7 @@ namespace OnBoard
 
 
 
-            Track TrackSectionID18 = MainForm.allTracks.Find(x => x.Track_ID == Convert.ToInt32(WSATP_TO_OBATP.TrackSectionID18));
+            Track TrackSectionID18 = MainForm.m_allTracks.Find(x => x.Track_ID == Convert.ToInt32(WSATP_TO_OBATP.TrackSectionID18));
 
             if (TrackSectionID18 != null)
             {
@@ -196,7 +196,7 @@ namespace OnBoard
                 this.MovementAuthorityTracks.Add(TrackSectionID18);
             }
 
-            Track TrackSectionID19 = MainForm.allTracks.Find(x => x.Track_ID == Convert.ToInt32(WSATP_TO_OBATP.TrackSectionID19));
+            Track TrackSectionID19 = MainForm.m_allTracks.Find(x => x.Track_ID == Convert.ToInt32(WSATP_TO_OBATP.TrackSectionID19));
 
             if (TrackSectionID19 != null)
             {
@@ -204,7 +204,7 @@ namespace OnBoard
                 this.MovementAuthorityTracks.Add(TrackSectionID19);
             }
 
-            Track TrackSectionID20 = MainForm.allTracks.Find(x => x.Track_ID == Convert.ToInt32(WSATP_TO_OBATP.TrackSectionID20));
+            Track TrackSectionID20 = MainForm.m_allTracks.Find(x => x.Track_ID == Convert.ToInt32(WSATP_TO_OBATP.TrackSectionID20));
 
             if (TrackSectionID20 != null)
             {

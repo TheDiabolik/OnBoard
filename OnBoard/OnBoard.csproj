@@ -61,8 +61,14 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MessagePatterns\DataPackets\OBATP_TO_WSATP\OBATP_TO_WSATPAdaptee.cs" />
-    <Compile Include="MessagePatterns\DataPackets\OBATP_TO_WSATP\OBATP_TO_WSATPAdapter.cs" />
+    <Compile Include="BoolExtensions.cs" />
+    <Compile Include="HelperClass.cs" />
+    <Compile Include="Logging.cs" />
+    <Compile Include="MessagePatterns\DataPackets\OBATO_TO_ATS\Adapter\OBATO_TO_ATSAdaptee.cs" />
+    <Compile Include="MessagePatterns\DataPackets\OBATO_TO_ATS\Adapter\OBATO_TO_ATSAdapter.cs" />
+    <Compile Include="MessagePatterns\DataPackets\OBATP_TO_WSATP\Adapter\OBATP_TO_WSATPAdaptee.cs" />
+    <Compile Include="MessagePatterns\DataPackets\OBATP_TO_WSATP\Adapter\OBATP_TO_WSATPAdapter.cs" />
+    <Compile Include="MessagePatterns\MessageBuilder\OBATO_TO_ATS_MessageBuilder.cs" />
     <Compile Include="MessagePatterns\MessageObserver\ATS_TO_OBATO_Init_MessageObserver\ATS_TO_OBATO_InitMessageInComing.cs" />
     <Compile Include="MessagePatterns\MessageObserver\ATS_TO_OBATO_Init_MessageObserver\IATS_TO_OBATO_InitMessageCreate.cs" />
     <Compile Include="MessagePatterns\MessageObserver\ATS_TO_OBATO_Init_MessageObserver\IATS_TO_OBATO_InitMessageWatcher.cs" />
@@ -92,6 +98,13 @@
     <Compile Include="MessagePatterns\DataPackets\WSATP_TO_OBATP\Adapter\WSATP_TO_OBATPAdaptee.cs" />
     <Compile Include="MessagePatterns\DataPackets\WSATP_TO_OBATP\Adapter\WSATP_TO_OBATPAdapter.cs" />
     <Compile Include="OBATPPool.cs" />
+    <Compile Include="OBATPUIPartial.cs" />
+    <Compile Include="TrainCoupledExtensions.cs" />
+    <Compile Include="TrainCreateObserver\ITrainCreate.cs" />
+    <Compile Include="TrainCreateObserver\ITrainCreateWatcher.cs" />
+    <Compile Include="TrainCreateObserver\TrainCreate.cs" />
+    <Compile Include="UIAdapter\OBATPUIAdaptee.cs" />
+    <Compile Include="UIAdapter\OBATPUIAdapter.cs" />
     <Compile Include="Settings\CommunicationSettingsModal.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -151,6 +164,7 @@
     <Compile Include="ModalForms\TrainSimModal.Designer.cs">
       <DependentUpon>TrainSimModal.cs</DependentUpon>
     </Compile>
+    <Compile Include="UIOperation\UIOBATP.cs" />
     <Compile Include="UIOperation\UIOperation.cs" />
     <Compile Include="UnitConversion.cs" />
     <Compile Include="Vehicle\IVehicle.cs" />
@@ -211,6 +225,8 @@
   <ItemGroup>
     <None Include="Resources\dooropen.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\24-HotTrain.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -15,6 +15,7 @@
   <StartTrackID>10103</StartTrackID>
   <EndTrackID>10305</EndTrackID>
   <TrackInput>FromFile</TrackInput>
+  <CommunicationType>Server</CommunicationType>
   <RouteTrack>
     <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
       <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:MainDataTable="RouteTrack" msdata:UseCurrentLocale="true">
@@ -165,5 +166,7 @@
   <TrainFrequency>5</TrainFrequency>
   <Trains>
     <int>0</int>
+    <int>4</int>
+    <int>9</int>
   </Trains>
 </XMLSerialization>

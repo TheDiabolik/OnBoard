@@ -494,6 +494,13 @@ namespace OnBoard
                 routeLength += track.Track_Length;
             }
 
+            //foreach (Track track in route.Route_Tracks)
+            //{
+            //    track.StartPositionInRoute = track.Track_Start_Position;
+            //    track.StopPositionInRoute = track.Track_End_Position;
+            //    routeLength += track.Track_Length;
+            //}
+
             route.Length = routeLength;
 
 

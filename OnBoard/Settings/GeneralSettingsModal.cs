@@ -93,5 +93,28 @@ namespace OnBoard
             if ((Button)sender == m_buttonApply)
                 this.Close();
         }
+
+        private void GeneralSettingsModal_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            m_settings = m_settings.DeSerialize(m_settings);
+
+
+            MainForm.m_allOBATP.Clear();
+
+
+            foreach (int index in m_settings.Trains)
+            {
+
+                int trainIndex = index;
+                string trainName = "Train" + (trainIndex + 1).ToString();
+
+                OBATP OBATP = new OBATP((Enums.Train_ID)trainIndex, trainName, m_settings.MaxTrainAcceleration, m_settings.MaxTrainDeceleration, m_settings.TrainSpeedLimit, m_settings.TrainLength, MainForm.m_route);
+
+                MainForm.m_allOBATP.TryAdd(index, OBATP);
+
+
+            }
+
+        }
     }
 }

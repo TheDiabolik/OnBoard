@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,10 +9,14 @@ namespace OnBoard
 {
     public struct Vehicle : IVehicle
     {
+
+        //[DisplayName("First Name")]
         public int TrainIndex { get; set; }
 
         public Enums.Train_ID TrainID { get; set; }
 
+
+        //[DisplayName("First Name"), Description("Emp Last Name")]
         public string TrainName { get; set; }
 
         /// <summary>

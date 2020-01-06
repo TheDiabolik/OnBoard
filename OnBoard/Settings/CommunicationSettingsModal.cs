@@ -37,7 +37,10 @@ namespace OnBoard
             m_ıpAddressControlOBATPToWSATC.Text = m_settings.OBATPToWSATCIPAddress;
             m_textBoxOBATPToWSATCPort.Text = m_settings.OBATPToWSATCPort;
 
-
+            if (m_settings.CommunicationType == Enums.CommunicationType.Server)
+                m_radioButtonServer.Checked = true;
+            else
+                m_radioButtonClient.Checked = true;
         }
 
 
@@ -59,6 +62,13 @@ namespace OnBoard
 
             m_settings.OBATPToWSATCIPAddress = m_ıpAddressControlOBATPToWSATC.Text;
             m_settings.OBATPToWSATCPort = m_textBoxOBATPToWSATCPort.Text;
+
+
+            if (m_radioButtonServer.Checked)
+                m_settings.CommunicationType = Enums.CommunicationType.Server;
+            else
+                m_settings.CommunicationType = Enums.CommunicationType.Client;
+
 
 
             m_settings.Serialize(m_settings);

@@ -76,7 +76,8 @@ namespace OnBoard
         public int EndTrackID { get; set; }
         public Enums.TrackInput  TrackInput{ get; set; }
 
-    public DataTable RouteTrack { get; set; } = new DataTable();
+        public Enums.CommunicationType CommunicationType { get; set; }
+        public DataTable RouteTrack { get; set; } = new DataTable();
 
 
 

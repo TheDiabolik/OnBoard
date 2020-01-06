@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace OnBoard
 {
-    class OBATO_TO_ATS
+    public class OBATO_TO_ATS :  IDisposable
     {
+        private bool m_disposed = false;
+
         public byte OBATCActive { get; set; }
         public byte TrainEmergencyBrakeApplied { get; set; }
         public byte WaitingApprovalReleaseEmergencyBrake { get; set; }
@@ -82,7 +84,7 @@ namespace OnBoard
         public ushort OBATCFault2 { get; set; }
         public ushort OBATCEquipmentFault1 { get; set; }
         public ushort OBATCEquipmentFault2 { get; set; }
-
+        public ushort OBATCEquipmentFault3 { get; set; }
         //
 
         public ushort OBATCEquipmentFault4 { get; set; }
@@ -112,8 +114,211 @@ namespace OnBoard
         public byte OBATCtoATS_PSDEnableFault { get; set; }
         public byte OBATCtoATS_TrainDoorEnableFault { get; set; }
         public byte OBATCtoATS_PSDOpenFault { get; set; }
-        public byte OBATCtoATS_TrainDoorOpenFault { get; set; } 
+        public byte OBATCtoATS_TrainDoorOpenFault { get; set; }
 
+
+        //bit conversation işlemleri
+
+        //FaultyTrainDoors1
+        public byte FaultyTrainDoors1_1 { get; set; }
+        public byte FaultyTrainDoors1_2 { get; set; }
+        public byte FaultyTrainDoors1_3 { get; set; }
+
+        //FaultyTrainDoors2
+        public byte FaultyTrainDoors2_1 { get; set; }
+        public byte FaultyTrainDoors2_2 { get; set; }
+        public byte FaultyTrainDoors2_3 { get; set; }
+        //BypassedTrainDoors1
+        public byte BypassedTrainDoors1_1 { get; set; }
+        public byte BypassedTrainDoors1_2 { get; set; }
+        public byte BypassedTrainDoors1_3 { get; set; }
+
+        //BypassedTrainDoors2
+        public byte BypassedTrainDoors2_1 { get; set; }
+        public byte BypassedTrainDoors2_2 { get; set; }
+        public byte BypassedTrainDoors2_3 { get; set; }
+
+
+
+
+
+
+
+        public byte[] ToByte()
+        {
+            List<byte> result = new List<byte>();
+
+
+            result.Add(this.OBATCActive);
+            result.Add(this.TrainEmergencyBrakeApplied);
+
+            result.Add(this.WaitingApprovalReleaseEmergencyBrake);
+
+            result.Add(this.TrainEmergencyBrakeReleased);
+            result.Add(this.EmergencyHandleActive);
+            result.Add(this.TrainTemporaryCoastingAccepted);
+            result.Add(this.TrainTemporaryCoastingRejected);
+            result.Add(this.HoldTrainAccepted);
+            result.Add(this.HoldTrainRejected);
+            result.Add(this.CancelHoldTrainAccepted);
+
+
+            result.Add(this.SkipStationAccepted);
+            result.Add(this.SkipStationRejected);
+            result.Add(this.CancelSkipStationAccepted);
+            result.Add(this.CancelSkipStationRejected);
+            result.Add(this.StandbyActive);
+
+
+            result.Add(this.StandbyCmdRejected);
+            result.Add(this.TrainLeftDoorOpened);
+            result.Add(this.TrainRightDoorOpened);
+            result.Add(this.TrainDoorClosedAndLocked);
+            result.Add(this.TrainDoorClosedAndLockedFault);
+
+
+
+            result.Add(this.TrainDoorWrongSideOpenedFault);
+            result.Add(this.DoorFaultAtStandby);
+            result.Add(this.DerailmentDetection);
+            result.Add(this.FireDetection);
+            result.Add(this.ObstacleDetection);
+
+            result.Add(this.BerthingOK);
+            result.Add(this.UnsuccessfulBerthingAlarm);
+            result.Add(this.TrainIntegrityAlarm);
+            result.Add(this.TrainActiveCab);
+            result.Add(this.TrainDirection);
+
+            result.Add(this.OBATCOff);
+            result.Add(this.OBATCClockFault);
+            result.Add(this.TrainDepartureFailure);
+            result.Add(this.TrainRollBack);
+            result.Add(this.BatteryOK);
+
+            result.Add(this.TractionStatus);
+            result.Add(this.BrakingStatus);
+            result.Add(this.TrainCBTCMode);
+            result.Add(this.PerformanceLevel);
+            result.Add(this.OBATCSoftwareVersion);
+
+
+            result.Add(this.OBATCHardwareVersion);
+            result.Add(this.TrainNumber);
+            result.Add(this.TrainSetCarNumber); 
+            result.Add(this.TrainSpeed);
+
+            for (int i = 0; i < FootPrintTrackSectionID.Length; i++)
+            {
+                result.AddRange(BitConverter.GetBytes((ushort)this.FootPrintTrackSectionID[i]));
+            }
+
+
+            result.AddRange(BitConverter.GetBytes(this.FootPrintFirstTrackSectionOffset));
+            result.AddRange(BitConverter.GetBytes(this.FootPrintLastTrackSectionOffset));
+
+            for (int i = 0; i < VirtualOccupancyTrackSectionID.Length; i++)
+            {
+                result.AddRange(BitConverter.GetBytes((ushort)this.VirtualOccupancyTrackSectionID[i]));
+            }
+
+            result.AddRange(BitConverter.GetBytes(this.VirtualOccupancyFirstTrackSectionOffset));
+            result.AddRange(BitConverter.GetBytes(this.VirtualOccupancyLastTrackSectionOffset));
+
+
+
+            result.AddRange(BitConverter.GetBytes(this.OBATCEquipmentStatus));
+            result.AddRange(BitConverter.GetBytes(this.OBATCWarning1));
+            result.AddRange(BitConverter.GetBytes(this.OBATCWarning2));
+            result.AddRange(BitConverter.GetBytes(this.OBATCWarning3));
+            result.AddRange(BitConverter.GetBytes(this.OBATCWarning4));
+            result.AddRange(BitConverter.GetBytes(this.OBATCWarning5));
+            result.AddRange(BitConverter.GetBytes(this.OBATCFault1));
+            result.AddRange(BitConverter.GetBytes(this.OBATCFault2));
+            result.AddRange(BitConverter.GetBytes(this.OBATCEquipmentFault1));
+            result.AddRange(BitConverter.GetBytes(this.OBATCEquipmentFault2));
+            result.AddRange(BitConverter.GetBytes(this.OBATCEquipmentFault3));
+            result.AddRange(BitConverter.GetBytes(this.OBATCEquipmentFault4));
+            result.AddRange(BitConverter.GetBytes(this.OBATCEquipmentFault5));
+
+            result.AddRange(BitConverter.GetBytes(this.TrainFault1));
+            result.AddRange(BitConverter.GetBytes(this.TrainFault2));
+            result.AddRange(BitConverter.GetBytes(this.TrainFault3));
+            result.AddRange(BitConverter.GetBytes(this.TrainFault4));
+            result.AddRange(BitConverter.GetBytes(this.TrainFault5));
+
+
+            result.Add(this.TrainCoupled);
+
+
+            result.AddRange(BitConverter.GetBytes(this.DwellTime));
+
+
+            result.Add(this.OBATCtoATS_ReverseTrafficDirection);
+            result.Add(this.OBATCtoATS_RejectedStopTrainAtNextStation);
+            result.Add(this.OBATCtoATS_TrainLocationDeterminationFault);
+            result.Add(this.OBATCtoATS_TrainSpeedSensorFault);
+            result.Add(this.OBATCtoATS_MissedBalise);
+            result.Add(this.OBATCtoATS_DepartureTestStarted);
+            result.Add(this.OBATCtoATS_DepartureTestResults);
+            result.Add(this.OBATCtoATS_OverspeedAlarm);
+            result.Add(this.OBATCtoATS_SafeDistanceAlarm);
+            result.Add(this.OBATCtoATS_UnsuccessfulTrainStop);
+
+            result.Add(this.OBATCtoATS_UnexpectedSkipStation);
+            result.Add(this.OBATCtoATS_PSDEnableFault);
+            result.Add(this.OBATCtoATS_TrainDoorEnableFault);
+            result.Add(this.OBATCtoATS_PSDOpenFault);
+            result.Add(this.OBATCtoATS_TrainDoorOpenFault);
+
+            result.Add(this.FaultyTrainDoors1_1);
+            result.Add(this.FaultyTrainDoors1_2);
+            result.Add(this.FaultyTrainDoors1_3);
+
+            result.Add(this.FaultyTrainDoors2_1);
+            result.Add(this.FaultyTrainDoors2_2);
+            result.Add(this.FaultyTrainDoors2_3);
+
+            result.Add(this.BypassedTrainDoors1_1);
+            result.Add(this.BypassedTrainDoors1_2);
+            result.Add(this.BypassedTrainDoors1_3);
+
+            result.Add(this.BypassedTrainDoors2_1);
+            result.Add(this.BypassedTrainDoors2_2);
+            result.Add(this.BypassedTrainDoors2_3);
+
+            return result.ToArray();
+
+        }
+
+
+
+
+
+
+
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                // Dispose time code 
+                //buraya sonlanma için method eklenecek
+            }
+
+            // Finalize time code 
+            m_disposed = true;
+        }
+
+        public void Dispose()
+        {
+            if (m_disposed)
+            {
+                Dispose(true);
+
+                GC.SuppressFinalize(this);
+            }
+        }
 
     }
 }

@@ -14,7 +14,18 @@ namespace OnBoard
         public enum Route { In, Out };
         public enum TrackInput { Manuel, FromFile };
 
+        public enum CommunicationType { Server, Client };
 
+        public enum TrainCoupled { NotCoupled, MD1Coupled, MD2Coupled, MD1AndMD2Coupled };
+
+        public enum ActiveATP { First, Second };
+
+        public enum ActiveCab { MD1Active, MD2Active, NotActive };
+
+
+        public enum TrainCBTCMode { EM=10, RM1 = 20, RM2 = 30, MCS = 40, ATO = 50, UTO = 60, SB = 61, JOG = 62 };
+        public enum TrainSetCarNumber { Four , Eight }
+            
 
         public enum Train_ID : UInt32
         {

@@ -79,26 +79,32 @@ namespace OnBoard
         Enums.DoorStatus asdasd= Enums.DoorStatus.Close;
 
         #region createdevent
+
+
+        public void TrainMovementUI(UIOBATP UIOBATP)
+        {
+        }
+
         public void TrainMovementCreated(OBATP OBATP)
         {
-            //m_rect.Location = new Point(Convert.ToInt32(OBATP.FrontOfTrainLocationWithFootPrintInRoute   * RouteScaleRatio) - Convert.ToInt32(TrainLengthCMReScale) + offsetX, 100);
+            ////m_rect.Location = new Point(Convert.ToInt32(OBATP.FrontOfTrainLocationWithFootPrintInRoute   * RouteScaleRatio) - Convert.ToInt32(TrainLengthCMReScale) + offsetX, 100);
 
 
-            m_rect.Location = new Point(Convert.ToInt32((OBATP.FrontOfTrainLocationWithFootPrintInRoute - TrainLengthCM) * RouteScaleRatio)  + offsetX, 100);
+            //m_rect.Location = new Point(Convert.ToInt32((OBATP.FrontOfTrainLocationWithFootPrintInRoute - TrainLengthCM) * RouteScaleRatio) + offsetX, 100);
 
-            asdasd = OBATP.DoorStatus;
+            //asdasd = OBATP.DoorStatus;
 
-            //m_rect.Location = new Point(Convert.ToInt32(OBATP.RearOfTrainLocationWithFootPrintInRoute * RouteScaleRatio) + offsetX, 100);
-
-
-            trainSpeedKMH = OBATP.Vehicle.CurrentTrainSpeedKMH.ToString("0.##"); 
-
-            m_bitmapGraphics.DrawString(trainSpeedKMH + " km/sa", new Font("Arial", 8), new SolidBrush(Color.Black), new Point(m_rect.Location.X, m_rect.Location.Y));
+            ////m_rect.Location = new Point(Convert.ToInt32(OBATP.RearOfTrainLocationWithFootPrintInRoute * RouteScaleRatio) + offsetX, 100);
 
 
+            //trainSpeedKMH = OBATP.Vehicle.CurrentTrainSpeedKMH.ToString("0.##");
 
-            m_panel.Invalidate(Rectangle.Inflate(m_rect, 25, 25));
-        
+            //m_bitmapGraphics.DrawString(trainSpeedKMH + " km/sa", new Font("Arial", 8), new SolidBrush(Color.Black), new Point(m_rect.Location.X, m_rect.Location.Y));
+
+
+
+            //m_panel.Invalidate(Rectangle.Inflate(m_rect, 25, 25));
+
         }
 
         public void TrainMovementRouteCreated(Route route)

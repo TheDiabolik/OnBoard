@@ -8,8 +8,8 @@ namespace OnBoard
 {
     public class TrainOnTracks
     {
-        public List<Track> ActualLocationTracks = new List<Track>();
-        public List<Track> FootPrintTracks = new List<Track>();
-        public List<Track> VirtualOccupationTracks = new List<Track>();
+        public ThreadSafeList<Track> ActualLocationTracks = new ThreadSafeList<Track>();
+        public ThreadSafeList<Track> FootPrintTracks = new ThreadSafeList<Track>();
+        public ThreadSafeList<Track> VirtualOccupationTracks = new ThreadSafeList<Track>();
     }
 }

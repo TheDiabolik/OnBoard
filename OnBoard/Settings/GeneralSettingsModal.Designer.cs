@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GeneralSettingsModal));
             this.m_buttonApply = new System.Windows.Forms.Button();
             this.m_buttonSave = new System.Windows.Forms.Button();
             this.m_checkedListBoxTrains = new System.Windows.Forms.CheckedListBox();
@@ -35,12 +36,12 @@
             this.m_numericUpDownTrainFrequency = new System.Windows.Forms.NumericUpDown();
             this.m_groupBoxTrain = new System.Windows.Forms.GroupBox();
             this.m_groupBoxRoute = new System.Windows.Forms.GroupBox();
-            this.m_radioButtonManuelInputTracks = new System.Windows.Forms.RadioButton();
-            this.m_radioButtonFromFileTracks = new System.Windows.Forms.RadioButton();
-            this.m_labelStartTrackID = new System.Windows.Forms.Label();
-            this.m_labelEndTrackID = new System.Windows.Forms.Label();
-            this.m_textBoxStartRangeTrackID = new System.Windows.Forms.TextBox();
             this.m_textBoxEndRangeTrackID = new System.Windows.Forms.TextBox();
+            this.m_textBoxStartRangeTrackID = new System.Windows.Forms.TextBox();
+            this.m_labelEndTrackID = new System.Windows.Forms.Label();
+            this.m_labelStartTrackID = new System.Windows.Forms.Label();
+            this.m_radioButtonFromFileTracks = new System.Windows.Forms.RadioButton();
+            this.m_radioButtonManuelInputTracks = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.m_numericUpDownTrainFrequency)).BeginInit();
             this.m_groupBoxTrain.SuspendLayout();
             this.m_groupBoxRoute.SuspendLayout();
@@ -51,7 +52,7 @@
             this.m_buttonApply.Image = global::OnBoard.Properties.Resources.apply;
             this.m_buttonApply.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.m_buttonApply.Location = new System.Drawing.Point(498, 286);
-            this.m_buttonApply.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.m_buttonApply.Margin = new System.Windows.Forms.Padding(2);
             this.m_buttonApply.Name = "m_buttonApply";
             this.m_buttonApply.Size = new System.Drawing.Size(83, 48);
             this.m_buttonApply.TabIndex = 10;
@@ -64,7 +65,7 @@
             // 
             this.m_buttonSave.Image = global::OnBoard.Properties.Resources.save;
             this.m_buttonSave.Location = new System.Drawing.Point(410, 286);
-            this.m_buttonSave.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.m_buttonSave.Margin = new System.Windows.Forms.Padding(2);
             this.m_buttonSave.Name = "m_buttonSave";
             this.m_buttonSave.Size = new System.Drawing.Size(83, 48);
             this.m_buttonSave.TabIndex = 9;
@@ -95,7 +96,7 @@
             // m_numericUpDownTrainFrequency
             // 
             this.m_numericUpDownTrainFrequency.Location = new System.Drawing.Point(155, 31);
-            this.m_numericUpDownTrainFrequency.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.m_numericUpDownTrainFrequency.Margin = new System.Windows.Forms.Padding(2);
             this.m_numericUpDownTrainFrequency.Name = "m_numericUpDownTrainFrequency";
             this.m_numericUpDownTrainFrequency.Size = new System.Drawing.Size(90, 20);
             this.m_numericUpDownTrainFrequency.TabIndex = 13;
@@ -127,16 +128,37 @@
             this.m_groupBoxRoute.TabStop = false;
             this.m_groupBoxRoute.Text = "Route";
             // 
-            // m_radioButtonManuelInputTracks
+            // m_textBoxEndRangeTrackID
             // 
-            this.m_radioButtonManuelInputTracks.AutoSize = true;
-            this.m_radioButtonManuelInputTracks.Location = new System.Drawing.Point(41, 160);
-            this.m_radioButtonManuelInputTracks.Name = "m_radioButtonManuelInputTracks";
-            this.m_radioButtonManuelInputTracks.Size = new System.Drawing.Size(123, 17);
-            this.m_radioButtonManuelInputTracks.TabIndex = 0;
-            this.m_radioButtonManuelInputTracks.TabStop = true;
-            this.m_radioButtonManuelInputTracks.Text = "Manuel Input Tracks";
-            this.m_radioButtonManuelInputTracks.UseVisualStyleBackColor = true;
+            this.m_textBoxEndRangeTrackID.Location = new System.Drawing.Point(157, 116);
+            this.m_textBoxEndRangeTrackID.Name = "m_textBoxEndRangeTrackID";
+            this.m_textBoxEndRangeTrackID.Size = new System.Drawing.Size(147, 20);
+            this.m_textBoxEndRangeTrackID.TabIndex = 5;
+            // 
+            // m_textBoxStartRangeTrackID
+            // 
+            this.m_textBoxStartRangeTrackID.Location = new System.Drawing.Point(157, 90);
+            this.m_textBoxStartRangeTrackID.Name = "m_textBoxStartRangeTrackID";
+            this.m_textBoxStartRangeTrackID.Size = new System.Drawing.Size(147, 20);
+            this.m_textBoxStartRangeTrackID.TabIndex = 4;
+            // 
+            // m_labelEndTrackID
+            // 
+            this.m_labelEndTrackID.AutoSize = true;
+            this.m_labelEndTrackID.Location = new System.Drawing.Point(41, 119);
+            this.m_labelEndTrackID.Name = "m_labelEndTrackID";
+            this.m_labelEndTrackID.Size = new System.Drawing.Size(80, 13);
+            this.m_labelEndTrackID.TabIndex = 3;
+            this.m_labelEndTrackID.Text = "End Track ID : ";
+            // 
+            // m_labelStartTrackID
+            // 
+            this.m_labelStartTrackID.AutoSize = true;
+            this.m_labelStartTrackID.Location = new System.Drawing.Point(38, 93);
+            this.m_labelStartTrackID.Name = "m_labelStartTrackID";
+            this.m_labelStartTrackID.Size = new System.Drawing.Size(83, 13);
+            this.m_labelStartTrackID.TabIndex = 2;
+            this.m_labelStartTrackID.Text = "Start Track ID : ";
             // 
             // m_radioButtonFromFileTracks
             // 
@@ -149,37 +171,16 @@
             this.m_radioButtonFromFileTracks.Text = "From File Tracls";
             this.m_radioButtonFromFileTracks.UseVisualStyleBackColor = true;
             // 
-            // m_labelStartTrackID
+            // m_radioButtonManuelInputTracks
             // 
-            this.m_labelStartTrackID.AutoSize = true;
-            this.m_labelStartTrackID.Location = new System.Drawing.Point(38, 93);
-            this.m_labelStartTrackID.Name = "m_labelStartTrackID";
-            this.m_labelStartTrackID.Size = new System.Drawing.Size(83, 13);
-            this.m_labelStartTrackID.TabIndex = 2;
-            this.m_labelStartTrackID.Text = "Start Track ID : ";
-            // 
-            // m_labelEndTrackID
-            // 
-            this.m_labelEndTrackID.AutoSize = true;
-            this.m_labelEndTrackID.Location = new System.Drawing.Point(41, 119);
-            this.m_labelEndTrackID.Name = "m_labelEndTrackID";
-            this.m_labelEndTrackID.Size = new System.Drawing.Size(80, 13);
-            this.m_labelEndTrackID.TabIndex = 3;
-            this.m_labelEndTrackID.Text = "End Track ID : ";
-            // 
-            // m_textBoxStartRangeTrackID
-            // 
-            this.m_textBoxStartRangeTrackID.Location = new System.Drawing.Point(157, 90);
-            this.m_textBoxStartRangeTrackID.Name = "m_textBoxStartRangeTrackID";
-            this.m_textBoxStartRangeTrackID.Size = new System.Drawing.Size(147, 20);
-            this.m_textBoxStartRangeTrackID.TabIndex = 4;
-            // 
-            // m_textBoxEndRangeTrackID
-            // 
-            this.m_textBoxEndRangeTrackID.Location = new System.Drawing.Point(157, 116);
-            this.m_textBoxEndRangeTrackID.Name = "m_textBoxEndRangeTrackID";
-            this.m_textBoxEndRangeTrackID.Size = new System.Drawing.Size(147, 20);
-            this.m_textBoxEndRangeTrackID.TabIndex = 5;
+            this.m_radioButtonManuelInputTracks.AutoSize = true;
+            this.m_radioButtonManuelInputTracks.Location = new System.Drawing.Point(41, 160);
+            this.m_radioButtonManuelInputTracks.Name = "m_radioButtonManuelInputTracks";
+            this.m_radioButtonManuelInputTracks.Size = new System.Drawing.Size(123, 17);
+            this.m_radioButtonManuelInputTracks.TabIndex = 0;
+            this.m_radioButtonManuelInputTracks.TabStop = true;
+            this.m_radioButtonManuelInputTracks.Text = "Manuel Input Tracks";
+            this.m_radioButtonManuelInputTracks.UseVisualStyleBackColor = true;
             // 
             // GeneralSettingsModal
             // 
@@ -190,11 +191,13 @@
             this.Controls.Add(this.m_groupBoxTrain);
             this.Controls.Add(this.m_buttonApply);
             this.Controls.Add(this.m_buttonSave);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.Name = "GeneralSettingsModal";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "General Settings";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GeneralSettingsModal_FormClosing);
             this.Load += new System.EventHandler(this.GeneralSettingsModal_Load);
             ((System.ComponentModel.ISupportInitialize)(this.m_numericUpDownTrainFrequency)).EndInit();
             this.m_groupBoxTrain.ResumeLayout(false);

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TrainSettingsModal));
             this.m_groupBoxTrainSettings = new System.Windows.Forms.GroupBox();
             this.m_textBoxTrainDeceleration = new System.Windows.Forms.TextBox();
             this.m_textBoxTrainSpeedLimit = new System.Windows.Forms.TextBox();
@@ -53,9 +54,9 @@
             this.m_groupBoxTrainSettings.Controls.Add(this.m_labelMaxTrainDeceleration);
             this.m_groupBoxTrainSettings.Controls.Add(this.m_labelTrainLengthCM);
             this.m_groupBoxTrainSettings.Location = new System.Drawing.Point(9, 18);
-            this.m_groupBoxTrainSettings.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.m_groupBoxTrainSettings.Margin = new System.Windows.Forms.Padding(2);
             this.m_groupBoxTrainSettings.Name = "m_groupBoxTrainSettings";
-            this.m_groupBoxTrainSettings.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.m_groupBoxTrainSettings.Padding = new System.Windows.Forms.Padding(2);
             this.m_groupBoxTrainSettings.Size = new System.Drawing.Size(720, 94);
             this.m_groupBoxTrainSettings.TabIndex = 2;
             this.m_groupBoxTrainSettings.TabStop = false;
@@ -64,7 +65,7 @@
             // m_textBoxTrainDeceleration
             // 
             this.m_textBoxTrainDeceleration.Location = new System.Drawing.Point(561, 55);
-            this.m_textBoxTrainDeceleration.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.m_textBoxTrainDeceleration.Margin = new System.Windows.Forms.Padding(2);
             this.m_textBoxTrainDeceleration.Name = "m_textBoxTrainDeceleration";
             this.m_textBoxTrainDeceleration.Size = new System.Drawing.Size(125, 20);
             this.m_textBoxTrainDeceleration.TabIndex = 7;
@@ -72,7 +73,7 @@
             // m_textBoxTrainSpeedLimit
             // 
             this.m_textBoxTrainSpeedLimit.Location = new System.Drawing.Point(561, 32);
-            this.m_textBoxTrainSpeedLimit.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.m_textBoxTrainSpeedLimit.Margin = new System.Windows.Forms.Padding(2);
             this.m_textBoxTrainSpeedLimit.Name = "m_textBoxTrainSpeedLimit";
             this.m_textBoxTrainSpeedLimit.Size = new System.Drawing.Size(125, 20);
             this.m_textBoxTrainSpeedLimit.TabIndex = 6;
@@ -80,7 +81,7 @@
             // m_textBoxTrainAcceleration
             // 
             this.m_textBoxTrainAcceleration.Location = new System.Drawing.Point(216, 55);
-            this.m_textBoxTrainAcceleration.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.m_textBoxTrainAcceleration.Margin = new System.Windows.Forms.Padding(2);
             this.m_textBoxTrainAcceleration.Name = "m_textBoxTrainAcceleration";
             this.m_textBoxTrainAcceleration.Size = new System.Drawing.Size(125, 20);
             this.m_textBoxTrainAcceleration.TabIndex = 5;
@@ -88,7 +89,7 @@
             // m_textBoxTrainLength
             // 
             this.m_textBoxTrainLength.Location = new System.Drawing.Point(216, 32);
-            this.m_textBoxTrainLength.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.m_textBoxTrainLength.Margin = new System.Windows.Forms.Padding(2);
             this.m_textBoxTrainLength.Name = "m_textBoxTrainLength";
             this.m_textBoxTrainLength.Size = new System.Drawing.Size(125, 20);
             this.m_textBoxTrainLength.TabIndex = 4;
@@ -138,7 +139,7 @@
             this.m_buttonApply.Image = global::OnBoard.Properties.Resources.apply;
             this.m_buttonApply.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.m_buttonApply.Location = new System.Drawing.Point(610, 138);
-            this.m_buttonApply.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.m_buttonApply.Margin = new System.Windows.Forms.Padding(2);
             this.m_buttonApply.Name = "m_buttonApply";
             this.m_buttonApply.Size = new System.Drawing.Size(83, 48);
             this.m_buttonApply.TabIndex = 8;
@@ -151,7 +152,7 @@
             // 
             this.m_buttonSave.Image = global::OnBoard.Properties.Resources.save;
             this.m_buttonSave.Location = new System.Drawing.Point(523, 138);
-            this.m_buttonSave.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.m_buttonSave.Margin = new System.Windows.Forms.Padding(2);
             this.m_buttonSave.Name = "m_buttonSave";
             this.m_buttonSave.Size = new System.Drawing.Size(83, 48);
             this.m_buttonSave.TabIndex = 7;
@@ -171,6 +172,7 @@
             this.Controls.Add(this.m_buttonApply);
             this.Controls.Add(this.m_buttonSave);
             this.Controls.Add(this.m_groupBoxTrainSettings);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "TrainSettingsModal";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

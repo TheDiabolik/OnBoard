@@ -115,6 +115,8 @@ namespace OnBoard
             }
         }
 
+
+      
         public bool Remove(T value)
         {
             lock (_sync)
@@ -240,6 +242,14 @@ namespace OnBoard
                     enumerator = this.collection._list.GetEnumerator();
                 }
             }
+
+
+            public void ForEach(Predicate<T> predicate)
+            {
+                lock (this.collection._sync)
+                    this.ForEach(predicate);
+            }
+
 
             /// <summary>
             /// Gets the element in the collection at the current position of the enumerator.

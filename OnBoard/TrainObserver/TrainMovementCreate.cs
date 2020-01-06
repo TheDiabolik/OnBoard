@@ -11,12 +11,14 @@ namespace OnBoard
 
         private ThreadSafeList<ITrainMovementWatcher> m_syncFileWatcher = new ThreadSafeList<ITrainMovementWatcher>();
         private OBATP m_OBATP;
+        private UIOBATP m_UIOBATP;
         private Route m_route;
         public void InformWatcher()
         {
             foreach (ITrainMovementWatcher watcher in m_syncFileWatcher)
             {
                 watcher.TrainMovementCreated(m_OBATP);
+                watcher.TrainMovementUI(m_UIOBATP);
             }
         }
 
@@ -31,6 +33,12 @@ namespace OnBoard
         public void TrainMovementCreated(OBATP OBATP)
         {
             this.m_OBATP = OBATP;
+            InformWatcher();
+        }
+
+        public void TrainMovementUI(UIOBATP UIOBATP)
+        {
+            this.m_UIOBATP = UIOBATP;
             InformWatcher();
         }
 
