@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace OnBoard
 {
-     public struct TrackWithPosition
+    [Serializable]
+    public struct TrackWithPosition
     {
-        public Track Track;
+        public volatile Track Track;
         public double Location;
 
     }

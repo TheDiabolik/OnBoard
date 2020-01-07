@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace OnBoard
 {
+    [Serializable]
     public class TrainOnTracks
     {
         public ThreadSafeList<Track> ActualLocationTracks = new ThreadSafeList<Track>();

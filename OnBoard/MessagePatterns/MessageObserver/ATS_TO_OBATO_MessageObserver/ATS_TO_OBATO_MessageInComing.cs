@@ -10,12 +10,12 @@ namespace OnBoard
     {
         private ThreadSafeList<IATS_TO_OBATO_MessageWatcher> m_syncFileWatcher = new ThreadSafeList<IATS_TO_OBATO_MessageWatcher>();
         private ATS_TO_OBATOAdapter m_ATS_TO_OBATOAdapter;
-        private Enums.OBATP_ID m_OBATP_ID;
+        private Enums.Train_ID m_train_ID;
         public void InformWatcher()
         {
             foreach (IATS_TO_OBATO_MessageWatcher watcher in m_syncFileWatcher)
             {
-                watcher.ATS_TO_OBATO_MessageInComing(m_OBATP_ID, m_ATS_TO_OBATOAdapter);
+                watcher.ATS_TO_OBATO_MessageInComing(m_train_ID, m_ATS_TO_OBATOAdapter);
             }
         }
 
@@ -25,10 +25,10 @@ namespace OnBoard
         }
 
 
-        public void ATS_TO_OBATO_NewMessageInComing(Enums.OBATP_ID OBATP_ID, ATS_TO_OBATOAdapter ATS_TO_OBATOAdapter)
+        public void ATS_TO_OBATO_NewMessageInComing(Enums.Train_ID train_ID, ATS_TO_OBATOAdapter ATS_TO_OBATOAdapter)
         {
             this.m_ATS_TO_OBATOAdapter = ATS_TO_OBATOAdapter;
-            this.m_OBATP_ID = OBATP_ID;
+            this.m_train_ID = train_ID;
             InformWatcher();
         }
     }

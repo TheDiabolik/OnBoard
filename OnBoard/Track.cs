@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace OnBoard
 {
-   public  class Track
+    [Serializable]
+    public  class Track
     {
         public int Track_No { get; set; }
         public int Station_Start_Position { get; set; }
@@ -92,9 +93,9 @@ namespace OnBoard
         }
 
 
-        public static List<Track> AllTracks(DataTable dt)
+        public static ThreadSafeList<Track> AllTracks(DataTable dt)
         {
-            List<Track> trackList = new List<Track>();   
+            ThreadSafeList<Track> trackList = new ThreadSafeList<Track>();   
 
             foreach (DataRow row in dt.Rows)
             {
@@ -165,9 +166,9 @@ namespace OnBoard
         }
 
 
-        public static List<Track> AllTracksAAA(DataTable dt)
+        public static ThreadSafeList<Track> AllTracksAAA(DataTable dt)
         {
-            List<Track> trackList = new List<Track>();
+            ThreadSafeList<Track> trackList = new ThreadSafeList<Track>();
 
             foreach (DataRow row in dt.Rows)
             {

@@ -10,12 +10,12 @@ namespace OnBoard
     {
         private ThreadSafeList<IWSATP_TO_OBATPMessageWatcher> m_syncFileWatcher = new ThreadSafeList<IWSATP_TO_OBATPMessageWatcher>();
         private WSATP_TO_OBATPAdapter m_WSATP_TO_OBATPAdapter;
-        private Enums.OBATP_ID m_OBATP_ID;
+        private Enums.Train_ID m_train_ID;
         public void InformWatcher()
         {
             foreach (IWSATP_TO_OBATPMessageWatcher watcher in m_syncFileWatcher)
             {
-                watcher.WSATP_TO_OBATPMessageInComing(m_OBATP_ID, m_WSATP_TO_OBATPAdapter);
+                watcher.WSATP_TO_OBATPMessageInComing(m_train_ID, m_WSATP_TO_OBATPAdapter);
             }
         }
 
@@ -25,10 +25,10 @@ namespace OnBoard
         }
 
 
-        public void WSATP_TO_OBATPNewMessageInComing(Enums.OBATP_ID OBATP_ID, WSATP_TO_OBATPAdapter WSATP_TO_OBATPAdapter)
+        public void WSATP_TO_OBATPNewMessageInComing(Enums.Train_ID train_ID, WSATP_TO_OBATPAdapter WSATP_TO_OBATPAdapter)
         {
             this.m_WSATP_TO_OBATPAdapter = WSATP_TO_OBATPAdapter;
-            this.m_OBATP_ID = OBATP_ID;
+            this.m_train_ID = train_ID;
             InformWatcher();
         }
     }

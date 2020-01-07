@@ -100,19 +100,18 @@ namespace OnBoard
 
 
             MainForm.m_allOBATP.Clear();
-
+            MainForm.m_mf.m_comboBoxTrain.Items.Clear();
 
             foreach (int index in m_settings.Trains)
-            {
+            { 
+                int trainIndex = index + 1;
+                Enums.Train_ID train_ID = (Enums.Train_ID)trainIndex;
 
-                int trainIndex = index;
-                string trainName = "Train" + (trainIndex + 1).ToString();
+                OBATP OBATP = new OBATP((Enums.Train_ID)trainIndex, m_settings.MaxTrainAcceleration, m_settings.MaxTrainDeceleration, m_settings.TrainSpeedLimit, m_settings.TrainLength, MainForm.m_route);
 
-                OBATP OBATP = new OBATP((Enums.Train_ID)trainIndex, trainName, m_settings.MaxTrainAcceleration, m_settings.MaxTrainDeceleration, m_settings.TrainSpeedLimit, m_settings.TrainLength, MainForm.m_route);
+                MainForm.m_allOBATP.TryAdd(trainIndex, OBATP);
 
-                MainForm.m_allOBATP.TryAdd(index, OBATP);
-
-
+                MainForm.m_mf.m_comboBoxTrain.Items.Add(train_ID.ToString());
             }
 
         }

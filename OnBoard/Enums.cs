@@ -25,30 +25,35 @@ namespace OnBoard
 
         public enum TrainCBTCMode { EM=10, RM1 = 20, RM2 = 30, MCS = 40, ATO = 50, UTO = 60, SB = 61, JOG = 62 };
         public enum TrainSetCarNumber { Four , Eight }
-            
+
+        public enum WakeUpTrain { WithDepartureTest, WithOutDepartureTest, False }
+
+
+ 
+
 
         public enum Train_ID : UInt32
         {
-            Train1,
-            Train2,
-            Train3,
-            Train4,
-            Train5,
-            Train6,
-            Train7,
-            Train8,
-            Train9,
-            Train10,
-            Train11,
-            Train12,
-            Train13,
-            Train14,
-            Train15,
-            Train16,
-            Train17,
-            Train18,
-            Train19,
-            Train20,
+            Train1 = 1,
+            Train2= 2,
+            Train3= 3,
+            Train4= 4,
+            Train5= 5,
+            Train6= 6,
+            Train7= 7,
+            Train8= 8,
+            Train9 = 9,
+            Train10= 10,
+            Train11= 11,
+            Train12= 12,
+            Train13= 13,
+            Train14= 14,
+            Train15= 15,
+            Train16= 16,
+            Train17= 17,
+            Train18= 18,
+            Train19= 19,
+            Train20 = 20,
         };
 
 
@@ -77,7 +82,29 @@ namespace OnBoard
             Train19 = 25019,
             Train20 = 25020,
         };
-
+        public enum OBATO_ID : UInt32
+        {
+            Train1 = 20001,
+            Train2 = 20002,
+            Train3 = 20003,
+            Train4 = 20004,
+            Train5 = 20005,
+            Train6 = 20006,
+            Train7 = 20007,
+            Train8 = 20008,
+            Train9 = 20009,
+            Train10 = 20010,
+            Train11 = 20011,
+            Train12 = 20012,
+            Train13 = 20013,
+            Train14 = 20014,
+            Train15 = 20015,
+            Train16 = 20016,
+            Train17 = 20017,
+            Train18 = 20018,
+            Train19 = 20019,
+            Train20 = 20020,
+        };
 
 
         public class Message

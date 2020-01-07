@@ -8,6 +8,6 @@ namespace OnBoard
 {
     public interface IATS_TO_OBATO_InitMessageWatcher
     {
-        void ATS_TO_OBATO_InitMessageInComing(Enums.OBATP_ID OBATP_ID, ATS_TO_OBATO_InitAdapter ATS_TO_OBATO_InitAdapter);
+        void ATS_TO_OBATO_InitMessageInComing(Enums.Train_ID m_train_ID, ATS_TO_OBATO_InitAdapter ATS_TO_OBATO_InitAdapter);
     }
 }

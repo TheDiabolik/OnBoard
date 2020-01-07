@@ -8,6 +8,6 @@ namespace OnBoard
 {
     public interface IWSATP_TO_OBATPMessageWatcher
     {
-        void WSATP_TO_OBATPMessageInComing(Enums.OBATP_ID OBATP_ID, WSATP_TO_OBATPAdapter WSATP_TO_OBATPAdapter);
+        void WSATP_TO_OBATPMessageInComing(Enums.Train_ID train_ID, WSATP_TO_OBATPAdapter WSATP_TO_OBATPAdapter);
     }
 }

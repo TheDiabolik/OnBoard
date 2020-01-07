@@ -14,7 +14,7 @@ namespace OnBoard
 {
     partial class SocketCommunication
     {
-        public class Client : ITrainCreateWatcher, ITrainMovementWatcher
+        public class Client :  ITrainCreatedWatcher, ITrainMovementCreatedWatcher  //ITrainCreateWatcher, ITrainObserverWatcher
         {
             #region variables
             private static Client m_do = null;
@@ -43,17 +43,19 @@ namespace OnBoard
                 m_timer.Elapsed += m_stopWatch_Elapsed;
 
                 //train create
-                MainForm.m_trainCreate.AddWatcher(this);
+                //MainForm.m_trainCreate.AddWatcher(this);
 
 
                 //movement
-                MainForm.m_trainMovement.AddWatcher(this);
+                MainForm.m_trainObserver.AddTrainCreatedWatcher(this);
+                MainForm.m_trainObserver.AddTrainMovementCreatedWatcher(this);
+                
 
-               
+
 
                 //MainForm.m_WSATP_TO_OBATPMessageInComing.AddWatcher((MainForm.m_mf);
 
-              
+
             }
 
             void m_stopWatch_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
@@ -170,6 +172,15 @@ namespace OnBoard
             }
 
 
+            public Enums.Train_ID FindTrainID(uint msgDST)
+            { 
+                uint lastdigit = (msgDST % 100);
+                Enums.Train_ID train_ID = (Enums.Train_ID)lastdigit;
+
+                return train_ID;
+
+            }
+
             private void ClientReceiveProc(IAsyncResult iar)
             {
                 try
@@ -189,9 +200,7 @@ namespace OnBoard
                         Array.Copy(m_clientBufRecv, incomingBytes, messageLength);
                          
 
-                        uint messageID = BitConverter.ToUInt32(incomingBytes, 8);
-
-
+                        uint messageID = BitConverter.ToUInt32(incomingBytes, 8); 
 
                         if(messageID == (UInt32) Enums.Message.ID.WSATP_TO_OBATP)
                         {
@@ -206,8 +215,10 @@ namespace OnBoard
                             WSATP_TO_OBATPAdapter adap = new WSATP_TO_OBATPAdapter(dataorj);
 
                             //obatpye wsatp gelen wsatp mesajını gönderiyor
-                            Enums.OBATP_ID OBATPID = (Enums.OBATP_ID)message.DST;
-                            MainForm.m_WSATP_TO_OBATPMessageInComing.WSATP_TO_OBATPNewMessageInComing(OBATPID, adap);
+                            //Enums.OBATP_ID OBATPID = (Enums.OBATP_ID)message.DST;
+                            Enums.Train_ID train_ID = FindTrainID(message.DST);
+
+                            MainForm.m_WSATP_TO_OBATPMessageInComing.WSATP_TO_OBATPNewMessageInComing(train_ID, adap);
 
                         }
                         else if (messageID == (UInt32)Enums.Message.ID.ATS_SERVER_TO_OBATO_Init)
@@ -226,8 +237,9 @@ namespace OnBoard
                             string asdasdasdasd = adap.ATStoOBATO_TrainNumber.ToString();
 
                             //atsden gelen init mesajı
-                            Enums.OBATP_ID OBATPID = (Enums.OBATP_ID)message.DST;
-                            MainForm.m_ATS_TO_OBATO_InitMessageInComing.ATS_TO_OBATO_InitNewMessageInComing(OBATPID, adap);
+                            //Enums.OBATP_ID OBATPID = (Enums.OBATP_ID)message.DST;
+                            Enums.Train_ID train_ID = FindTrainID(message.DST);
+                            MainForm.m_ATS_TO_OBATO_InitMessageInComing.ATS_TO_OBATO_InitNewMessageInComing(train_ID, adap);
 
                         }
                         else if (messageID == (UInt32)Enums.Message.ID.ATS_SERVER_TO_OBATO)
@@ -246,8 +258,9 @@ namespace OnBoard
                         
 
                             //atsden gelen init mesajı
-                            Enums.OBATP_ID OBATPID = (Enums.OBATP_ID)message.DST;
-                            MainForm.m_ATS_TO_OBATO_MessageInComing.ATS_TO_OBATO_NewMessageInComing(OBATPID, adap);
+                            //Enums.OBATP_ID OBATPID = (Enums.OBATP_ID)message.DST;
+                            Enums.Train_ID train_ID = FindTrainID(message.DST);
+                            MainForm.m_ATS_TO_OBATO_MessageInComing.ATS_TO_OBATO_NewMessageInComing(train_ID, adap);
 
                         }
 
@@ -389,7 +402,7 @@ namespace OnBoard
             #endregion
 
 
-            #region train created
+            #region TrainCreated
             public void TrainCreated(OBATP OBATP)
             {
 
@@ -403,73 +416,33 @@ namespace OnBoard
                         OBATO_TO_ATS_MessageBuilder OBATO_TO_ATS_Message = new OBATO_TO_ATS_MessageBuilder();
 
                         messageCreator.SetMessageBuilder(OBATO_TO_ATS_Message);
-                        messageCreator.CreateMessage(1, (UInt32)OBATP.OBATP_ID, DateTimeExtensions.GetAllMiliSeconds(), 1, OBATO_TO_ATS_ByteArray, 47851476196393100);
+
+
+                        int OBATP_ID = 20000 + Convert.ToInt32(OBATP.Vehicle.TrainID);
+
+                        messageCreator.CreateMessage(1, (UInt32)OBATP_ID, DateTimeExtensions.GetAllMiliSeconds(), 1, OBATO_TO_ATS_ByteArray, 47851476196393100);
 
                         Message message = messageCreator.GetMessage();
 
                         var dsfsd = message.ToByte();
-                        //SendMsgToServer(message.ToByte());
+                        SendMsgToServer(message.ToByte());
                     }
                 }
             }
             #endregion
 
 
-            #region createdevent
+            #region TrainMovementCreated
             public void TrainMovementCreated(OBATP OBATP)
             {
 
                 lock (OBATP)
                 {
+                    #region OBATP_TO_WSATPAdapter
 
-
-                    using (OBATP_TO_WSATPAdapter adappppppppp = new OBATP_TO_WSATPAdapter(OBATP))
-                    {
-                        byte[] OBATP_TO_WSATP_ByteArray = adappppppppp.ToByte();
-
-
-
-                        MessageCreator messageCreator = new MessageCreator();
-                        OBATP_TO_WSATP_MessageBuilder OBATP_TO_WSATP_Message = new OBATP_TO_WSATP_MessageBuilder();
-
-
-                        messageCreator.SetMessageBuilder(OBATP_TO_WSATP_Message);
-                        messageCreator.CreateMessage(61001, (UInt32)OBATP.OBATP_ID, DateTimeExtensions.GetAllMiliSeconds(), 1, OBATP_TO_WSATP_ByteArray, 47851476196393100);
-
-
-                        Message message = messageCreator.GetMessage();
-
-                        SendMsgToServer(message.ToByte());
-                    }
-
-
-
-
-                    //using (OBATP_TO_WSATP OBATP_TO_WSATP = new OBATP_TO_WSATP()) // buradan çıkınca patlayabilir bakılacak
+                    //using (OBATP_TO_WSATPAdapter adappppppppp = new OBATP_TO_WSATPAdapter(OBATP))
                     //{
-                    //    OBATP_TO_WSATP.EmergencyBrakeApplied = Convert.ToByte(false);
-                    //    OBATP_TO_WSATP.TrainAbsoluteZeroSpeed = Convert.ToByte(false);
-                    //    OBATP_TO_WSATP.AllTrainDoorsClosedAndLocked = Convert.ToByte(false);
-                    //    OBATP_TO_WSATP.EnablePSD1 = Convert.ToByte(255);
-                    //    OBATP_TO_WSATP.EnablePSD2 = Convert.ToByte(255);
-                    //    //OBATP_TO_WSATP.ActiveATP = Convert.ToByte("\x02".Substring(2), NumberStyles.HexNumber); // Encoding.ASCII.GetBytes("\x02");
-                    //    OBATP_TO_WSATP.ActiveATP = Byte.Parse("0x02".Substring(2), NumberStyles.HexNumber); // Encoding.ASCII.GetBytes("\x02");
-                    //    OBATP_TO_WSATP.ActiveCab = Byte.Parse("0x03".Substring(2), NumberStyles.HexNumber);//Convert.ToByte("\x03");
-                    //    OBATP_TO_WSATP.TrainDirection = Convert.ToByte(OBATP.Direction);
-                    //    OBATP_TO_WSATP.TrainCoupled = Byte.Parse("0x04".Substring(2), NumberStyles.HexNumber); //Convert.ToByte("\x04");
-                    //    OBATP_TO_WSATP.TrainIntegrity = Convert.ToByte(false);
-                    //    OBATP_TO_WSATP.TrainLocationDeterminationFault = Convert.ToByte(false);
-                    //    OBATP_TO_WSATP.TrackDatabaseVersionMajor = Convert.ToByte(1);
-                    //    OBATP_TO_WSATP.TrackDatabaseVersionMinor = Convert.ToByte(1);
-                    //    OBATP_TO_WSATP.TrainDerailment = Convert.ToByte(false);
-
-                    //    Array.Copy(OBATP.footPrintTracks, OBATP_TO_WSATP.FootPrintTrackSectionID, OBATP.footPrintTracks.Length);
-                    //    Array.Copy(OBATP.virtualOccupationTracks, OBATP_TO_WSATP.VirtualOccupancyTrackSectionID, OBATP.virtualOccupationTracks.Length);
-
-                    //    OBATP_TO_WSATP.BerthingOk = Convert.ToByte(false);
-                    //    OBATP_TO_WSATP.TrainNumber = Convert.ToByte((UInt32)OBATP.Vehicle.TrainID);
-
-                    //    byte[] OBATP_TO_WSATP_ByteArray = OBATP_TO_WSATP.ToByte();
+                    //    byte[] OBATP_TO_WSATP_ByteArray = adappppppppp.ToByte();
 
 
 
@@ -478,78 +451,50 @@ namespace OnBoard
 
 
                     //    messageCreator.SetMessageBuilder(OBATP_TO_WSATP_Message);
-                    //    messageCreator.CreateMessage(61001, (UInt32)OBATP.OBATP_ID, DateTimeExtensions.GetAllMiliSeconds(), 1, OBATP_TO_WSATP_ByteArray, 47851476196393100);
+
+                    //    int OBATP_ID = 25000 + Convert.ToInt32(OBATP.Vehicle.TrainID);
+
+                    //    messageCreator.CreateMessage(61001, (UInt32)OBATP_ID, DateTimeExtensions.GetAllMiliSeconds(), 1, OBATP_TO_WSATP_ByteArray, 47851476196393100);
 
 
                     //    Message message = messageCreator.GetMessage();
 
-
                     //    SendMsgToServer(message.ToByte());
                     //}
+                    #endregion
 
 
-                   
+                    #region OBATP_TO_WSATPAdapter
+
+                    using (OBATO_TO_ATSAdapter adappppppppp = new OBATO_TO_ATSAdapter(OBATP))
+                    {
+                        byte[] OBATO_TO_ATS_ByteArray = adappppppppp.ToByte();
 
 
 
-                    //using (Message message = new Message())
-                    //{
-                    //    message.DS = (UInt32)Enums.Message.DS.OBATP_TO_WSATP;
-                    //    message.Size = (UInt32)Enums.Message.Size.Size; //(40 + sourceMessageData.Length); //
-                    //    message.ID = (UInt32)Enums.Message.ID.OBATP_TO_WSATP;
-                    //    message.DST = 61001;
-                    //    message.SRC = (UInt32)OBATP.OBATP_ID;
-                    //    message.RTC = DateTimeExtensions.GetAllMiliSeconds();
-                    //    message.NO = 1;
+                        MessageCreator messageCreator = new MessageCreator();
+                        OBATO_TO_ATS_MessageBuilder OBATO_TO_ATS_Message = new OBATO_TO_ATS_MessageBuilder();
 
-                    //    message.CRC = 47851476196393100;
-                    //    ////OBATP_TO_WSATP içerik oluşturma
-                    //    using (OBATP_TO_WSATP OBATP_TO_WSATP = new OBATP_TO_WSATP()) // buradan çıkınca patlayabilir bakılacak
-                    //    {
-                    //        OBATP_TO_WSATP.EmergencyBrakeApplied = Convert.ToByte(false);
-                    //        OBATP_TO_WSATP.TrainAbsoluteZeroSpeed = Convert.ToByte(false);
-                    //        OBATP_TO_WSATP.AllTrainDoorsClosedAndLocked = Convert.ToByte(false);
-                    //        OBATP_TO_WSATP.EnablePSD1 = Convert.ToByte(255);
-                    //        OBATP_TO_WSATP.EnablePSD2 = Convert.ToByte(255);
-                    //        //OBATP_TO_WSATP.ActiveATP = Convert.ToByte("\x02".Substring(2), NumberStyles.HexNumber); // Encoding.ASCII.GetBytes("\x02");
-                    //        OBATP_TO_WSATP.ActiveATP = Byte.Parse("0x02".Substring(2), NumberStyles.HexNumber); // Encoding.ASCII.GetBytes("\x02");
-                    //        OBATP_TO_WSATP.ActiveCab = Byte.Parse("0x03".Substring(2), NumberStyles.HexNumber);//Convert.ToByte("\x03");
-                    //        OBATP_TO_WSATP.TrainDirection = Convert.ToByte(OBATP.Direction);
-                    //        OBATP_TO_WSATP.TrainCoupled = Byte.Parse("0x04".Substring(2), NumberStyles.HexNumber); //Convert.ToByte("\x04");
-                    //        OBATP_TO_WSATP.TrainIntegrity = Convert.ToByte(false);
-                    //        OBATP_TO_WSATP.TrainLocationDeterminationFault = Convert.ToByte(false);
-                    //        OBATP_TO_WSATP.TrackDatabaseVersionMajor = Convert.ToByte(1);
-                    //        OBATP_TO_WSATP.TrackDatabaseVersionMinor = Convert.ToByte(1);
-                    //        OBATP_TO_WSATP.TrainDerailment = Convert.ToByte(false);
 
-                    //        Array.Copy(OBATP.footPrintTracks, OBATP_TO_WSATP.FootPrintTrackSectionID, OBATP.footPrintTracks.Length);
-                    //        Array.Copy(OBATP.virtualOccupationTracks, OBATP_TO_WSATP.VirtualOccupancyTrackSectionID, OBATP.virtualOccupationTracks.Length);
+                        messageCreator.SetMessageBuilder(OBATO_TO_ATS_Message);
 
-                    //        OBATP_TO_WSATP.BerthingOk = Convert.ToByte(false);
-                    //        OBATP_TO_WSATP.TrainNumber = Convert.ToByte((UInt32)OBATP.Vehicle.TrainID);
+                        int OBATP_ID = 20000 + Convert.ToInt32(OBATP.Vehicle.TrainID);
 
-                    //        byte[] OBATP_TO_WSATP_ByteArray = OBATP_TO_WSATP.ToByte();
-                    //        message.DATA = OBATP_TO_WSATP_ByteArray; 
+                        messageCreator.CreateMessage(1, (UInt32)OBATP_ID, DateTimeExtensions.GetAllMiliSeconds(), 1, OBATO_TO_ATS_ByteArray, 47851476196393100);
 
-                    //    }
 
-                    //    //send message to wsatp
-                    //    SendMsgToServer(message.ToByte());
-                    //}
+                        Message message = messageCreator.GetMessage();
+
+                        SendMsgToServer(message.ToByte());
+                    }
+                    #endregion
+
+
                 }
             } 
 
 
-
-            public void TrainMovementRouteCreated(Route route)
-            {
-               
-            }
-
-            public void TrainMovementUI(UIOBATP UIOBATP)
-            {
-
-            }
+ 
                 #endregion
 
             }

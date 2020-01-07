@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace OnBoard
 {
+    [Serializable]
     public struct Vehicle : IVehicle
     {
 

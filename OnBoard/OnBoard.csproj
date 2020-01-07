@@ -61,7 +61,10 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BoolExtensions.cs" />
+    <Compile Include="ExtensionMethods\ActiveATPExtensions.cs" />
+    <Compile Include="ExtensionMethods\ActiveCabExtensions.cs" />
+    <Compile Include="ExtensionMethods\BoolExtensions.cs" />
+    <Compile Include="ExtensionMethods\WakeUpTrainExtensions.cs" />
     <Compile Include="HelperClass.cs" />
     <Compile Include="Logging.cs" />
     <Compile Include="MessagePatterns\DataPackets\OBATO_TO_ATS\Adapter\OBATO_TO_ATSAdaptee.cs" />
@@ -75,7 +78,7 @@
     <Compile Include="MessagePatterns\MessageObserver\ATS_TO_OBATO_MessageObserver\ATS_TO_OBATO_MessageInComing.cs" />
     <Compile Include="MessagePatterns\MessageObserver\ATS_TO_OBATO_MessageObserver\IATS_TO_OBATO_MessageCreate.cs" />
     <Compile Include="MessagePatterns\MessageObserver\ATS_TO_OBATO_MessageObserver\IATS_TO_OBATO_MessageWatcher.cs" />
-    <Compile Include="DateTimeExtensions.cs" />
+    <Compile Include="ExtensionMethods\DateTimeExtensions.cs" />
     <Compile Include="ListViewHelper.cs" />
     <Compile Include="MessagePatterns\DataPackets\ATS_TO_OBATO\ATS_TO_OBATO.cs" />
     <Compile Include="MessagePatterns\DataPackets\ATS_TO_OBATO\Adapter\ATS_TO_OBATOAdaptee.cs" />
@@ -99,10 +102,11 @@
     <Compile Include="MessagePatterns\DataPackets\WSATP_TO_OBATP\Adapter\WSATP_TO_OBATPAdapter.cs" />
     <Compile Include="OBATPPool.cs" />
     <Compile Include="OBATPUIPartial.cs" />
-    <Compile Include="TrainCoupledExtensions.cs" />
-    <Compile Include="TrainCreateObserver\ITrainCreate.cs" />
-    <Compile Include="TrainCreateObserver\ITrainCreateWatcher.cs" />
-    <Compile Include="TrainCreateObserver\TrainCreate.cs" />
+    <Compile Include="ExtensionMethods\TrainCoupledExtensions.cs" />
+    <Compile Include="TrainObserver\ITrainCreatedWatcher.cs" />
+    <Compile Include="TrainObserver\ITrainMovementCreatedWatcher.cs" />
+    <Compile Include="TrainObserver\ITrainMovementRouteCreatedWatcher.cs" />
+    <Compile Include="TrainObserver\ITrainMovementUIWatcher.cs" />
     <Compile Include="UIAdapter\OBATPUIAdaptee.cs" />
     <Compile Include="UIAdapter\OBATPUIAdapter.cs" />
     <Compile Include="Settings\CommunicationSettingsModal.cs">
@@ -148,9 +152,9 @@
     <Compile Include="Serialization\XMLSerialization.cs" />
     <Compile Include="ThreadSafeList.cs" />
     <Compile Include="Track.cs" />
-    <Compile Include="TrainObserver\ITrainMovementCreate.cs" />
-    <Compile Include="TrainObserver\ITrainMovementWatcher.cs" />
-    <Compile Include="TrainObserver\TrainMovementCreate.cs" />
+    <Compile Include="TrainObserver\ITrainObserver.cs" />
+    <Compile Include="TrainObserver\ITrainObserverWatcher.cs" />
+    <Compile Include="TrainObserver\TrainObserver.cs" />
     <Compile Include="Settings\TrainSettingsModal.cs">
       <SubType>Form</SubType>
     </Compile>

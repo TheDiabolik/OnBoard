@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace OnBoard
 {
-   public class Route : IDisposable
+    [Serializable]
+    public class Route : IDisposable
     {
 
         public int Route_No { get; set; }
@@ -21,7 +22,7 @@ namespace OnBoard
 
         public Track Exit_Track { get; set; } = new Track();
 
-        public List<Track> Route_Tracks { get; set; } = new List<Track>();
+        public ThreadSafeList<Track> Route_Tracks { get; set; } = new ThreadSafeList<Track>();
 
         public ThreadSafeList<Track> R_Tracks { get; set; } = new ThreadSafeList<Track>();
         public  double Length { get; set; }
@@ -54,7 +55,7 @@ namespace OnBoard
 
 
         //static  
-        public  List<Route> AllRoute(DataTable dt, List<Track> allTracks)
+        public  List<Route> AllRoute(DataTable dt, ThreadSafeList<Track> allTracks)
         {
           List<Route> routeList = new List<Route>();
 
@@ -156,12 +157,12 @@ namespace OnBoard
                     //    //routeLength = routeLength + route.Route_Tracks[i].Track_Length;
                     //}
 
-                    //foreach (Track item in route.Route_Tracks)
-                    //{
-                    //    item.StartPositionInRoute = routeLength;
-                    //    item.StopPositionInRoute = routeLength + item.Track_Length;
-                    //    routeLength += item.Track_Length;
-                    //}
+                    foreach (Track item in route.Route_Tracks)
+                    {
+                        item.StartPositionInRoute = routeLength;
+                        item.StopPositionInRoute = routeLength + item.Track_Length;
+                        routeLength += item.Track_Length;
+                    }
 
                     //route.Length = routeLength;
 
@@ -454,7 +455,7 @@ namespace OnBoard
         //}
 
 
-        public static Route CreateNewRoute(int startTrackID, int stopTrackID, List<Track> tracks)
+        public static Route CreateNewRoute(int startTrackID, int stopTrackID, ThreadSafeList<Track> tracks)
         {
             Route route = new Route();
 

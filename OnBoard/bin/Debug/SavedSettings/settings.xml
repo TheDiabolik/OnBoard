@@ -166,7 +166,6 @@
   <TrainFrequency>5</TrainFrequency>
   <Trains>
     <int>0</int>
-    <int>4</int>
-    <int>9</int>
+    <int>7</int>
   </Trains>
 </XMLSerialization>

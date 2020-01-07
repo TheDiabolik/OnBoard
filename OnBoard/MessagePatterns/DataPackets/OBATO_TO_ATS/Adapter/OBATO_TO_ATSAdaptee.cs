@@ -311,11 +311,13 @@ namespace OnBoard
             this.PerformanceLevel = 0;
             this.OBATCSoftwareVersion = 0;
             this.OBATCHardwareVersion = 0;
-            this.TrainNumber = 0;
+
+            this.TrainNumber = Convert.ToInt32(OBATP.Vehicle.TrainID);
+
             this.TrainSetCarNumber = Enums.TrainSetCarNumber.Four;
 
 
-            this.TrainSpeed = 0;
+            this.TrainSpeed = Convert.ToInt32(OBATP.Vehicle.CurrentTrainSpeedKMH);
 
 
 
