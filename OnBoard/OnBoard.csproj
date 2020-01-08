@@ -64,6 +64,7 @@
     <Compile Include="ExtensionMethods\ActiveATPExtensions.cs" />
     <Compile Include="ExtensionMethods\ActiveCabExtensions.cs" />
     <Compile Include="ExtensionMethods\BoolExtensions.cs" />
+    <Compile Include="ExtensionMethods\TrainDirectionExtensions.cs" />
     <Compile Include="ExtensionMethods\WakeUpTrainExtensions.cs" />
     <Compile Include="HelperClass.cs" />
     <Compile Include="Logging.cs" />
@@ -153,7 +154,6 @@
     <Compile Include="ThreadSafeList.cs" />
     <Compile Include="Track.cs" />
     <Compile Include="TrainObserver\ITrainObserver.cs" />
-    <Compile Include="TrainObserver\ITrainObserverWatcher.cs" />
     <Compile Include="TrainObserver\TrainObserver.cs" />
     <Compile Include="Settings\TrainSettingsModal.cs">
       <SubType>Form</SubType>
@@ -231,6 +231,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\24-HotTrain.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\24-NormalTrain.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\24-DisabledTrain.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

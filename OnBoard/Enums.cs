@@ -8,6 +8,7 @@ namespace OnBoard
 {
     public class Enums
     {
+        public enum TrainDirection { ToYenikapı , FromYenikapı };
         public enum Direction { Left = 1, Right = 2 };
         public enum DoorStatus { Open, Close };
 

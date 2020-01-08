@@ -52,6 +52,8 @@ namespace OnBoard
             base.Rear_Track_Length = _adaptee.Rear_Track_Length;
             base.Rear_Track_Max_Speed = _adaptee.Rear_Track_Max_Speed;
             base.Total_Route_Distance = _adaptee.Total_Route_Distance;
+
+            base.TrainOnTracks = _adaptee.TrainOnTracks;
         }
 
 

@@ -16,7 +16,6 @@ namespace OnBoard
 
 
         private OBATP m_OBATP;
-        private OBATP m_OBATPRoute;
         private UIOBATP m_UIOBATP;
         private Route m_route;
 
@@ -49,7 +48,7 @@ namespace OnBoard
         {
             foreach (ITrainMovementUIWatcher watcher in m_trainMovementUIWatcher)
             {
-                watcher.TrainMovementUI(m_UIOBATP);
+                watcher.TrainMovementUI(m_OBATP, m_UIOBATP);
             }
         }
 
@@ -71,9 +70,16 @@ namespace OnBoard
             this.m_route = route;
             InformTrainMovementRouteCreatedWatcher();
         }
-        public void TrainMovementUI(UIOBATP UIOBATP)
+
+        public void TrainMovementUI(OBATP OBATP, UIOBATP UIOBATP)
         {
-            this.m_UIOBATP = UIOBATP;
+            UIOBATP adapter = new OBATPUIAdapter(OBATP);   
+
+          
+
+            this.m_UIOBATP = adapter;
+            this.m_OBATP = OBATP;  
+
             InformTrainMovementUIWatcher();
         }
 

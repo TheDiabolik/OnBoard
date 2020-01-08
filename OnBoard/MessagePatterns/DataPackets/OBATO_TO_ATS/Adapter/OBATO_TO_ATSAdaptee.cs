@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -230,7 +231,10 @@ namespace OnBoard
 
 
 
-
+        [Browsable(false)]
+        public ushort[] footPrintTracks = new ushort[15];
+        [Browsable(false)]
+        public ushort[] virtualOccupationTracks = new ushort[20];
 
 
 
@@ -321,23 +325,20 @@ namespace OnBoard
 
 
 
-            //ushort[] footPrintTracks = FindTrackRangeInAllTracks(OBATP.FrontOfTrainTrackWithFootPrint.Track, OBATP.RearOfTrainTrackWithFootPrint.Track, MainForm.m_allTracks);
+            footPrintTracks = HelperClass.FindTrackRangeInAllTracks(OBATP.FrontOfTrainTrackWithFootPrint.Track, OBATP.RearOfTrainTrackWithFootPrint.Track, MainForm.m_allTracks);
 
-            Array.Copy(OBATP.footPrintTracks, this.FootPrintTrackSectionID, OBATP.footPrintTracks.Length);
+            Array.Copy(footPrintTracks, this.FootPrintTrackSectionID, footPrintTracks.Length);
 
             this.FootPrintFirstTrackSectionOffset = OBATP.FrontOfTrainTrackWithFootPrint.Location;
             this.FootPrintLastTrackSectionOffset = OBATP.RearOfTrainTrackWithFootPrint.Location;
 
 
-            //ushort[] virtualOccupationTracks = FindTrackRangeInAllTracks(OBATP.vi.FrontOfTrainVirtualOccupation.Track, OBATP.RearOfTrainVirtualOccupation.Track, MainForm.m_allTracks);
+            ushort[] virtualOccupationTracks = HelperClass.FindTrackRangeInAllTracks(OBATP.FrontOfTrainVirtualOccupation.Track, OBATP.RearOfTrainVirtualOccupation.Track, MainForm.m_allTracks);
 
-            Array.Copy(OBATP.virtualOccupationTracks, this.VirtualOccupancyTrackSectionID, OBATP.virtualOccupationTracks.Length);
+            Array.Copy(virtualOccupationTracks, this.VirtualOccupancyTrackSectionID, virtualOccupationTracks.Length);
 
             this.VirtualOccupancyFirstTrackSectionOffset = OBATP.FrontOfTrainVirtualOccupation.Location;
-            this.VirtualOccupancyLastTrackSectionOffset = OBATP.RearOfTrainVirtualOccupation.Location;
-
-          
-          
+            this.VirtualOccupancyLastTrackSectionOffset = OBATP.RearOfTrainVirtualOccupation.Location; 
 
 
             //belli olmayanlar
@@ -471,20 +472,6 @@ namespace OnBoard
 
 
 
-
-        public ushort[] FindTrackRangeInAllTracks(Track frontTrack, Track rearTrack, List<Track> allTracks)
-        {
-            ushort[] trackRangeList = new ushort[15];
-
-            int frontTrackIndex = allTracks.FindIndex(x => x == frontTrack);
-            int rearTrackIndex = allTracks.FindIndex(x => x == rearTrack);
-
-            if (frontTrackIndex != -1 && rearTrackIndex != -1)
-                trackRangeList = allTracks.Where((element, index) => (index <= frontTrackIndex) && (index >= rearTrackIndex)).Select(x => (ushort)x.Track_ID).ToList().ToArray();
-            else if (frontTrackIndex != -1 && rearTrackIndex == -1)
-                trackRangeList = allTracks.Where((element, index) => (index <= frontTrackIndex) && (index >= frontTrackIndex - 1)).Select(x => (ushort)x.Track_ID).ToList().ToArray();
-
-            return trackRangeList;
-        }
+ 
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,6 +27,14 @@ namespace OnBoard
         //general
         public string Total_Route_Distance { get; set; }
 
+
+        [Browsable(false)]
+        public TrainOnTracks TrainOnTracks = new TrainOnTracks();
+        [Browsable(false)]
+        public ushort[] footPrintTracks = new ushort[15];
+        [Browsable(false)]
+        public ushort[] virtualOccupationTracks = new ushort[20];
+
         public OBATPUIAdaptee(OBATP OBATP)
         {
 
@@ -41,6 +50,28 @@ namespace OnBoard
             this.Rear_Track_Length = OBATP.ActualRearOfTrainCurrent.Track.Track_Length.ToString();
             this.Rear_Track_Max_Speed = OBATP.ActualRearOfTrainCurrent.Track.MaxTrackSpeedKMH.ToString();
             this.Total_Route_Distance = OBATP.TotalTrainDistance.ToString("0.##");
+
+
+
+            footPrintTracks = HelperClass.FindTrackRangeInAllTracks(OBATP.FrontOfTrainTrackWithFootPrint.Track, OBATP.RearOfTrainTrackWithFootPrint.Track, MainForm.m_allTracks);
+            virtualOccupationTracks = HelperClass.FindTrackRangeInAllTracks(OBATP.FrontOfTrainVirtualOccupation.Track, OBATP.RearOfTrainVirtualOccupation.Track, MainForm.m_allTracks);
+            ushort[] actual = HelperClass.FindTrackRangeInAllTracks(OBATP.ActualFrontOfTrainCurrent.Track, OBATP.ActualRearOfTrainCurrent.Track, MainForm.m_allTracks);
+
+            //arayüzde göstermek için liste
+            TrainOnTracks.VirtualOccupationTracks.Clear();
+            TrainOnTracks.FootPrintTracks.Clear();
+            TrainOnTracks.ActualLocationTracks.Clear();
+
+
+            foreach (ushort item in footPrintTracks)
+                TrainOnTracks.FootPrintTracks.Add(MainForm.m_allTracks.Find(x => x.Track_ID == item));
+
+            foreach (ushort item in virtualOccupationTracks)
+                TrainOnTracks.VirtualOccupationTracks.Add(MainForm.m_allTracks.Find(x => x.Track_ID == item));
+
+            foreach (ushort item in actual)
+                TrainOnTracks.ActualLocationTracks.Add(MainForm.m_allTracks.Find(x => x.Track_ID == item)); 
+
         }
     }
 }

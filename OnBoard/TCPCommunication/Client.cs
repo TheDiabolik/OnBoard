@@ -14,7 +14,7 @@ namespace OnBoard
 {
     partial class SocketCommunication
     {
-        public class Client :  ITrainCreatedWatcher, ITrainMovementCreatedWatcher  //ITrainCreateWatcher, ITrainObserverWatcher
+        public class Client :  ITrainCreatedWatcher, ITrainMovementCreatedWatcher   
         {
             #region variables
             private static Client m_do = null;

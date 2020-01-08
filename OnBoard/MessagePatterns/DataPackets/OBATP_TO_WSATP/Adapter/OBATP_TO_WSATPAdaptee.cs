@@ -61,14 +61,14 @@ namespace OnBoard
 
 
 
-            ushort[] footPrintTracks = FindTrackRangeInAllTracks(OBATP.FrontOfTrainTrackWithFootPrint.Track, OBATP.RearOfTrainTrackWithFootPrint.Track, MainForm.m_allTracks);
-            ushort[] virtualOccupationTracks = FindTrackRangeInAllTracks(OBATP.FrontOfTrainVirtualOccupation.Track, OBATP.RearOfTrainVirtualOccupation.Track, MainForm.m_allTracks);
+            FootPrintTrackSectionID = HelperClass.FindTrackRangeInAllTracks(OBATP.FrontOfTrainTrackWithFootPrint.Track, OBATP.RearOfTrainTrackWithFootPrint.Track, MainForm.m_allTracks);
+            VirtualOccupancyTrackSectionID = HelperClass.FindTrackRangeInAllTracks(OBATP.FrontOfTrainVirtualOccupation.Track, OBATP.RearOfTrainVirtualOccupation.Track, MainForm.m_allTracks);
 
 
 
 
-            Array.Copy(footPrintTracks, this.FootPrintTrackSectionID, OBATP.footPrintTracks.Length);
-            Array.Copy(virtualOccupationTracks, this.VirtualOccupancyTrackSectionID, OBATP.virtualOccupationTracks.Length);
+            Array.Copy(FootPrintTrackSectionID, this.FootPrintTrackSectionID, FootPrintTrackSectionID.Length);
+            Array.Copy(VirtualOccupancyTrackSectionID, this.VirtualOccupancyTrackSectionID,  VirtualOccupancyTrackSectionID.Length);
 
             this.BerthingOk = false;
             this.TrainNumber = OBATP.Vehicle.TrainID;
@@ -76,24 +76,7 @@ namespace OnBoard
 
         }
         
-
-
-        public  ushort[] FindTrackRangeInAllTracks(Track frontTrack, Track rearTrack, ThreadSafeList<Track> allTracks)
-        {
-            ushort[] trackRangeList = new ushort[15];
-
-            int frontTrackIndex = allTracks.ToList().FindIndex(x => x == frontTrack);
-            int rearTrackIndex = allTracks.ToList().FindIndex(x => x == rearTrack);
-
-            if (frontTrackIndex != -1 && rearTrackIndex != -1)
-                trackRangeList = allTracks.Where((element, index) => (index <= frontTrackIndex) && (index >= rearTrackIndex)).Select(x => (ushort)x.Track_ID).ToList().ToArray();
-            else if (frontTrackIndex != -1 && rearTrackIndex == -1)
-                trackRangeList = allTracks.Where((element, index) => (index <= frontTrackIndex) && (index >= frontTrackIndex - 1)).Select(x => (ushort)x.Track_ID).ToList().ToArray();
-
-            return trackRangeList;
-        }
-
-
+ 
 
     }
 }

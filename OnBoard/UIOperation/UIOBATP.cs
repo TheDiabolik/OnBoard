@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,7 +28,8 @@ namespace OnBoard
         public string Total_Route_Distance { get; set; }
 
 
- 
+        [Browsable(false)]
+        public TrainOnTracks TrainOnTracks = new TrainOnTracks();
 
 
 
