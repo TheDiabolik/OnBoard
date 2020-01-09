@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace OnBoard
@@ -18,10 +19,10 @@ namespace OnBoard
         {
             #region variables
             private static Client m_do = null;
-            internal Socket m_clientSock; 
-           
-           
-           
+            internal Socket m_clientSock;
+            ConcurrentBag<byte[]> m_createdTrainsMessage;
+
+
             private byte[] m_clientBufRecv, m_clientBufSend;
             private int m_clientIndexRecv, m_clientLeftRecv, m_clientIndexSend, m_clientLeftSend; 
            
@@ -42,34 +43,28 @@ namespace OnBoard
                 m_timer = new System.Timers.Timer(1000);
                 m_timer.Elapsed += m_stopWatch_Elapsed;
 
-                //train create
-                //MainForm.m_trainCreate.AddWatcher(this);
+                m_createdTrainsMessage = new ConcurrentBag<byte[]>();
 
-
-                //movement
+             
+                //create
                 MainForm.m_trainObserver.AddTrainCreatedWatcher(this);
+                //movement
                 MainForm.m_trainObserver.AddTrainMovementCreatedWatcher(this);
                 
-
-
-
-                //MainForm.m_WSATP_TO_OBATPMessageInComing.AddWatcher((MainForm.m_mf);
+ 
 
 
             }
 
             void m_stopWatch_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
-            {
-               
-
+            { 
                 if (m_clientSock != null)
                 {
                     if (m_stopWatch.Elapsed.TotalSeconds > 3)
                     {
                         SendMsgToServer("AREYOUALIVE$");
-                        DisplayManager.RichTextBoxInvoke(MainForm.m_mf.m_richTextBox, "Connect Check to WaySide...", Color.DarkRed);
-
-                        //DisplayManager.RichTextBoxInvoke(SocketCommunication.Singleton().m_speedCorridor.richTextBox1, "Bağlantı Kontrol Ediliyor...!", Color.DarkRed);
+                        DisplayManager.RichTextBoxInvoke(MainForm.m_mf.m_richTextBox, "Connect Check to WaySide...", Color.DarkRed); 
+                        
                     }
                 }
                 else
@@ -159,7 +154,19 @@ namespace OnBoard
                     m_clientLeftRecv = m_clientBufRecv.Length;
 
 
-                    //SendMsgToServer("CONNECT$" );
+                    while (!m_createdTrainsMessage.IsEmpty)
+                    {
+                        if (m_createdTrainsMessage.TryPeek(out byte[] messageToSend))
+                        {
+                            SendMsgToServer(messageToSend);
+
+                            break;
+                            //Thread.Sleep(1000);
+                        }
+
+                    }
+
+
 
                     DisplayManager.RichTextBoxInvoke(MainForm.m_mf.m_richTextBox, "Connect to WaySide...", Color.DarkRed);
 
@@ -168,6 +175,16 @@ namespace OnBoard
                 catch (Exception e)
                 {
                     DisplayManager.RichTextBoxInvoke(MainForm.m_mf.m_richTextBox, "Connection Failure to WaySide...", Color.DarkRed);
+
+                    if (m_clientSock != null)
+                    {
+                        m_clientSock.Close();
+                        m_clientSock = null;
+
+
+                    }
+                    return;
+
                 }
             }
 
@@ -227,14 +244,13 @@ namespace OnBoard
 
                             MessageSelector messageSelector = new MessageSelector();
                             IMessageType messageType = messageSelector.GetMessageType((Enums.Message.ID)messageID);
-                            IMessageType dataorj = messageType.CreateMessage(message.DATA);
-
+                            IMessageType dataorj = messageType.CreateMessage(message.DATA); 
 
 
                             ATS_TO_OBATO_InitAdapter adap = new ATS_TO_OBATO_InitAdapter(dataorj);
 
 
-                            string asdasdasdasd = adap.ATStoOBATO_TrainNumber.ToString();
+                          bool deneme =    m_createdTrainsMessage.Contains(incomingBytes);
 
                             //atsden gelen init mesajı
                             //Enums.OBATP_ID OBATPID = (Enums.OBATP_ID)message.DST;
@@ -350,33 +366,7 @@ namespace OnBoard
             public void SendMsgToServer(byte[] buf)
             {
                 try
-                {
-                    //int len;
-
-
-                    //byte[] bufLen = BitConverter.GetBytes(buf.Length);
-                    ////byte[] clientBufSend = new byte[buf.Length + bufLen.Length];
-
-                    //m_clientBufSend = new byte[buf.Length + bufLen.Length];
-
-                    //Array.Copy(bufLen, m_clientBufSend, 4); 
-                    //Array.Copy(buf,0, m_clientBufSend, 4, buf.Length); 
-
-                    //m_clientIndexSend = 0;
-                    //m_clientLeftSend = m_clientBufSend.Length;
-
-                    //m_clientSock.BeginSend(m_clientBufSend, m_clientIndexSend, m_clientLeftSend, SocketFlags.None, new AsyncCallback(ClientSendProc), null);
-
-                    int len;
-
-
-                    //byte[] bufLen = BitConverter.GetBytes(buf.Length);
-                    ////byte[] clientBufSend = new byte[buf.Length + bufLen.Length];
-
-                    //m_clientBufSend = new byte[buf.Length + bufLen.Length];
-
-                    //Array.Copy(bufLen, m_clientBufSend, 4);
-                    //Array.Copy(buf, 0, m_clientBufSend, 4, buf.Length);
+                {  
                     m_clientBufSend = buf;
 
                     m_clientIndexSend = 0;
@@ -425,7 +415,12 @@ namespace OnBoard
                         Message message = messageCreator.GetMessage();
 
                         var dsfsd = message.ToByte();
-                        SendMsgToServer(message.ToByte());
+
+                        m_createdTrainsMessage.Add(message.ToByte());
+
+
+
+                        //SendMsgToServer(message.ToByte());
                     }
                 }
             }

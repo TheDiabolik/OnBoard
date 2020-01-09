@@ -91,14 +91,12 @@ namespace OnBoard
             DataTable rt = FileOperation.ReadRouteTableInExcel();
             Route route1 = new Route();
             m_allRoute = route1.AllRoute(rt, m_allTracks);
-           
-
 
             //m_socketCommunication.Start(SocketCommunication.CommunicationType.Client, "10.2.149.17", 205);
             //m_socketCommunication.Start(SocketCommunication.CommunicationType.Client, m_settings.OBATPToWSATCIPAddress, Convert.ToInt32(m_settings.OBATPToWSATCPort)); 
             m_socketCommunication.Start(SocketCommunication.CommunicationType.Client, "127.0.0.1", 5050);
 
-
+            //m_socketCommunication.Start(SocketCommunication.CommunicationType.Client, "10.2.149.12", 12101);
 
 
             foreach (int index in m_settings.Trains)
@@ -143,10 +141,14 @@ namespace OnBoard
             #endregion
 
 
-           
+
+
+        
+
+
         }
 
- 
+
 
 
         private void MainForm_Load(object sender, EventArgs e)
