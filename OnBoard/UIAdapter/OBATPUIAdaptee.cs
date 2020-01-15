@@ -53,25 +53,44 @@ namespace OnBoard
 
 
 
-            footPrintTracks = HelperClass.FindTrackRangeInAllTracks(OBATP.FrontOfTrainTrackWithFootPrint.Track, OBATP.RearOfTrainTrackWithFootPrint.Track, MainForm.m_allTracks);
-            virtualOccupationTracks = HelperClass.FindTrackRangeInAllTracks(OBATP.FrontOfTrainVirtualOccupation.Track, OBATP.RearOfTrainVirtualOccupation.Track, MainForm.m_allTracks);
-            ushort[] actual = HelperClass.FindTrackRangeInAllTracks(OBATP.ActualFrontOfTrainCurrent.Track, OBATP.ActualRearOfTrainCurrent.Track, MainForm.m_allTracks);
+          
+
+            //footPrintTracks = HelperClass.FindTrackRangeInAllTracks(OBATP.FrontOfTrainTrackWithFootPrint.Track, OBATP.RearOfTrainTrackWithFootPrint.Track, MainForm.m_mf.m_allTracks);
+            //virtualOccupationTracks = HelperClass.FindTrackRangeInAllTracks(OBATP.FrontOfTrainVirtualOccupation.Track, OBATP.RearOfTrainVirtualOccupation.Track, MainForm.m_mf.m_allTracks);
+            //ushort[] actual = HelperClass.FindTrackRangeInAllTracks(OBATP.ActualFrontOfTrainCurrent.Track, OBATP.ActualRearOfTrainCurrent.Track, MainForm.m_mf.m_allTracks);
+
+            footPrintTracks = HelperClass.FindTrackRangeInAllTracks(OBATP.FrontOfTrainTrackWithFootPrint.Track, OBATP.RearOfTrainTrackWithFootPrint.Track, OBATP.m_route.Route_Tracks);
+            virtualOccupationTracks = HelperClass.FindTrackRangeInAllTracks(OBATP.FrontOfTrainVirtualOccupation.Track, OBATP.RearOfTrainVirtualOccupation.Track, OBATP.m_route.Route_Tracks);
+            ushort[] actual = HelperClass.FindTrackRangeInAllTracks(OBATP.ActualFrontOfTrainCurrent.Track, OBATP.ActualRearOfTrainCurrent.Track, OBATP.m_route.Route_Tracks);
 
             //arayüzde göstermek için liste
-            TrainOnTracks.VirtualOccupationTracks.Clear();
-            TrainOnTracks.FootPrintTracks.Clear();
-            TrainOnTracks.ActualLocationTracks.Clear();
+            //TrainOnTracks.VirtualOccupationTracks.Clear();
+            //TrainOnTracks.FootPrintTracks.Clear();
+            //TrainOnTracks.ActualLocationTracks.Clear();
 
 
             foreach (ushort item in footPrintTracks)
-                TrainOnTracks.FootPrintTracks.Add(MainForm.m_allTracks.Find(x => x.Track_ID == item));
+                TrainOnTracks.FootPrintTracks.Add(MainForm.m_mf.m_allTracks.Find(x => x.Track_ID == item));
 
             foreach (ushort item in virtualOccupationTracks)
-                TrainOnTracks.VirtualOccupationTracks.Add(MainForm.m_allTracks.Find(x => x.Track_ID == item));
+                TrainOnTracks.VirtualOccupationTracks.Add(MainForm.m_mf.m_allTracks.Find(x => x.Track_ID == item));
 
             foreach (ushort item in actual)
-                TrainOnTracks.ActualLocationTracks.Add(MainForm.m_allTracks.Find(x => x.Track_ID == item)); 
+                TrainOnTracks.ActualLocationTracks.Add(MainForm.m_mf.m_allTracks.Find(x => x.Track_ID == item));
 
-        }
+
+
+            var sfsef = TrainOnTracks.FootPrintTracks;
+
+            //foreach (ushort item in footPrintTracks)
+            //    TrainOnTracks.FootPrintTracks.Add(MainForm.m_allTracks.Find(x => x.Track_ID == item));
+
+            //foreach (ushort item in virtualOccupationTracks)
+            //    TrainOnTracks.VirtualOccupationTracks.Add(MainForm.m_allTracks.Find(x => x.Track_ID == item));
+
+            //foreach (ushort item in actual)
+            //    TrainOnTracks.ActualLocationTracks.Add(MainForm.m_allTracks.Find(x => x.Track_ID == item)); 
+
+         }
     }
 }

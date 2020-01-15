@@ -325,20 +325,28 @@ namespace OnBoard
 
 
 
-            footPrintTracks = HelperClass.FindTrackRangeInAllTracks(OBATP.FrontOfTrainTrackWithFootPrint.Track, OBATP.RearOfTrainTrackWithFootPrint.Track, MainForm.m_allTracks);
+            //footPrintTracks = HelperClass.FindTrackRangeInAllTracks(OBATP.FrontOfTrainTrackWithFootPrint.Track, OBATP.RearOfTrainTrackWithFootPrint.Track, MainForm.m_mf.m_allTracks);
+            footPrintTracks = HelperClass.FindTrackRangeInAllTracks(OBATP.FrontOfTrainTrackWithFootPrint.Track, OBATP.RearOfTrainTrackWithFootPrint.Track,OBATP.m_route.Route_Tracks);
 
             Array.Copy(footPrintTracks, this.FootPrintTrackSectionID, footPrintTracks.Length);
 
-            this.FootPrintFirstTrackSectionOffset = OBATP.FrontOfTrainTrackWithFootPrint.Location;
-            this.FootPrintLastTrackSectionOffset = OBATP.RearOfTrainTrackWithFootPrint.Location;
+            //this.FootPrintFirstTrackSectionOffset = OBATP.FrontOfTrainTrackWithFootPrint.Location;
+            //this.FootPrintLastTrackSectionOffset = OBATP.RearOfTrainTrackWithFootPrint.Location;
+            this.FootPrintFirstTrackSectionOffset = 0;
+            this.FootPrintLastTrackSectionOffset = 0;
 
 
-            ushort[] virtualOccupationTracks = HelperClass.FindTrackRangeInAllTracks(OBATP.FrontOfTrainVirtualOccupation.Track, OBATP.RearOfTrainVirtualOccupation.Track, MainForm.m_allTracks);
+
+            //ushort[] virtualOccupationTracks = HelperClass.FindTrackRangeInAllTracks(OBATP.FrontOfTrainVirtualOccupation.Track, OBATP.RearOfTrainVirtualOccupation.Track, MainForm.m_mf.m_allTracks);
+            ushort[] virtualOccupationTracks = HelperClass.FindTrackRangeInAllTracks(OBATP.FrontOfTrainVirtualOccupation.Track, OBATP.RearOfTrainVirtualOccupation.Track, OBATP.m_route.Route_Tracks);
 
             Array.Copy(virtualOccupationTracks, this.VirtualOccupancyTrackSectionID, virtualOccupationTracks.Length);
 
-            this.VirtualOccupancyFirstTrackSectionOffset = OBATP.FrontOfTrainVirtualOccupation.Location;
-            this.VirtualOccupancyLastTrackSectionOffset = OBATP.RearOfTrainVirtualOccupation.Location; 
+            //this.VirtualOccupancyFirstTrackSectionOffset = OBATP.FrontOfTrainVirtualOccupation.Location;
+            //this.VirtualOccupancyLastTrackSectionOffset = OBATP.RearOfTrainVirtualOccupation.Location;
+
+            this.VirtualOccupancyFirstTrackSectionOffset = 0;
+            this.VirtualOccupancyLastTrackSectionOffset = 0;
 
 
             //belli olmayanlar

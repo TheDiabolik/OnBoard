@@ -28,41 +28,23 @@ namespace OnBoard
         #region properties 
 
 
-
-        //public string OBATO_to_WSATO_Sending_IPAddress { get; set; }
-        //public string OBATP_to_OBATO_Sending_IPAddress { get; set; }
-        //public string OBATO_to_ATS_Sending_IPAddress { get; set; }
-        //public int ATS_to_OBATO_Port { get; set; }
-        //public int OBATO_to_OBATP_Port { get; set; }
-        //public int OBATP_to_OBATO_Port { get; set; }
-        //public int OBATP_to_WSATP_Port { get; set; }
-        //public int OBATO_to_ATS_Port { get; set; }
-        //public int OBATO_to_WSATO_Port { get; set; }
-        //public int TotalMilliseconds { get; set; }
-        //public string ATS_to_OBATO_Receiving_IPAddress { get; set; }
-        //public string WSATP_to_OBATP_Receiving_IPAddress { get; set; }
-        //public string WSATO_to_OBATO_Receiving_IPAddress { get; set; }
-        //public string OBATO_to_OBATP_Receiving_IPAddress { get; set; }
-        //public string OBATP_to_OBATO_Receiving_IPAddress { get; set; }
-        //public string OBATP_to_OBATP_Sending_IPAddress { get; set; }
-        //public string OBATO_to_OBATP_Sending_IPAddress { get; set; }
-        //public string OBATO_to_OBATO_Sending_IPAddress { get; set; }
-        //public int WSATP_to_OBATP_Port { get; set; }
-        //public int WSATO_to_OBATO_Port { get; set; }
+ 
 
         #region connection
         public string ATSToOBATPIPAddress { get; set; }
         public string ATSToOBATPPort { get; set; }
+        public Enums.CommunicationType ATSToOBATPCommunicationType { get; set; }
 
         public string OBATPToATSIPAddress { get; set; }
         public string OBATPToATSPort { get; set; }
-
+        public Enums.CommunicationType OBATPToATSCommunicationType { get; set; }
 
         public string WSATCToOBATPIPAddress { get; set; }
         public string WSATCToOBATPPort { get; set; }
-
+        public Enums.CommunicationType WSATCToOBATPCommunicationType { get; set; }
         public string OBATPToWSATCIPAddress { get; set; }
         public string OBATPToWSATCPort { get; set; }
+        public Enums.CommunicationType OBATPToWSATCCommunicationType { get; set; }
         #endregion
 
         public int TrainLength { get; set; }
@@ -76,7 +58,7 @@ namespace OnBoard
         public int EndTrackID { get; set; }
         public Enums.TrackInput  TrackInput{ get; set; }
 
-        public Enums.CommunicationType CommunicationType { get; set; }
+       
         public DataTable RouteTrack { get; set; } = new DataTable();
 
 
@@ -105,15 +87,22 @@ namespace OnBoard
                 //xmlserilization dosyasını kontrol ediyoruz
                 if (!File.Exists(SerializationPaths.Settings))
                 {
-                    //this.ATS_to_OBATO_Port = 13400;
-                    //this.OBATO_to_OBATP_Port = 14500;
-                    //this.OBATP_to_OBATO_Port = 15400;
-                    //this.OBATP_to_WSATP_Port = 15100;
-                    //this.OBATO_to_ATS_Port = 14300;
-                    //this.OBATO_to_WSATO_Port = 14200;
-                    //this.TotalMilliseconds = 1000;
-                    //this.WSATP_to_OBATP_Port = 11500;
-                    //this.WSATO_to_OBATO_Port = 12400;
+                    this.OBATPToATSIPAddress = "127.0.0.1";
+                    this.OBATPToATSPort = 10201.ToString();
+                    OBATPToATSCommunicationType = Enums.CommunicationType.Client;
+
+                    this.ATSToOBATPIPAddress = "127.0.0.1";
+                    this.ATSToOBATPPort = 12101.ToString();
+                    ATSToOBATPCommunicationType = Enums.CommunicationType.Client;
+
+                    this.OBATPToWSATCIPAddress = "127.0.0.1";
+                    this.OBATPToWSATCPort = 14001.ToString();
+                    OBATPToWSATCCommunicationType = Enums.CommunicationType.Client;
+
+                    this.WSATCToOBATPIPAddress = "127.0.0.1";
+                    this.WSATCToOBATPPort = 11001.ToString();
+                    WSATCToOBATPCommunicationType = Enums.CommunicationType.Client;
+
 
                     this.Serialize(XMLSerialization.Singleton());
                 }

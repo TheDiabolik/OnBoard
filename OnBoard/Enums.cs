@@ -12,6 +12,7 @@ namespace OnBoard
         public enum Direction { Left = 1, Right = 2 };
         public enum DoorStatus { Open, Close };
 
+        public enum Status { Create, Start, Stop };
         public enum Route { In, Out };
         public enum TrackInput { Manuel, FromFile };
 
@@ -116,13 +117,13 @@ namespace OnBoard
             public enum DS : UInt32
             {
                 //DS = 2//2710927548
-                OBATO_TO_WSATO = 2,
-                OBATP_TO_WSATP = 2,
-                WSATO_TO_OBATO = 2,
-                WSATP_TO_OBATP = 2,
-                ATS_SERVER_TO_OBATO = 2,
-                ATS_SERVER_TO_OBATO_Init = 2,
-                OBATO_TO_ATS_SERVER = 2,
+                OBATO_TO_WSATO = 5,
+                OBATP_TO_WSATP = 5,
+                WSATO_TO_OBATO = 5,
+                WSATP_TO_OBATP = 5,
+                ATS_SERVER_TO_OBATO = 5,
+                ATS_SERVER_TO_OBATO_Init = 5,
+                OBATO_TO_ATS_SERVER = 5,
 
             }
 

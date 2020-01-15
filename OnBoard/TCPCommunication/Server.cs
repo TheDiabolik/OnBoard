@@ -19,11 +19,11 @@ namespace OnBoard
             string m_protocolMsg, m_incomingMsg; 
             Stopwatch m_stopWatch;
             private ThreadSafeList<ClientInfo> m_clients;
-         
+
             #endregion
 
             #region constructor
-            Server()
+            public Server()
             { 
                 m_stopWatch = new Stopwatch(); 
                 m_clients = new ThreadSafeList<ClientInfo>();

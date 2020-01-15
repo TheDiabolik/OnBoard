@@ -81,5 +81,41 @@ namespace OnBoard
                 //label.Text = text;
             }
         }
+
+       
+
+        public static object ComboBoxGetSelectedItemInvoke(ComboBox combobox)
+        {
+            object selectedItem = null;
+
+            MethodInvoker miClearItems = delegate
+            {
+                selectedItem = combobox.SelectedItem;
+            };
+
+            if (combobox.InvokeRequired)
+            {
+                combobox.Invoke(miClearItems);
+            }
+            else
+            {
+                miClearItems();
+            }
+
+            return selectedItem;
+        }
+
+        public static void ComboBoxInvoke(ComboBox comboBox, string text)
+        {
+            if (comboBox.InvokeRequired)
+                comboBox.Invoke((MethodInvoker)delegate
+                {
+                    //label.Text = text;
+                });
+            else
+            {
+                //label.Text = text;
+            }
+        }
     }
 }

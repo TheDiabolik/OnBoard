@@ -24,19 +24,46 @@ namespace OnBoard
 
         }
 
-        public static ushort[] FindTrackRangeInAllTracks(Track frontTrack, Track rearTrack, ThreadSafeList<Track> allTracks)
+        //public static ushort[] FindTrackRangeInAllTracks(Track frontTrack, Track rearTrack, ThreadSafeList<Track> allTracks)
+        public static ushort[] FindTrackRangeInAllTracks(Track frontTrack, Track rearTrack, ThreadSafeList<Track> routeTracks)
         {
             lock(m_lock)
             {
                 ushort[] trackRangeList = new ushort[15];
 
-                int frontTrackIndex = allTracks.ToList().FindIndex(x => x == frontTrack);
-                int rearTrackIndex = allTracks.ToList().FindIndex(x => x == rearTrack);
 
+                //if(frontTrack.Track_ID.ToString().StartsWith("6") || rearTrack.Track_ID.ToString().StartsWith("6"))
+                //{
+                //    return trackRangeList ;
+                //}
+
+                int frontTrackIndex = routeTracks.ToList().FindIndex(x => x == frontTrack);
+                int rearTrackIndex = routeTracks.ToList().FindIndex(x => x == rearTrack);
+
+               
                 if (frontTrackIndex != -1 && rearTrackIndex != -1)
-                    trackRangeList = allTracks.Where((element, index) => (index <= frontTrackIndex) && (index >= rearTrackIndex)).Select(x => (ushort)x.Track_ID).ToList().ToArray();
+                {
+                    if(frontTrackIndex >= rearTrackIndex)
+                        trackRangeList = routeTracks.Where((element, index) => (index <= frontTrackIndex) && (index >= rearTrackIndex)).Select(x => (ushort)x.Track_ID).ToList().ToArray();
+                    else if (frontTrackIndex <= rearTrackIndex)
+                        trackRangeList = routeTracks.Where((element, index) => (index >= frontTrackIndex) && (index <= rearTrackIndex)).Select(x => (ushort)x.Track_ID).ToList().ToArray();
+                }
+
                 else if (frontTrackIndex != -1 && rearTrackIndex == -1)
-                    trackRangeList = allTracks.Where((element, index) => (index <= frontTrackIndex) && (index >= frontTrackIndex - 1)).Select(x => (ushort)x.Track_ID).ToList().ToArray();
+                {
+                    if (frontTrackIndex >= rearTrackIndex)
+                        trackRangeList = routeTracks.Where((element, index) => (index <= frontTrackIndex) && (index >= frontTrackIndex - 1)).Select(x => (ushort)x.Track_ID).ToList().ToArray();
+                    else if (frontTrackIndex <= rearTrackIndex)
+                        trackRangeList = routeTracks.Where((element, index) => (index >= frontTrackIndex) && (index <= frontTrackIndex - 1)).Select(x => (ushort)x.Track_ID).ToList().ToArray();
+                }
+
+
+                //if (trackRangeList.Length > 15)
+                //{
+                //    trackRangeList = new ushort[15];
+                //}
+                  
+
 
                 return trackRangeList;
             }

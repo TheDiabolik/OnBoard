@@ -31,6 +31,18 @@ namespace OnBoard
         [Browsable(false)]
         public TrainOnTracks TrainOnTracks = new TrainOnTracks();
 
+      
+        [Browsable(false)]
+        public bool RefreshRouteTracks { get; set; }
+
+        [Browsable(false)]
+        public bool RefreshActualLocationTracks { get; set; }
+
+        [Browsable(false)]
+        public bool RefreshFootPrintTracks { get; set; }
+
+        [Browsable(false)]
+        public bool RefreshVirtualOccupationTracks { get; set; }
 
 
     }

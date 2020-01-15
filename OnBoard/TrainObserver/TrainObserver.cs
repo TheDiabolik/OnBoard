@@ -71,11 +71,65 @@ namespace OnBoard
             InformTrainMovementRouteCreatedWatcher();
         }
 
+
+        TrainOnTracks sdf = new TrainOnTracks();
+
+        bool zozo;
+       
+        public ThreadSafeList<Track> RouteTracks = new ThreadSafeList<Track>();
         public void TrainMovementUI(OBATP OBATP, UIOBATP UIOBATP)
         {
-            UIOBATP adapter = new OBATPUIAdapter(OBATP);   
+            UIOBATP adapter = new OBATPUIAdapter(OBATP);
 
-          
+            bool isSameActualLocationTracks = sdf.ActualLocationTracks.SequenceEqual(adapter.TrainOnTracks.ActualLocationTracks);
+            bool isSameVirtualOccupationTracks = sdf.VirtualOccupationTracks.SequenceEqual(adapter.TrainOnTracks.VirtualOccupationTracks); 
+            bool isSameFootPrintTracks = sdf.FootPrintTracks.SequenceEqual(adapter.TrainOnTracks.FootPrintTracks);  
+            bool isSameRoute_Tracks = RouteTracks.SequenceEqual(OBATP.m_route.Route_Tracks); 
+
+
+            if (isSameActualLocationTracks)
+            {
+                adapter.RefreshActualLocationTracks = false;
+            }
+            else
+            {
+                sdf.ActualLocationTracks = adapter.TrainOnTracks.ActualLocationTracks;
+                adapter.RefreshActualLocationTracks = true;
+            }
+
+
+            if (isSameVirtualOccupationTracks)
+            {
+                adapter.RefreshVirtualOccupationTracks = false;
+            }
+            else
+            {
+                sdf.VirtualOccupationTracks = adapter.TrainOnTracks.VirtualOccupationTracks;
+                adapter.RefreshVirtualOccupationTracks = true;
+            }
+
+
+            if (isSameFootPrintTracks)
+            {
+                adapter.RefreshFootPrintTracks = false;
+            }
+            else
+            {
+                sdf.FootPrintTracks = adapter.TrainOnTracks.FootPrintTracks;
+                adapter.RefreshFootPrintTracks = true;
+            }
+
+
+            if (isSameRoute_Tracks)
+            {
+                adapter.RefreshRouteTracks = false;
+            }
+            else
+            {
+                RouteTracks = OBATP.m_route.Route_Tracks;
+                adapter.RefreshRouteTracks = true;
+            }
+
 
             this.m_UIOBATP = adapter;
             this.m_OBATP = OBATP;  

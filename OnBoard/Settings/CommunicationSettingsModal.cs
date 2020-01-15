@@ -37,10 +37,25 @@ namespace OnBoard
             m_ıpAddressControlOBATPToWSATC.Text = m_settings.OBATPToWSATCIPAddress;
             m_textBoxOBATPToWSATCPort.Text = m_settings.OBATPToWSATCPort;
 
-            if (m_settings.CommunicationType == Enums.CommunicationType.Server)
-                m_radioButtonServer.Checked = true;
+            if (m_settings.OBATPToWSATCCommunicationType == Enums.CommunicationType.Server)
+                m_radioButtonOBATPToWSATCServer.Checked = true;
             else
-                m_radioButtonClient.Checked = true;
+                m_radioButtonOBATPToWSATCClient.Checked = true;
+
+            if (m_settings.OBATPToATSCommunicationType == Enums.CommunicationType.Server)
+                m_radioButtonOBATPToATSServer.Checked = true;
+            else
+                m_radioButtonOBATPToATSClient.Checked = true;
+
+            if (m_settings.ATSToOBATPCommunicationType == Enums.CommunicationType.Server)
+                m_radioButtonATSToOBATPServer.Checked = true;
+            else
+                m_radioButtonATSToOBATPClient.Checked = true;
+
+            if (m_settings.WSATCToOBATPCommunicationType == Enums.CommunicationType.Server)
+                m_radioButtonWSATCToOBATPServer.Checked = true;
+            else
+                m_radioButtonWSATCToOBATPClient.Checked = true;
         }
 
 
@@ -64,11 +79,26 @@ namespace OnBoard
             m_settings.OBATPToWSATCPort = m_textBoxOBATPToWSATCPort.Text;
 
 
-            if (m_radioButtonServer.Checked)
-                m_settings.CommunicationType = Enums.CommunicationType.Server;
+            if (m_radioButtonOBATPToWSATCServer.Checked)
+                m_settings.OBATPToWSATCCommunicationType = Enums.CommunicationType.Server;
             else
-                m_settings.CommunicationType = Enums.CommunicationType.Client;
+                m_settings.OBATPToWSATCCommunicationType = Enums.CommunicationType.Client;
 
+            if (m_radioButtonOBATPToATSServer.Checked)
+                m_settings.OBATPToATSCommunicationType = Enums.CommunicationType.Server;
+            else
+                m_settings.OBATPToATSCommunicationType = Enums.CommunicationType.Client; 
+
+            if (m_radioButtonATSToOBATPServer.Checked)
+                m_settings.ATSToOBATPCommunicationType = Enums.CommunicationType.Server;
+            else
+                m_settings.ATSToOBATPCommunicationType = Enums.CommunicationType.Client;
+
+
+            if (m_radioButtonWSATCToOBATPServer.Checked)
+                m_settings.WSATCToOBATPCommunicationType = Enums.CommunicationType.Server;
+            else
+                m_settings.WSATCToOBATPCommunicationType = Enums.CommunicationType.Client;  
 
 
             m_settings.Serialize(m_settings);

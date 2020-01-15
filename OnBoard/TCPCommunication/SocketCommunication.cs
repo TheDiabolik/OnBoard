@@ -11,21 +11,25 @@ namespace OnBoard
 { 
         partial class SocketCommunication 
     {
-            #region variables  
-        internal enum CommunicationType { Server, Client}
+            #region variables   
+        private System.Threading.Timer STTimer;
+        bool kontrol = false;
+        //Server m_server;
+        //Client m_client;
+
         #endregion
 
         #region constructor
-        SocketCommunication()
+       public SocketCommunication()
         {
-
+           
         }
 
-      
+        
 
-            #endregion
+        #endregion
 
-            #region singletonpattern
+        #region singletonpattern
             private static SocketCommunication m_do;
 
             public static SocketCommunication Singleton()
@@ -35,35 +39,43 @@ namespace OnBoard
 
                 return m_do;
             }
-            #endregion
+        #endregion
 
 
-            public void Start(CommunicationType communicationType, string ipAddress, int port)
-            { 
-
-                if (communicationType == CommunicationType.Server)
-                {
-                    
-                    SocketCommunication.Server.Singleton().StartServer(ipAddress, port);
-                }
-
-                else
-                {
-                   
-                    SocketCommunication.Client.Singleton().StartClient(ipAddress, port);
-                }
-            }
-
-        public void Stop(CommunicationType communicationType)
+        public void Start(Enums.CommunicationType communicationType, string ipAddress, int port)
         {
 
-            if (communicationType == CommunicationType.Server)
+            if (communicationType == Enums.CommunicationType.Server)
             {
-                SocketCommunication.Server.Singleton().StopServer();
+
+                SocketCommunication.Server.Singleton().StartServer(ipAddress, port);
+                //Server server = new Server();
+                //server.StartServer(ipAddress, port);
+            }
+
+            else
+            {
+                // Client  client = new Client();
+
+                //client.StartClient(ipAddress, port);  m_client = client;
+                SocketCommunication.Client.Singleton().StartClient(ipAddress, port);
+            }
+        }
+
+        public void Stop(Enums.CommunicationType communicationType)
+        {
+
+            if (communicationType == Enums.CommunicationType.Server)
+            {
+                //SocketCommunication.Server.Singleton().StopServer();
+
+                //m_server.StopServer();
             }
             else
             {
-                SocketCommunication.Client.Singleton().StopClient(false);
+              
+                //m_client.StopClient(false);
+                //SocketCommunication.Client.Singleton().StopClient(false);
             }
         } 
          
@@ -83,8 +95,42 @@ namespace OnBoard
                
             }
 
- 
+        public void sda()
+        {
+            if (!kontrol)
+            {
+                kontrol = true;
 
+                if (STTimer != null)
+                    STTimer.Dispose();
+
+                //this.STTimer = new System.Threading.Timer(DeleteInValidImages, null, 1000, System.Threading.Timeout.Infinite);
+                this.STTimer = new System.Threading.Timer(DeleteInValidImages, null, 1000, 1000);
+            }
+
+        }
+        public void DeleteInValidImages(object o)
+        {
+            try
+            {
+
+                SocketCommunication.Client.Singleton().SendTrainCreated();
+
+            }
+            catch (ThreadInterruptedException ex)
+            {
+                kontrol = false;
+                sda();
+                //Logging.WriteLog(DateTime.Now.ToString(), ex.Message.ToString(), ex.StackTrace.ToString(), ex.TargetSite.ToString(), "socket1");
+
+            }
+            catch (Exception ex)
+            {
+                kontrol = false;
+                sda();
+                //Logging.WriteLog(DateTime.Now.ToString(), ex.Message.ToString(), ex.StackTrace.ToString(), ex.TargetSite.ToString(), "socket2");
+            }
+        }
 
 
         #endregion

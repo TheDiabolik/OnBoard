@@ -1,13 +1,17 @@
 <?xml version="1.0"?>
 <XMLSerialization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <ATSToOBATPIPAddress>127.0.0.1</ATSToOBATPIPAddress>
-  <ATSToOBATPPort>5050</ATSToOBATPPort>
+  <ATSToOBATPPort>12101</ATSToOBATPPort>
+  <ATSToOBATPCommunicationType>Client</ATSToOBATPCommunicationType>
   <OBATPToATSIPAddress>127.0.0.1</OBATPToATSIPAddress>
-  <OBATPToATSPort>5051</OBATPToATSPort>
+  <OBATPToATSPort>10201</OBATPToATSPort>
+  <OBATPToATSCommunicationType>Client</OBATPToATSCommunicationType>
   <WSATCToOBATPIPAddress>127.0.0.1</WSATCToOBATPIPAddress>
-  <WSATCToOBATPPort>5052</WSATCToOBATPPort>
+  <WSATCToOBATPPort>11001</WSATCToOBATPPort>
+  <WSATCToOBATPCommunicationType>Client</WSATCToOBATPCommunicationType>
   <OBATPToWSATCIPAddress>127.0.0.1</OBATPToWSATCIPAddress>
-  <OBATPToWSATCPort>5053</OBATPToWSATCPort>
+  <OBATPToWSATCPort>14001</OBATPToWSATCPort>
+  <OBATPToWSATCCommunicationType>Client</OBATPToWSATCCommunicationType>
   <TrainLength>11200</TrainLength>
   <MaxTrainDeceleration>1.1</MaxTrainDeceleration>
   <MaxTrainAcceleration>0.8</MaxTrainAcceleration>
@@ -15,7 +19,6 @@
   <StartTrackID>10103</StartTrackID>
   <EndTrackID>10305</EndTrackID>
   <TrackInput>FromFile</TrackInput>
-  <CommunicationType>Server</CommunicationType>
   <RouteTrack>
     <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
       <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:MainDataTable="RouteTrack" msdata:UseCurrentLocale="true">
