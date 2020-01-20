@@ -8,14 +8,14 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>OnBoard</RootNamespace>
     <AssemblyName>OnBoard</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -49,6 +49,18 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.SQLite, Version=1.0.112.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SQLite.EF6, Version=1.0.112.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\System.Data.SQLite.EF6.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SQLite.Linq, Version=1.0.112.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\System.Data.SQLite.Linq.dll</HintPath>
+    </Reference>
     <Reference Include="System.Design" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
@@ -65,6 +77,8 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Database\ConnectionString.cs" />
+    <Compile Include="Database\veri.cs" />
     <Compile Include="ExtensionMethods\ActiveATPExtensions.cs" />
     <Compile Include="ExtensionMethods\ActiveCabExtensions.cs" />
     <Compile Include="ExtensionMethods\BoolExtensions.cs" />
@@ -77,6 +91,7 @@
     <Compile Include="MessagePatterns\DataPackets\OBATP_TO_WSATP\Adapter\OBATP_TO_WSATPAdaptee.cs" />
     <Compile Include="MessagePatterns\DataPackets\OBATP_TO_WSATP\Adapter\OBATP_TO_WSATPAdapter.cs" />
     <Compile Include="MessagePatterns\MessageBuilder\OBATO_TO_ATS_MessageBuilder.cs" />
+    <Compile Include="MessagePatterns\MessageCounter.cs" />
     <Compile Include="MessagePatterns\MessageObserver\ATS_TO_OBATO_Init_MessageObserver\ATS_TO_OBATO_InitMessageInComing.cs" />
     <Compile Include="MessagePatterns\MessageObserver\ATS_TO_OBATO_Init_MessageObserver\IATS_TO_OBATO_InitMessageCreate.cs" />
     <Compile Include="MessagePatterns\MessageObserver\ATS_TO_OBATO_Init_MessageObserver\IATS_TO_OBATO_InitMessageWatcher.cs" />

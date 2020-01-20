@@ -31,6 +31,9 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.m_groupBoxTrainSettings = new System.Windows.Forms.GroupBox();
+            this.m_labelDoorCounter = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.m_pictureBoxDoorStatus = new System.Windows.Forms.PictureBox();
             this.m_textBoxDoorTimerCounter = new System.Windows.Forms.TextBox();
             this.m_listView = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -64,19 +67,17 @@
             this.m_richTextBox = new System.Windows.Forms.RichTextBox();
             this.m_groupBoxAllTrains = new System.Windows.Forms.GroupBox();
             this.m_groupBoxLogs = new System.Windows.Forms.GroupBox();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.m_labelDoorCounter = new System.Windows.Forms.Label();
             this.m_buttonStop = new System.Windows.Forms.Button();
-            this.m_pictureBoxDoorStatus = new System.Windows.Forms.PictureBox();
             this.m_buttonStart = new System.Windows.Forms.Button();
             this.m_bindingSourceTrains = new System.Windows.Forms.BindingSource(this.components);
+            this.m_backgroundWorkerCommunicationLogs = new System.ComponentModel.BackgroundWorker();
             this.m_groupBoxTrainSettings.SuspendLayout();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.m_pictureBoxDoorStatus)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.m_dataGridViewAllTrains)).BeginInit();
             this.m_mainMenu.SuspendLayout();
             this.m_groupBoxAllTrains.SuspendLayout();
             this.m_groupBoxLogs.SuspendLayout();
-            this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.m_pictureBoxDoorStatus)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.m_bindingSourceTrains)).BeginInit();
             this.SuspendLayout();
             // 
@@ -108,6 +109,37 @@
             this.m_groupBoxTrainSettings.TabIndex = 2;
             this.m_groupBoxTrainSettings.TabStop = false;
             this.m_groupBoxTrainSettings.Text = "Train Parameters";
+            // 
+            // m_labelDoorCounter
+            // 
+            this.m_labelDoorCounter.AutoSize = true;
+            this.m_labelDoorCounter.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.m_labelDoorCounter.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.m_labelDoorCounter.Location = new System.Drawing.Point(821, 134);
+            this.m_labelDoorCounter.Name = "m_labelDoorCounter";
+            this.m_labelDoorCounter.Size = new System.Drawing.Size(29, 40);
+            this.m_labelDoorCounter.TabIndex = 30;
+            this.m_labelDoorCounter.Text = " ";
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.m_pictureBoxDoorStatus);
+            this.panel1.Location = new System.Drawing.Point(748, 129);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(54, 47);
+            this.panel1.TabIndex = 31;
+            // 
+            // m_pictureBoxDoorStatus
+            // 
+            this.m_pictureBoxDoorStatus.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.m_pictureBoxDoorStatus.Image = global::OnBoard.Properties.Resources.doorclose;
+            this.m_pictureBoxDoorStatus.Location = new System.Drawing.Point(1, 1);
+            this.m_pictureBoxDoorStatus.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.m_pictureBoxDoorStatus.Name = "m_pictureBoxDoorStatus";
+            this.m_pictureBoxDoorStatus.Size = new System.Drawing.Size(50, 43);
+            this.m_pictureBoxDoorStatus.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.m_pictureBoxDoorStatus.TabIndex = 29;
+            this.m_pictureBoxDoorStatus.TabStop = false;
             // 
             // m_textBoxDoorTimerCounter
             // 
@@ -424,25 +456,6 @@
             this.m_groupBoxLogs.TabStop = false;
             this.m_groupBoxLogs.Text = "Logs";
             // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.m_pictureBoxDoorStatus);
-            this.panel1.Location = new System.Drawing.Point(748, 129);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(54, 47);
-            this.panel1.TabIndex = 31;
-            // 
-            // m_labelDoorCounter
-            // 
-            this.m_labelDoorCounter.AutoSize = true;
-            this.m_labelDoorCounter.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.m_labelDoorCounter.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.m_labelDoorCounter.Location = new System.Drawing.Point(821, 134);
-            this.m_labelDoorCounter.Name = "m_labelDoorCounter";
-            this.m_labelDoorCounter.Size = new System.Drawing.Size(29, 41);
-            this.m_labelDoorCounter.TabIndex = 30;
-            this.m_labelDoorCounter.Text = " ";
-            // 
             // m_buttonStop
             // 
             this.m_buttonStop.Image = global::OnBoard.Properties.Resources._24_DisabledTrain;
@@ -456,18 +469,6 @@
             this.m_buttonStop.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.m_buttonStop.UseVisualStyleBackColor = true;
             this.m_buttonStop.Click += new System.EventHandler(this.m_buttonStop_Click);
-            // 
-            // m_pictureBoxDoorStatus
-            // 
-            this.m_pictureBoxDoorStatus.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.m_pictureBoxDoorStatus.Image = global::OnBoard.Properties.Resources.doorclose;
-            this.m_pictureBoxDoorStatus.Location = new System.Drawing.Point(1, 1);
-            this.m_pictureBoxDoorStatus.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.m_pictureBoxDoorStatus.Name = "m_pictureBoxDoorStatus";
-            this.m_pictureBoxDoorStatus.Size = new System.Drawing.Size(50, 43);
-            this.m_pictureBoxDoorStatus.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.m_pictureBoxDoorStatus.TabIndex = 29;
-            this.m_pictureBoxDoorStatus.TabStop = false;
             // 
             // m_buttonStart
             // 
@@ -486,6 +487,10 @@
             // m_bindingSourceTrains
             // 
             this.m_bindingSourceTrains.CurrentChanged += new System.EventHandler(this.bindingSource1_CurrentChanged);
+            // 
+            // m_backgroundWorkerCommunicationLogs
+            // 
+            this.m_backgroundWorkerCommunicationLogs.DoWork += new System.ComponentModel.DoWorkEventHandler(this.m_backgroundWorkerCommunicationLogs_DoWork);
             // 
             // MainForm
             // 
@@ -508,13 +513,13 @@
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.m_groupBoxTrainSettings.ResumeLayout(false);
             this.m_groupBoxTrainSettings.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.m_pictureBoxDoorStatus)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.m_dataGridViewAllTrains)).EndInit();
             this.m_mainMenu.ResumeLayout(false);
             this.m_mainMenu.PerformLayout();
             this.m_groupBoxAllTrains.ResumeLayout(false);
             this.m_groupBoxLogs.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.m_pictureBoxDoorStatus)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.m_bindingSourceTrains)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -562,6 +567,7 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label m_labelDoorCounter;
         private System.Windows.Forms.Button m_buttonStop;
+        private System.ComponentModel.BackgroundWorker m_backgroundWorkerCommunicationLogs;
     }
 }
 

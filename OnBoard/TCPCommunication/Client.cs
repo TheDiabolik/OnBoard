@@ -186,6 +186,7 @@ namespace OnBoard
 
             public Enums.Train_ID FindTrainID(uint msgDST)
             { 
+               
                 uint lastdigit = (msgDST % 100);
                 Enums.Train_ID train_ID = (Enums.Train_ID)lastdigit;
 
@@ -232,6 +233,8 @@ namespace OnBoard
 
                             MainForm.m_WSATP_TO_OBATPMessageInComing.WSATP_TO_OBATPNewMessageInComing(train_ID, adap);
 
+                            MainForm.m_mf.m_communicationLogs.Add(message);
+
                         }
                         else if (messageID == (UInt32)Enums.Message.ID.ATS_SERVER_TO_OBATO_Init)
                         {
@@ -250,7 +253,14 @@ namespace OnBoard
                             //atsden gelen init mesajı
                             //Enums.OBATP_ID OBATPID = (Enums.OBATP_ID)message.DST;
                             Enums.Train_ID train_ID = FindTrainID(message.DST);
+
+
+                            //Debug.WriteLine(train_ID.ToString());
+                            //Debug.WriteLine(message.DST.ToString());
+
                             MainForm.m_ATS_TO_OBATO_InitMessageInComing.ATS_TO_OBATO_InitNewMessageInComing(train_ID, adap);
+
+                            MainForm.m_mf.m_communicationLogs.Add(message);
 
                         }
                         else if (messageID == (UInt32)Enums.Message.ID.ATS_SERVER_TO_OBATO)
@@ -269,6 +279,8 @@ namespace OnBoard
                             //Enums.OBATP_ID OBATPID = (Enums.OBATP_ID)message.DST;
                             Enums.Train_ID train_ID = FindTrainID(message.DST);
                             MainForm.m_ATS_TO_OBATO_MessageInComing.ATS_TO_OBATO_NewMessageInComing(train_ID, adap);
+
+                            MainForm.m_mf.m_communicationLogs.Add(message);
 
                         } 
 
@@ -457,10 +469,10 @@ namespace OnBoard
                     using (OBATO_TO_ATSAdapter adappppppppp = new OBATO_TO_ATSAdapter(OBATP))
                     {
 
-                        if(adappppppppp.VirtualOccupancyTrackSectionID.Length > 1)
-                        {
+                        //if(adappppppppp.VirtualOccupancyTrackSectionID.Length > 1)
+                        //{
 
-                        }
+                        //}
 
 
                         byte[] OBATO_TO_ATS_ByteArray = adappppppppp.ToByte();  
@@ -473,10 +485,18 @@ namespace OnBoard
 
                         int OBATP_ID = 20000 + Convert.ToInt32(OBATP.Vehicle.TrainID);
 
+                        Debug.WriteLine(OBATP.Vehicle.TrainID.ToString() + " movement");
+                        Debug.WriteLine(OBATP_ID.ToString() + " movement");
+                       
+
                         messageCreator.CreateMessage(1, (UInt32)OBATP_ID, DateTimeExtensions.GetAllMiliSeconds(), 1, OBATO_TO_ATS_ByteArray, 47851476196393100);
 
 
                         Message message = messageCreator.GetMessage();
+
+
+                        MainForm.m_mf.m_communicationLogs.Add(message);
+
 
                         SendMsgToServer(message.ToByte());
                     }
@@ -494,10 +514,7 @@ namespace OnBoard
                 while (!m_createdTrainsMessage.IsEmpty && m_clientSock.Connected)
                 {
                     if (m_createdTrainsMessage.TryTake(out OBATP OBATP))
-                    {
-
-                        if (OBATP.Status == Enums.Status.Create)
-                            m_createdTrainsMessage.Add(OBATP);
+                    { 
 
 
                         using (OBATO_TO_ATSAdapter adappppppppp = new OBATO_TO_ATSAdapter(OBATP))
@@ -518,14 +535,33 @@ namespace OnBoard
 
                             var dsfsd = message.ToByte();
 
-                            //m_createdTrainsMessage.Add(message.ToByte()); 
+
+                            //if (OBATP_ID == 20001)
+                            //    Debug.WriteLine(OBATP_ID + " movement");
+                            //else if (OBATP_ID == 20002)
+                            //    Debug.WriteLine(OBATP_ID + " movement");
+                            //m_createdTrainsMessage.Add(message.ToByte());  
+
 
                             SendMsgToServer(message.ToByte());
 
 
+
+                            MainForm.m_mf.m_communicationLogs.Add(message);
+
+
+                            //Logging.WriteCommunicationLog((Enums.Message.DS)message.DS, (Enums.Message.Size)message.Size, (Enums.Message.ID) message.ID, message.DST.ToString(), message.SRC.ToString(), message.RTC.ToString(), message.NO.ToString(), message.CRC.ToString());
+
+
+
+                            
+                            //if (OBATP.Status == Enums.Status.Create)
+                            //    m_createdTrainsMessage.Add(OBATP);
+
+
                         }
 
-                        //Thread.Sleep(1000);
+                        Thread.Sleep(3000);
                     }
 
                 }  

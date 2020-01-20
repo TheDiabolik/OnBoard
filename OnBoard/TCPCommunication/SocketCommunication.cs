@@ -105,7 +105,7 @@ namespace OnBoard
                     STTimer.Dispose();
 
                 //this.STTimer = new System.Threading.Timer(DeleteInValidImages, null, 1000, System.Threading.Timeout.Infinite);
-                this.STTimer = new System.Threading.Timer(DeleteInValidImages, null, 1000, 1000);
+                this.STTimer = new System.Threading.Timer(DeleteInValidImages, null, 1000, 5000);
             }
 
         }

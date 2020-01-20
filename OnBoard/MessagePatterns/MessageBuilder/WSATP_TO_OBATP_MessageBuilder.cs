@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace OnBoard
 {
     public class WSATP_TO_OBATP_MessageBuilder : MessageBuilder
-    {
+    { 
 
         public override void CreateMessageDS()
         {
@@ -35,7 +35,11 @@ namespace OnBoard
         }
         public override void CreateMessageNO(UInt32 NO)
         {
-            m_message.NO = NO;
+            //m_message.NO = NO;
+
+            m_message.NO = MessageCounter.WSATP_TO_OBATP_Counter;
+
+            MessageCounter.WSATP_TO_OBATP_Counter++;
         }
 
         public override void CreateMessageDATA(byte[] DATA)

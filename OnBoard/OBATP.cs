@@ -176,6 +176,9 @@ namespace OnBoard
         public Enums.Status Status;
 
 
+        public List<Track> movementTrack = new List<Track>();
+
+
         public OBATP()
         {
 
@@ -212,17 +215,22 @@ namespace OnBoard
             Vehicle.TrainID = trainID;
             Vehicle.TrainName = trainID.ToString();
 
-            MovementAuthorityTrack = route.Route_Tracks.Find(x => x.Track_ID == 11101);
+            //MovementAuthorityTrack = route.Route_Tracks.Find(x => x.Track_ID == 11101);
 
 
             FrontOfTrainLocationFault = 200;
             RearOfTrainLocationFault = 0;
 
+
+
+            //Track startTrack = MainForm.m_mf.m_simulationAllTracks.Find(x => x.Track_ID == route.Entry_Track.Track_ID);
+
             ActualFrontOfTrainCurrent.Track = route.Entry_Track;// startTrack;
             ActualRearOfTrainCurrent.Track = route.Entry_Track;// startTrack;startTrack;
 
 
-            
+            //ActualFrontOfTrainCurrent.Track =  startTrack;
+            //ActualRearOfTrainCurrent.Track =   startTrack;
 
             //ActualFrontOfTrainCurrent.Location = ActualFrontOfTrainCurrent.Track.Track_Length - ((ActualFrontOfTrainCurrent.Track.Track_End_Position - ActualFrontOfTrainCurrent.Track.Stopping_Point_Positon_2) - ActualFrontOfTrainCurrent.Track.Track_Start_Position);//FrontOfTrainCurrentTrack.Track_Start_Position + trainLength;
             //ActualRearOfTrainCurrent.Location = ActualFrontOfTrainCurrent.Location - trainLength;
@@ -331,7 +339,9 @@ namespace OnBoard
                 {
                     lock (zozo)
                     {
-                        //if (Math.Round(FrontOfTrainLocationWithFootPrintInRoute) <=  m_route.Length)
+                        //if (Math.Round(FrontOfTrainLocationWithFootPrintInRoute) <= m_route.Length)
+
+                        //if (FrontOfTrainNextTrack != MovementAuthorityTrack)
                         {
                             //routeCompleted = true;
 
@@ -362,7 +372,8 @@ namespace OnBoard
 
                             if (isTargetSpeed.HasValue)
                                 this.Vehicle.TargetSpeedKMH = isTargetSpeed.Value;
-
+                            else
+                                this.Vehicle.TargetSpeedKMH = 0;
 
 
                             this.Vehicle.CurrentAcceleration = ManageAcceleration(this.Vehicle.CurrentTrainSpeedCMS, this.Vehicle, ActualFrontOfTrainCurrent.Track.MaxTrackSpeedCMS);
@@ -422,35 +433,6 @@ namespace OnBoard
         //sonrasında yapının şekillenmesine göre ayarlanacak
         public Track FindNextTrack(Track track, Enums.Direction direction)// rota zaten bütün trackleri içermiyor mu? burayı inceleyip anlamak lazım
         {
-            // Tekrar bir gözden geçir
-            //Track nextTrack = null;
-
-            //if (direction == Enums.Direction.Right)
-            //{ 
-            //    nextTrack = MainForm.m_mf.m_allTracks.Find(x => x.Track_ID == track.Track_Connection_Exit_1);
-            //}
-            //else if (direction == Enums.Direction.Left)
-            //{ 
-            //    nextTrack = MainForm.m_mf.m_allTracks.Find(x => x.Track_ID == track.Track_Connection_Entry_1); 
-            //}
-
-
-            // Tekrar bir gözden geçir
-            //Track nextTrack = null;
-
-            //if (direction == Enums.Direction.Right)
-            //{
-            //    nextTrack = m_route.Route_Tracks .Find(x => x.Track_ID == track.Track_Connection_Exit_1);
-
-            //    if(nextTrack == null)
-            //        nextTrack = m_route.Route_Tracks.Find(x => x.Track_ID == track.Track_Connection_Exit_2);
-            //}
-            //else if (direction == Enums.Direction.Left)
-            //{
-            //    nextTrack = MainForm.m_mf.m_allTracks.Find(x => x.Track_ID == track.Track_Connection_Entry_1);
-            //}
-
-
 
 
             Track nextTrack = null;
@@ -462,7 +444,13 @@ namespace OnBoard
 
                 int index = m_route.Route_Tracks.IndexOf(track); 
 
-                if (index + 1 < m_route.Route_Tracks.Count)
+
+                //if(track == MovementAuthorityTrack)
+                //{
+                //    nextTrack = track;
+                //}
+                //else
+             if (index + 1 < m_route.Route_Tracks.Count)
                     nextTrack = m_route.Route_Tracks[index + 1];
                 else
                 {
@@ -489,24 +477,16 @@ namespace OnBoard
 
                 int index = m_route.Route_Tracks.IndexOf(track);
 
+                //if (track == MovementAuthorityTrack)
+                //{
+                //    nextTrack = track;
+                //}
+                //else
                 if (index + 1 < m_route.Route_Tracks.Count)
                     nextTrack = m_route.Route_Tracks[index + 1];
                 else
                 {
                     nextTrack = m_route.Route_Tracks[index];
-
-
-                    //m_route = Route.CreateNewRoute(this.ActualFrontOfTrainCurrent.Track.Track_ID, MainForm.m_mf.m_allRoute);
-                    ////m_route = Route.CreateNewRouteStationToStation(this.ActualRearOfTrainCurrent.Track.Track_ID, MainForm.m_mf.m_allRoute);
-                    ////m_route = Route.CreateNewRouteStationToStation(this.ActualFrontOfTrainCurrent.Track.Track_ID, MainForm.m_mf.m_allRoute);
-
-                    ////Route newRoute = Route.CreateNewRoute(track.Track_ID, MainForm.m_mf.m_allRoute);
-
-                    //int index1 = m_route.Route_Tracks.IndexOf(track);
-
-                    //if (index1 + 1 < m_route.Route_Tracks.Count)
-                    //    nextTrack = m_route.Route_Tracks[index1 + 1];
-
                 }
 
 
@@ -918,7 +898,7 @@ namespace OnBoard
 
             // Gitme izni yoksa tren durmalı
             //if (isExceed == Enums.Route.Out || DoorStatus == Enums.DoorStatus.Open || !string.IsNullOrEmpty(frontCurrentTrack.Station_Name) || (!string.IsNullOrEmpty(frontCurrentTrack.Station_Name) && frontCurrentTrack.Station_Name = && DoorStatus == Enums.DoorStatus.Close))//|| DoorStatus == Enums.DoorStatus.Open)
-           if (isExceed == Enums.Route.Out)// || ManageTrainDoors() )// || DoorStatus == Enums.DoorStatus.Open || !string.IsNullOrEmpty(FrontOfTrainCurrentTrack.Station_Name))
+           if (isExceed == Enums.Route.Out || DoorStatus==Enums.DoorStatus.Open )// || DoorStatus == Enums.DoorStatus.Open || !string.IsNullOrEmpty(FrontOfTrainCurrentTrack.Station_Name))
             {
                 targetSpeedKM = 0;
             }
@@ -935,20 +915,20 @@ namespace OnBoard
                 int remainingTracks = m_route.Route_Tracks.Count - frontCurrentTrackIndex;
 
 
-                int de =  m_route.Route_Tracks.ToList().FindIndex (x => x.Track_ID == MovementAuthorityTrack.Track_ID);
+                //int de = m_route.Route_Tracks.ToList().FindIndex(x => x.Track_ID == MovementAuthorityTrack.Track_ID);
 
                 //List<Track> restOfMovementTracks = m_route.Route_Tracks.ToList().GetRange(frontCurrentTrackIndex, remainingTracks);
 
                 //var dsf = m_route.Route_Tracks...Take( While(x => x < 10).ToList();
 
-                //List <Track> restOfMovementTracks = m_route.Route_Tracks.ToList().GetRange(frontCurrentTrackIndex, remainingTracks);
+                List<Track> restOfMovementTracks = m_route.Route_Tracks.ToList().GetRange(frontCurrentTrackIndex, remainingTracks);
 
-                List<Track> restOfMovementTracks = routeTracks.Where((element, index) => (index >= frontCurrentTrackIndex) && (index <= de)).ToList();
+                //List<Track> restOfMovementTracks = routeTracks.Where((element, index) => (index >= frontCurrentTrackIndex) && (index <= de)).ToList();
 
                 Stack<Track> reverseRestOfMovementTracks = new Stack<Track>(restOfMovementTracks.ToList());
 
-                if (restOfMovementTracks.Count == 0)
-                    return targetSpeedKM;
+                //if (restOfMovementTracks.Count == 0)
+                //    return targetSpeedKM;
 
 
 
@@ -1052,9 +1032,9 @@ namespace OnBoard
 
                             int stoppingPoint = TrackStoppingPointForDirection(item, Direction);
 
-                            double asodfpk = item.StopPositionInRoute - item.Stopping_Point_Position_1;
 
                             if (FrontOfTrainLocationWithFootPrintInRoute + Vehicle.BrakingDistance >= (item.StopPositionInRoute - stoppingPoint))
+                            //if (FrontOfTrainLocationWithFootPrintInRoute + Vehicle.BrakingDistance >= (item.StopPositionInRoute - item.Stopping_Point_Position_1))
 
                             {
                                 if (!string.IsNullOrEmpty(item.Station_Name) && item.Station_Name != openDoorTrackName)
@@ -1142,15 +1122,15 @@ namespace OnBoard
 
                                 }
                                 //sonradan eklendi durunca hareket ettirmek için
-                                //else if (Math.Round(FrontOfTrainLocationWithFootPrintInRoute) + Vehicle.BrakingDistance > item.StopPositionInRoute)
-                                //{
-                                //    targetSpeedKM = FindMinSpeedInTracks(item, rearCurrentTrack, routeTracks);
+                                else if (Math.Round(FrontOfTrainLocationWithFootPrintInRoute) + Vehicle.BrakingDistance > item.StopPositionInRoute)
+                                {
+                                    targetSpeedKM = FindMinSpeedInTracks(item, rearCurrentTrack, routeTracks);
 
 
-                                //    //break;
-                                //    return targetSpeedKM;
+                                    //break;
+                                    return targetSpeedKM;
 
-                                //}
+                                }
 
 
 
@@ -1290,7 +1270,7 @@ namespace OnBoard
             }
             else if (vehicle.CurrentTrainSpeedCMS > 0)
             {
-                double distanceToTarget;
+                double distanceToTarget=0;
 
                 Track station = m_route.Route_Tracks.Find(x => (x == ActualFrontOfTrainCurrent.Track) && !string.IsNullOrEmpty(x.Station_Name));
 
@@ -1307,7 +1287,9 @@ namespace OnBoard
                     //if (station.Station_Name == "SGM2")
                     //    distanceToTarget = Math.Abs((station.StopPositionInRoute - station.Stopping_Point_Positon_2 ) - FrontOfTrainLocationWithFootPrintInRoute);
                     //else
-                    distanceToTarget =  Math.Abs( (station.StopPositionInRoute - stoppingPoint) - FrontOfTrainLocationWithFootPrintInRoute);
+                    distanceToTarget = Math.Abs((station.StopPositionInRoute - stoppingPoint) - FrontOfTrainLocationWithFootPrintInRoute);
+                    //distanceToTarget = Math.Abs((station.StopPositionInRoute - station.Stopping_Point_Position_1) - FrontOfTrainLocationWithFootPrintInRoute);
+
                     //int stopPosition;
 
                     //if (Direction == Enums.Direction.Right)
@@ -1318,6 +1300,12 @@ namespace OnBoard
 
                     //distanceToTarget = (station.StopPositionInRoute - stopPosition) - FrontOfTrainLocationWithFootPrintInRoute;
                 }
+                //else if (ActualFrontOfTrainCurrent.Track == MovementAuthorityTrack)
+                //{
+                //    int stoppingPoint = TrackStoppingPointForDirection(ActualFrontOfTrainCurrent.Track, Direction);
+
+                //    distanceToTarget = Math.Abs((ActualFrontOfTrainCurrent.Track.StopPositionInRoute - stoppingPoint) - FrontOfTrainLocationWithFootPrintInRoute);
+                //}
                 else
                 {
                     //burayı değiştireceğim
@@ -1600,37 +1588,42 @@ namespace OnBoard
 
                     if (Direction == Enums.Direction.Right)
                     {
+
+                        m_route = Route.CreateNewRouteToStation(this.ActualFrontOfTrainCurrent.Track.Track_ID, MainForm.m_mf.m_YNK1_KIR2_YNK1);
+
+
+
                         //m_route = Route.CreateNewRoute(this.ActualFrontOfTrainCurrent.Track.Track_ID, MainForm.m_mf.m_FromYenikapıTracks);
 
-                        //if ((m_route.Route_Tracks.Count == 1) && (!string.IsNullOrEmpty(m_route.Route_Tracks.First().Station_Name)) && (m_route.Route_Tracks.First().Station_Name == "KRZ2"))
-                        //{
-                        //    m_route = Route.CreateNewRoute(this.ActualFrontOfTrainCurrent.Track.Track_ID, MainForm.m_mf.m_ToYenikapıTracks);
+                        if ((m_route.Route_Tracks.Count == 1) && (!string.IsNullOrEmpty(m_route.Route_Tracks.First().Station_Name)) && (m_route.Route_Tracks.First().Station_Name == "KRZ2"))
+                        {
+                            m_route = Route.CreateNewRoute(this.ActualFrontOfTrainCurrent.Track.Track_ID, MainForm.m_mf.m_ToYenikapıTracks);
 
-                        //    ActualFrontOfTrainCurrent.Track = m_route.Entry_Track;// startTrack;
-                        //    ActualRearOfTrainCurrent.Track = m_route.Entry_Track;// startTrack;startTrack;
+                            ActualFrontOfTrainCurrent.Track = m_route.Entry_Track;// startTrack;
+                            ActualRearOfTrainCurrent.Track = m_route.Entry_Track;// startTrack;startTrack;
 
-                        //    ActualFrontOfTrainCurrent.Location = (ActualFrontOfTrainCurrent.Track.Stopping_Point_Position_1);//FrontOfTrainCurrentTrack.Track_Start_Position + trainLength;
-                        //    ActualRearOfTrainCurrent.Location = ActualFrontOfTrainCurrent.Location + 11200;
-                        //}
+                            ActualFrontOfTrainCurrent.Location = (ActualFrontOfTrainCurrent.Track.Stopping_Point_Position_1);//FrontOfTrainCurrentTrack.Track_Start_Position + trainLength;
+                            ActualRearOfTrainCurrent.Location = ActualFrontOfTrainCurrent.Location + 11200;
+                        }
                     }
-                    else
-                    {
-                        //m_route = Route.CreateNewRoute(this.ActualFrontOfTrainCurrent.Track.Track_ID, MainForm.m_mf.m_ToYenikapıTracks);
+                    //else
+                    //{
+                    //    m_route = Route.CreateNewRoute(this.ActualFrontOfTrainCurrent.Track.Track_ID, MainForm.m_mf.m_ToYenikapıTracks);
 
-                        //if ((m_route.Route_Tracks.Count == 1) && (!string.IsNullOrEmpty(m_route.Route_Tracks.First().Station_Name)) && (m_route.Route_Tracks.First().Station_Name == "YNK1"))
-                        //{
-                        //    m_route = Route.CreateNewRoute(this.ActualFrontOfTrainCurrent.Track.Track_ID, MainForm.m_mf.m_FromYenikapıTracks);
+                    //    if ((m_route.Route_Tracks.Count == 1) && (!string.IsNullOrEmpty(m_route.Route_Tracks.First().Station_Name)) && (m_route.Route_Tracks.First().Station_Name == "YNK1"))
+                    //    {
+                    //        m_route = Route.CreateNewRoute(this.ActualFrontOfTrainCurrent.Track.Track_ID, MainForm.m_mf.m_FromYenikapıTracks);
 
 
-                        //    ActualFrontOfTrainCurrent.Track = m_route.Entry_Track;// startTrack;
-                        //    ActualRearOfTrainCurrent.Track = m_route.Entry_Track;// startTrack;startTrack;
+                    //        ActualFrontOfTrainCurrent.Track = m_route.Entry_Track;// startTrack;
+                    //        ActualRearOfTrainCurrent.Track = m_route.Entry_Track;// startTrack;startTrack;
 
-                        //    ActualFrontOfTrainCurrent.Location = (ActualFrontOfTrainCurrent.Track.Stopping_Point_Positon_2);//FrontOfTrainCurrentTrack.Track_Start_Position + trainLength;
-                        //    ActualRearOfTrainCurrent.Location = ActualFrontOfTrainCurrent.Location - 11200;
+                    //        ActualFrontOfTrainCurrent.Location = (ActualFrontOfTrainCurrent.Track.Stopping_Point_Positon_2);//FrontOfTrainCurrentTrack.Track_Start_Position + trainLength;
+                    //        ActualRearOfTrainCurrent.Location = ActualFrontOfTrainCurrent.Location - 11200;
 
-                        //}
-                    }
-                  
+                    //    }
+                    //}
+
 
                     return DoorStatus;
                 }
@@ -1815,6 +1808,17 @@ namespace OnBoard
             {
                 if (this.Vehicle.TrainID == train_ID)
                 {
+
+                    if (this.Status != Enums.Status.Create)
+                        return;
+
+
+
+
+                    Debug.WriteLine(train_ID.ToString() + " created");
+                   
+
+
                     bool isGetValue = MainForm.m_allOBATP.TryGetValue(Convert.ToInt32(train_ID), out OBATP OBATP);
 
                     if (isGetValue)

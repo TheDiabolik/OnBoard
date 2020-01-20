@@ -33,7 +33,7 @@ namespace OnBoard
 
         Stopwatch stopwatch = new Stopwatch();
 
-      
+        internal BlockingCollection<Message> m_communicationLogs;
 
         internal static TrainObserver m_trainObserver;
         internal static WSATP_TO_OBATPMessageInComing m_WSATP_TO_OBATPMessageInComing;
@@ -46,6 +46,10 @@ namespace OnBoard
         public List<Track> m_ToYenikapıTracks;
         public List<Track> m_FromYenikapıTracks;
 
+        public List<Track> m_KIR2_YNK1;
+        public List<Track> m_YNK1_KIR2;
+        public List<Track> m_YNK1_KIR2_YNK1;
+
         public ThreadSafeList<Track> m_simulationAllTracks;
         public  List<Route> m_allRoute;
         internal static DataTable m_fromFileTracks;
@@ -53,7 +57,7 @@ namespace OnBoard
         internal static Route m_route;
         readonly object m_movement = new object();
         readonly object m_newRoute = new object();
-        readonly object m_movementUI = new object(); 
+        readonly object m_movementUI = new object();
 
         public MainForm()
         {
@@ -76,6 +80,9 @@ namespace OnBoard
             #endregion
 
             //CheckForIllegalCrossThreadCalls = false;
+            m_communicationLogs = new BlockingCollection<Message>();
+
+
 
             STTimer = new System.Timers.Timer();
             STTimer.Elapsed += OnTimerElapsed;
@@ -85,22 +92,28 @@ namespace OnBoard
 
             m_ToYenikapıTracks = new List<Track>();
             m_FromYenikapıTracks = new List<Track>();
+
+            m_KIR2_YNK1 = new List<Track>();
+            m_YNK1_KIR2 = new List<Track>();
+            m_YNK1_KIR2_YNK1 = new List<Track>();
+
+
             m_simulationAllTracks = new ThreadSafeList<Track>();
 
-            m_allOBATP = new ConcurrentDictionary<int, OBATP>(); 
+            m_allOBATP = new ConcurrentDictionary<int, OBATP>();
             m_trainObserver = new TrainObserver();
-            
+
             m_WSATP_TO_OBATPMessageInComing = new WSATP_TO_OBATPMessageInComing();
             m_ATS_TO_OBATO_InitMessageInComing = new ATS_TO_OBATO_InitMessageInComing();
             m_ATS_TO_OBATO_MessageInComing = new ATS_TO_OBATO_MessageInComing();
 
-           
+
             MainForm.m_trainObserver.AddTrainMovementCreatedWatcher(this);
             MainForm.m_trainObserver.AddTrainMovementUIWatcher(this);
 
             //excel tablosundan track listesini ve özelliklerini okuyoruz    
-            m_fromFileTracks = FileOperation.Singleton().EPPlusReadTrackTableInExcel(); 
-             
+            m_fromFileTracks = FileOperation.Singleton().EPPlusReadTrackTableInExcel();
+
 
             if (m_settings.TrackInput == Enums.TrackInput.Manuel)
             {
@@ -108,8 +121,11 @@ namespace OnBoard
             }
             else if (m_settings.TrackInput == Enums.TrackInput.FromFile)
             {
-                m_allTracks = Track.AllTracks(m_fromFileTracks); 
+                m_allTracks = Track.AllTracks(m_fromFileTracks);
             }
+
+            #region veritabanı için commentlendi
+
 
             //m_simulationRouteTracks = FileOperation.Singleton().ReadSimulationRouteTableInExcel();
             m_simulationRouteTracks = FileOperation.Singleton().EPPlusReadSimulationRouteTableInExcel();
@@ -127,9 +143,35 @@ namespace OnBoard
 
             int indexlen = m_simulationAllTracks.ToList().FindLastIndex(x => x.Track_ID == 10101);
 
-            m_FromYenikapıTracks =  m_simulationAllTracks.Where((element, index) => (index >= 0) && (index <= indexLastStation)).ToList();
+            m_FromYenikapıTracks = m_simulationAllTracks.Where((element, index) => (index >= 0) && (index <= indexLastStation)).ToList();
 
             m_ToYenikapıTracks = m_simulationAllTracks.Where((element, index) => (index >= indexLastStation) && (index <= indexlen)).ToList();
+
+            #endregion
+
+
+
+
+            ////m_simulationRouteTracks = FileOperation.Singleton().ReadSimulationRouteTableInExcel();
+            //m_simulationRouteTracks = FileOperation.Singleton().EPPlusReadSimulationRouteTableInExcel();
+            ////m_allRoute =  Route.SimulationRoute(m_simulationRouteTracks);
+            //m_allRoute = Route.SimulationRouteStationToStation(m_simulationRouteTracks);
+
+
+            //m_simulationAllTracks = Track.SimulationTrack(m_simulationRouteTracks);
+
+            //Track lastStation = m_simulationAllTracks.Find(x => x.Track_ID == 23402);
+            //int indexLastStation = m_simulationAllTracks.IndexOf(lastStation);
+
+            ////Track len = m_simulationAllTracks.ToList().FindLastIndex(x => x.Track_ID == 10101);
+            ////int indexlen = m_simulationAllTracks.IndexOf(len);
+
+            //int firstindexlen = m_simulationAllTracks.ToList().FindIndex(x => x.Track_ID == 10102);
+            //int indexlen = m_simulationAllTracks.ToList().FindLastIndex(x => x.Track_ID == 10102);
+
+            //m_FromYenikapıTracks = m_simulationAllTracks.Where((element, index) => (index >= firstindexlen) && (index <= indexLastStation)).ToList();
+
+            //m_ToYenikapıTracks = m_simulationAllTracks.Where((element, index) => (index >= indexLastStation) && (index <= indexlen)).ToList();
 
 
             //m_FromYenikapıTracks = m_simulationAllTracks.Where((element, index) => (index <= 0) && (index >= indexLastStation))
@@ -139,7 +181,130 @@ namespace OnBoard
 
             //m_route = Route.CreateNewRoute(10301, m_ToYenikapıTracks);
 
-            m_route = Route.CreateRingRoute(11502, m_ToYenikapıTracks);
+            //m_route = Route.CreateRingRoute(11502, m_ToYenikapıTracks);
+
+
+            //List<Track> denemeAhmet = new List<Track>();
+
+            //denemeAhmet.AddRange(m_FromYenikapıTracks);
+
+            //m_ToYenikapıTracks.RemoveAt(0);
+
+            //denemeAhmet.AddRange(m_ToYenikapıTracks);
+
+            //m_route = Route.CreateNewRoute(10101, m_FromYenikapıTracks);
+            //m_route = Route.CreateRingRoute(10101, m_simulationAllTracks.ToList());
+
+
+
+            veri veri = new veri();
+            Task<List<Track>> taskSelect = veri.AsycSelectYNK1_KIR2();
+            taskSelect.Wait();
+
+
+
+            m_YNK1_KIR2 = taskSelect.Result;
+
+
+            Task<List<Track>> taskSelect1 = veri.AsycSelectKIR2_YNK1();
+            taskSelect1.Wait();
+
+
+
+            m_KIR2_YNK1 = taskSelect1.Result;
+
+
+            Task<List<Track>> taskSelect2 = veri.AsycSelectYNK1_KIR2_YNK1();
+            taskSelect2.Wait();
+
+
+
+            m_YNK1_KIR2_YNK1 = taskSelect2.Result;
+
+
+
+
+            foreach (Track track in m_YNK1_KIR2_YNK1)
+            {
+                Track startTrack = MainForm.m_mf.m_simulationAllTracks.Find(x => x.Track_ID == track.Track_ID);
+
+
+
+                track.Station_Start_Position = startTrack.Station_Start_Position;
+                track.Station_End_Position = startTrack.Station_End_Position;
+              
+               
+                track.Line_ID = startTrack.Line_ID;
+                track.Track_Type = startTrack.Track_Type;
+                track.Track_Start_Position = startTrack.Track_Start_Position;
+                track.Track_End_Position = startTrack.Track_End_Position;
+                track.Track_Length = startTrack.Track_Length;
+                track.Track_Speed_Limit_KMH = startTrack.Track_Speed_Limit_KMH;
+                track.Track_Speed_Limit_CMSEC = startTrack.Track_Speed_Limit_CMSEC;
+                track.Stopping_Point_Position_1 = startTrack.Stopping_Point_Position_1;
+                track.Stopping_Point_Type_1 = startTrack.Stopping_Point_Type_1;
+                track.Stopping_Point_Positon_2 = startTrack.Stopping_Point_Positon_2;
+                track.Stopping_Point_Type_2 = startTrack.Stopping_Point_Type_2;
+                track.Track_Connection_Entry_1 = startTrack.Track_Connection_Entry_1;
+                track.Track_Connection_Entry_2 = startTrack.Track_Connection_Entry_2;
+                track.Track_Connection_Exit_1 = startTrack.Track_Connection_Exit_1;
+                track.Track_Connection_Exit_2 = startTrack.Track_Connection_Exit_2;
+                track.Track_Connection_Exit_2 = startTrack.Track_Connection_Exit_2;
+                track.Track_Connection_Exit_2 = startTrack.Track_Connection_Exit_2;
+                track.MaxTrackSpeedKMH = startTrack.MaxTrackSpeedKMH;
+                track.MaxTrackSpeedCMS = startTrack.MaxTrackSpeedCMS;
+                track.SpeedChangeVMax = startTrack.SpeedChangeVMax;
+
+
+            }
+
+
+
+            m_route = Route.CreateRingRoute(10101, m_YNK1_KIR2_YNK1);
+
+
+            //int coun = 0;
+            //double routeLength = 0;
+
+            //foreach (Track track in m_YNK1_KIR2_YNK1)
+            //{
+            //    //track.StartPositionInRoute = routeLength;
+            //    //track.StopPositionInRoute = routeLength + track.Track_Length;
+
+
+            //    double start = routeLength;
+            //    double stop = routeLength + track.Track_Length;
+
+            //    routeLength += track.Track_Length;
+
+
+
+
+            //    coun++;
+
+            //    List<string> values = new List<string>(new string[] { start.ToString(), stop.ToString() , coun.ToString()});
+
+            //    //List<string> values = new List<string>(new string[] { item.Station_Name, item.Track_ID.ToString(), item.Track_Length.ToString()});
+
+            //    Task<int> taskInsert = veri.AsyncInsertCircle(values);
+
+            //    taskInsert.Wait();
+            //}
+
+            //route.Length = routeLength;
+
+
+            //foreach (var item in m_route.Route_Tracks)
+            //{
+
+            //    List<string> values = new List<string>(new string[] { item.Station_Name, item.Track_ID.ToString(), item.Track_Length.ToString(), item.StartPositionInRoute.ToString(), item.StopPositionInRoute.ToString() });
+
+            //    //List<string> values = new List<string>(new string[] { item.Station_Name, item.Track_ID.ToString(), item.Track_Length.ToString()});
+
+            //    Task<int> taskInsert = veri.AsyncInsert(values);
+
+            //    taskInsert.Wait();
+            //}
 
             //m_route = Route.CreateNewRoute(11402, m_FromYenikapıTracks);
 
@@ -230,6 +395,10 @@ namespace OnBoard
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+
+             
+
+
             m_labelDoorCounter.Text = "";
             m_labelDoorCounter.BorderStyle = BorderStyle.None;
 
@@ -237,7 +406,7 @@ namespace OnBoard
             //trainSimModal.Owner = this;
             //trainSimModal.Show();
 
-            
+
 
             m_comboBoxTrain.SelectedIndex = 0;
 
@@ -260,8 +429,9 @@ namespace OnBoard
             //total route
             //m_dataGridViewAllTrains.Columns[9].Width = 150;
 
-      
 
+            if (!m_backgroundWorkerCommunicationLogs.IsBusy)
+                m_backgroundWorkerCommunicationLogs.RunWorkerAsync();
 
 
         } 
@@ -291,13 +461,13 @@ namespace OnBoard
 
                         if (OBATP.DoorStatus == Enums.DoorStatus.Open)
                         {
-                            panel1.BackColor = Color.Red; 
-                            m_pictureBoxDoorStatus.Image = Properties.Resources.dooropen;
+                            DisplayManager.PanelInvoke(panel1, Color.Red);
+                            DisplayManager.PictureBoxInvoke(m_pictureBoxDoorStatus, Properties.Resources.dooropen); 
                         } 
                         else
                         {
-                            panel1.BackColor = default(Color);
-                            m_pictureBoxDoorStatus.Image = Properties.Resources.doorclose;
+                            DisplayManager.PanelInvoke(panel1, default(Color));  
+                            DisplayManager.PictureBoxInvoke(m_pictureBoxDoorStatus, Properties.Resources.doorclose);  
                         }
 
 
@@ -344,19 +514,29 @@ namespace OnBoard
 
                         //if (!difflistValuesRoute_Tracks)
                         if (UIOBATP.RefreshRouteTracks)
-                        { 
-                            m_listView.Invoke((Action)(() =>
+                        {
+
+                            DisplayManager.ListViewItemsClearInvoke(m_listView); 
+
+                            foreach (var item in OBATP.m_route.Route_Tracks)
                             {
-                                m_listView.Items.Clear();
+                                DisplayManager.ListViewItemsAddInvoke(m_listView, new ListViewItem(new string[] { item.Track_ID.ToString(), item.Station_Name, item.SpeedChangeVMax.ToString() })); 
+                            }
 
-                                foreach (var item in OBATP.m_route.Route_Tracks)
-                                {
-                                    m_listView.Items.Add(new ListViewItem(new string[] { item.Track_ID.ToString(), item.Station_Name, item.SpeedChangeVMax.ToString() }));
-                                }
+                            DisplayManager.ListViewItemBackColorInvoke(m_listView, 0, Color.Red);
 
-                                m_listView.Items[0].BackColor = Color.Red;
+                            //m_listView.Invoke((Action)(() =>
+                            //{
+                            //    m_listView.Items.Clear();
 
-                            }));
+                            //    foreach (var item in OBATP.m_route.Route_Tracks)
+                            //    {
+                            //        m_listView.Items.Add(new ListViewItem(new string[] { item.Track_ID.ToString(), item.Station_Name, item.SpeedChangeVMax.ToString() }));
+                            //    }
+
+                            //    m_listView.Items[0].BackColor = Color.Red;
+
+                            //}));
 
                         }
 
@@ -368,15 +548,24 @@ namespace OnBoard
 
                         if (UIOBATP.RefreshVirtualOccupationTracks)
                         {
-                            m_listViewVirtualOccupation.Invoke((Action)(() =>
-                            {
-                                m_listViewVirtualOccupation.Items.Clear();
-                            //OBATP.TrainOnTracks.VirtualOccupationTracks.ForEach(x => m_listViewVirtualOccupation.Items.Add(x.Track_ID.ToString()));
+
+                            DisplayManager.ListViewItemsClearInvoke(m_listViewVirtualOccupation);
+
                             foreach (var item in UIOBATP.TrainOnTracks.VirtualOccupationTracks)
                             {
-                                m_listViewVirtualOccupation.Items.Add(item.Track_ID.ToString());
+                                DisplayManager.ListViewItemsAddInvoke(m_listViewVirtualOccupation, new ListViewItem(new string[] { item.Track_ID.ToString() }));
                             }
-                            }));
+                             
+
+                            //m_listViewVirtualOccupation.Invoke((Action)(() =>
+                            //{
+                            //    m_listViewVirtualOccupation.Items.Clear();
+                            ////OBATP.TrainOnTracks.VirtualOccupationTracks.ForEach(x => m_listViewVirtualOccupation.Items.Add(x.Track_ID.ToString()));
+                            //foreach (var item in UIOBATP.TrainOnTracks.VirtualOccupationTracks)
+                            //{
+                            //    m_listViewVirtualOccupation.Items.Add(item.Track_ID.ToString());
+                            //}
+                            //}));
                         }
                         //new ListViewItem(new string[] { x.Track_ID.ToString(), x.Station_Name })
 
@@ -386,18 +575,27 @@ namespace OnBoard
                         //if (!difflistValuesFootPrintTracks)
 
                         if (UIOBATP.RefreshFootPrintTracks)
-                        {
-                            m_listViewVirtualOccupation.Invoke((Action)(() =>
+                        { 
+
+                            DisplayManager.ListViewItemsClearInvoke(m_listViewFootPrintTracks);
+
+                            foreach (var item in UIOBATP.TrainOnTracks.FootPrintTracks)
                             {
+                                DisplayManager.ListViewItemsAddInvoke(m_listViewFootPrintTracks, new ListViewItem(new string[] { item.Track_ID.ToString() }));
+                            }
 
-                                m_listViewFootPrintTracks.Items.Clear();
-                                //OBATP.TrainOnTracks.FootPrintTracks.ForEach(x => m_listViewFootPrintTracks.Items.Add(x.Track_ID.ToString()));
 
-                                foreach (var item in UIOBATP.TrainOnTracks.FootPrintTracks)
-                                {
-                                    m_listViewFootPrintTracks.Items.Add(item.Track_ID.ToString());
-                                }
-                            }));
+                            //m_listViewVirtualOccupation.Invoke((Action)(() =>
+                            //{
+
+                            //    m_listViewFootPrintTracks.Items.Clear();
+                            //    //OBATP.TrainOnTracks.FootPrintTracks.ForEach(x => m_listViewFootPrintTracks.Items.Add(x.Track_ID.ToString()));
+
+                            //    foreach (var item in UIOBATP.TrainOnTracks.FootPrintTracks)
+                            //    {
+                            //        m_listViewFootPrintTracks.Items.Add(item.Track_ID.ToString());
+                            //    }
+                            //}));
                         }
 
                         if (UIOBATP.RefreshActualLocationTracks)
@@ -798,6 +996,15 @@ namespace OnBoard
             }
 
            
+        }
+
+        private void m_backgroundWorkerCommunicationLogs_DoWork(object sender, DoWorkEventArgs e)
+        {
+            foreach (Message message in m_communicationLogs.GetConsumingEnumerable())
+            { 
+                Logging.WriteCommunicationLog((Enums.Message.DS)message.DS, (Enums.Message.Size)message.Size, (Enums.Message.ID)message.ID, message.DST.ToString(), message.SRC.ToString(), message.RTC.ToString(), message.NO.ToString(), message.CRC.ToString());
+ 
+            }
         }
     }
 }

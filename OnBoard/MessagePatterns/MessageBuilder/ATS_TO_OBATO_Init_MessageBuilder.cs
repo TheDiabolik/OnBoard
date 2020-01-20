@@ -8,6 +8,7 @@ namespace OnBoard
 {
     public  class ATS_TO_OBATO_Init_MessageBuilder : MessageBuilder
     {
+       
 
         public override void CreateMessageDS()
         {
@@ -35,7 +36,11 @@ namespace OnBoard
         }
         public override void CreateMessageNO(UInt32 NO)
         {
-            m_message.NO = NO;
+            //m_message.NO = NO;
+
+            m_message.NO = MessageCounter.ATS_TO_OBATO_Init_Counter;
+
+            MessageCounter.ATS_TO_OBATO_Init_Counter++;
         }
 
         public override void CreateMessageDATA(byte[] DATA)
