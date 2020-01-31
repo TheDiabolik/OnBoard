@@ -20,6 +20,9 @@ namespace OnBoard
         {
             InitializeComponent();
 
+            MainForm.m_settingsWindowsObserver.SettingsWindowStatus(Enums.SettingsWindowStatus.Open, Enums.SettingsWindow.General);
+
+
             //ayarları okuma
             m_settings = XMLSerialization.Singleton();
             m_settings = m_settings.DeSerialize(m_settings);
@@ -34,10 +37,38 @@ namespace OnBoard
                 m_radioButtonManuelInputTracks.Checked = true;
             else
                 m_radioButtonFromFileTracks.Checked = true;
-             
 
 
-            m_numericUpDownTrainFrequency.Value = m_settings.TrainFrequency;
+
+            m_numericUpDownMinute.Value = m_settings.TrainFrequencyMinute;
+            m_numericUpDownSecond.Value = m_settings.TrainFrequencySecond;
+
+            m_numericUpDownWorkingCycleOBATC.Value = m_settings.OBATCWorkingCycle;
+            m_numericUpDownWorkingCycleMessageSend.Value = m_settings.MessageSendWorkingCycle;
+            m_numericUpDownWorkingCycleUIRefresh.Value = m_settings.UIRefreshWorkingCycle;
+
+
+
+
+            //if (m_checkBoxATS_TO_OBATO.Checked)
+            m_checkBoxATS_TO_OBATO.Checked = m_settings.WriteLogATS_TO_OBATO;
+
+            //if (m_checkBoxATS_TO_OBATO_Init.Checked)
+            m_checkBoxATS_TO_OBATO_Init.Checked = m_settings.WriteLogATS_TO_OBATO_Init;
+
+            //if (m_checkBoxOBATO_TO_ATS.Checked)
+            m_checkBoxOBATO_TO_ATS.Checked = m_settings.WriteLogOBATO_TO_ATS;
+
+            //if (m_checkBoxOBATP_TO_WSATP.Checked)
+            m_checkBoxOBATP_TO_WSATP.Checked = m_settings.WriteLogOBATP_TO_WSATP;
+
+            //if (m_checkBoxWSATP_TO_OBATP.Checked)
+            m_checkBoxWSATP_TO_OBATP.Checked = m_settings.WriteLogWSATP_TO_OBATP;
+
+
+
+
+
         }
 
 
@@ -71,9 +102,13 @@ namespace OnBoard
             }
 
 
-            m_settings.TrainFrequency = m_numericUpDownTrainFrequency.Value;
+            m_settings.TrainFrequencyMinute = m_numericUpDownMinute.Value;
+            m_settings.TrainFrequencySecond = m_numericUpDownSecond.Value;
 
 
+             m_settings.OBATCWorkingCycle = Convert.ToInt32(m_numericUpDownWorkingCycleOBATC.Value);
+            m_settings.MessageSendWorkingCycle = Convert.ToInt32(m_numericUpDownWorkingCycleMessageSend.Value);
+            m_settings.UIRefreshWorkingCycle = Convert.ToInt32(m_numericUpDownWorkingCycleUIRefresh.Value);
 
 
             m_settings.StartTrackID = Convert.ToInt32(m_textBoxStartRangeTrackID.Text);
@@ -86,6 +121,29 @@ namespace OnBoard
                 m_settings.TrackInput = Enums.TrackInput.FromFile;
 
 
+
+            //if (m_checkBoxATS_TO_OBATO.Checked)
+                m_settings.WriteLogATS_TO_OBATO = m_checkBoxATS_TO_OBATO.Checked;
+
+            //if (m_checkBoxATS_TO_OBATO_Init.Checked)
+                m_settings.WriteLogATS_TO_OBATO_Init = m_checkBoxATS_TO_OBATO_Init.Checked;
+
+            //if (m_checkBoxOBATO_TO_ATS.Checked)
+                m_settings.WriteLogOBATO_TO_ATS = m_checkBoxOBATO_TO_ATS.Checked;
+
+            //if (m_checkBoxOBATP_TO_WSATP.Checked)
+                m_settings.WriteLogOBATP_TO_WSATP = m_checkBoxOBATP_TO_WSATP.Checked;
+
+            //if (m_checkBoxWSATP_TO_OBATP.Checked)
+                m_settings.WriteLogWSATP_TO_OBATP = m_checkBoxWSATP_TO_OBATP.Checked;
+
+
+
+
+
+
+
+
             m_settings.Serialize(m_settings);
 
             m_settings = m_settings.DeSerialize(m_settings);
@@ -96,24 +154,50 @@ namespace OnBoard
 
         private void GeneralSettingsModal_FormClosing(object sender, FormClosingEventArgs e)
         {
-            m_settings = m_settings.DeSerialize(m_settings);
+            //m_settings = m_settings.DeSerialize(m_settings);
 
 
-            MainForm.m_allOBATP.Clear();
-            MainForm.m_mf.m_comboBoxTrain.Items.Clear();
+            //MainForm.m_allOBATP.Clear();
+            //MainForm.m_mf.m_comboBoxTrain.Items.Clear();
 
-            foreach (int index in m_settings.Trains)
-            { 
-                int trainIndex = index + 1;
-                Enums.Train_ID train_ID = (Enums.Train_ID)trainIndex;
+            //foreach (int index in m_settings.Trains)
+            //{
+            //    int trainIndex = index + 1;
+            //    Enums.Train_ID train_ID = (Enums.Train_ID)trainIndex;
 
-                OBATP OBATP = new OBATP((Enums.Train_ID)trainIndex, m_settings.MaxTrainAcceleration, m_settings.MaxTrainDeceleration, m_settings.TrainSpeedLimit, m_settings.TrainLength, MainForm.m_route);
+            //    //OBATP OBATP = new OBATP((Enums.Train_ID)trainIndex, m_settings.MaxTrainAcceleration, m_settings.MaxTrainDeceleration, m_settings.TrainSpeedLimit, m_settings.TrainLength, MainForm.m_route);
 
-                MainForm.m_allOBATP.TryAdd(trainIndex, OBATP);
+            //    //MainForm.m_allOBATP.TryAdd(trainIndex, OBATP);
 
-                MainForm.m_mf.m_comboBoxTrain.Items.Add(train_ID.ToString());
-            }
+            //    MainForm.m_mf.m_comboBoxTrain.Items.Add(train_ID.ToString());
+            //}
 
+            //if (MainForm.m_mf.m_comboBoxTrain.Items.Count > 0)
+            //    MainForm.m_mf.m_comboBoxTrain.SelectedIndex = 0;
+
+
+
+            //MainForm.m_mf.m_ATSSocket.Start(m_settings.ATSCommunicationType, SocketCommunication.ClientType.ATS, m_settings.ATSIPAddress, Convert.ToInt32(m_settings.ATSPort));
+            //MainForm.m_mf.m_ATSSocket.Start(m_settings.ATSCommunicationType, SocketCommunication.ClientType.ATS, m_settings.ATSIPAddress, Convert.ToInt32(m_settings.ATSPort));
+
+
+         
+
+
+            if(CloseReason.FormOwnerClosing != e.CloseReason)
+                MainForm.m_settingsWindowsObserver.SettingsWindowStatus(Enums.SettingsWindowStatus.Close, Enums.SettingsWindow.General);
+        }
+
+        private void m_checkBoxOBATO_TO_ATS_CheckedChanged(object sender, EventArgs e)
+        {
+       
+        }
+
+        private void GeneralSettingsModal_FormClosed(object sender, FormClosedEventArgs e)
+        {
+
+
+          
         }
     }
 }

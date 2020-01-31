@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace OnBoard
 {
-    public class UIOBATP
+    public class UIOBATP :  IDisposable
     {
+        private bool m_disposed = false;
+
         //general
         public string ID { get; set; }
         public string Train_Name { get; set; }
@@ -44,6 +46,37 @@ namespace OnBoard
         [Browsable(false)]
         public bool RefreshVirtualOccupationTracks { get; set; }
 
+
+
+
+
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!m_disposed)
+            {
+                if (disposing)
+                {
+                    // Dispose time code 
+                    //buraya sonlanma için method eklenecek
+                }
+
+                // Finalize time code 
+                m_disposed = true;
+            }
+
+
+        }
+
+        public void Dispose()
+        {
+            //if (m_disposed)
+            {
+                Dispose(true);
+
+                GC.SuppressFinalize(this);
+            }
+        }
 
     }
 }

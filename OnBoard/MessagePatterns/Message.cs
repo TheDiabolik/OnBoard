@@ -65,7 +65,45 @@ namespace OnBoard
             this.CRC = BitConverter.ToUInt64(data, Convert.ToInt32(this.Size - crcLen));
         }
 
-        public byte[] ToByte()
+
+
+        public override string ToString()
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+
+            stringBuilder.AppendFormat("{0} : {1}", "DS", DS.ToString());
+            stringBuilder.AppendLine();
+            stringBuilder.AppendFormat("{0} : {1} - {2}", "Size", ((Enums.Message.Size)Size).ToString(), Size.ToString());
+            stringBuilder.AppendLine();
+            stringBuilder.AppendFormat("{0} : {1} - {2}", "ID", ((Enums.Message.ID)ID).ToString(), ID.ToString());
+
+            //var asdokaposdk = ((Enums.Message.ID)ID).ToString();
+
+            stringBuilder.AppendLine();
+            stringBuilder.AppendFormat("{0} : {1}", "DST", DST.ToString());
+            stringBuilder.AppendLine();
+            stringBuilder.AppendFormat("{0} : {1}", "SRC", SRC.ToString());
+            stringBuilder.AppendLine();
+            stringBuilder.AppendFormat("{0} : {1}", "RTC", RTC.ToString());
+            stringBuilder.AppendLine();
+            
+            stringBuilder.AppendFormat("{0} : {1}", "NO", NO.ToString());
+            stringBuilder.AppendLine();
+
+            stringBuilder.AppendFormat("{0} : {1}", "DATA", "*");
+            stringBuilder.AppendLine();
+
+
+            stringBuilder.AppendFormat("{0} : {1}", "CRC", CRC.ToString());
+            stringBuilder.AppendLine();
+
+
+            return stringBuilder.ToString();
+
+        }
+
+
+            public byte[] ToByte()
         {
             List<byte> result = new List<byte>();
 
@@ -219,23 +257,26 @@ namespace OnBoard
 
 
 
-
-
         protected virtual void Dispose(bool disposing)
         {
-            if (disposing)
+            if (!m_disposed)
             {
-                // Dispose time code 
-               //buraya sonlanma için method eklenecek
+                if (disposing)
+                {
+                    // Dispose time code 
+                    //buraya sonlanma için method eklenecek
+                }
+
+                // Finalize time code 
+                m_disposed = true;
             }
 
-            // Finalize time code 
-            m_disposed = true;
+
         }
 
         public void Dispose()
         {
-            if (m_disposed)
+            //if (m_disposed)
             {
                 Dispose(true);
 

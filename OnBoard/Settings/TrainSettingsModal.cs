@@ -19,6 +19,8 @@ namespace OnBoard
         {
             InitializeComponent();
 
+            MainForm.m_settingsWindowsObserver.SettingsWindowStatus(Enums.SettingsWindowStatus.Open, Enums.SettingsWindow.Train);
+
             //ayarları okuma
             m_settings = XMLSerialization.Singleton();
             m_settings = m_settings.DeSerialize(m_settings);
@@ -56,6 +58,13 @@ namespace OnBoard
 
             if ((Button)sender == m_buttonApply)
                 this.Close();
+        }
+
+        private void TrainSettingsModal_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (CloseReason.FormOwnerClosing != e.CloseReason)
+                MainForm.m_settingsWindowsObserver.SettingsWindowStatus(Enums.SettingsWindowStatus.Close, Enums.SettingsWindow.Train);
+
         }
     }
 }

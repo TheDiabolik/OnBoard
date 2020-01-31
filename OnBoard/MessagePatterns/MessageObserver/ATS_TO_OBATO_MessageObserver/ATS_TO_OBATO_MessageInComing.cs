@@ -25,6 +25,13 @@ namespace OnBoard
         }
 
 
+        public void RemoveWatcher(IATS_TO_OBATO_MessageWatcher watcher)
+        {
+            if (m_syncFileWatcher.Contains(watcher))
+                m_syncFileWatcher.Remove(watcher);
+        }
+
+
         public void ATS_TO_OBATO_NewMessageInComing(Enums.Train_ID train_ID, ATS_TO_OBATOAdapter ATS_TO_OBATOAdapter)
         {
             this.m_ATS_TO_OBATOAdapter = ATS_TO_OBATOAdapter;

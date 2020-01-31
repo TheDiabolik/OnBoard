@@ -53,15 +53,19 @@ namespace OnBoard
 
 
 
-          
+            
 
-            //footPrintTracks = HelperClass.FindTrackRangeInAllTracks(OBATP.FrontOfTrainTrackWithFootPrint.Track, OBATP.RearOfTrainTrackWithFootPrint.Track, MainForm.m_mf.m_allTracks);
-            //virtualOccupationTracks = HelperClass.FindTrackRangeInAllTracks(OBATP.FrontOfTrainVirtualOccupation.Track, OBATP.RearOfTrainVirtualOccupation.Track, MainForm.m_mf.m_allTracks);
-            //ushort[] actual = HelperClass.FindTrackRangeInAllTracks(OBATP.ActualFrontOfTrainCurrent.Track, OBATP.ActualRearOfTrainCurrent.Track, MainForm.m_mf.m_allTracks);
+              //footPrintTracks = HelperClass.FindTrackRangeInAllTracks(OBATP.FrontOfTrainTrackWithFootPrint.Track, OBATP.RearOfTrainTrackWithFootPrint.Track, MainForm.m_mf.m_allTracks);
+              //virtualOccupationTracks = HelperClass.FindTrackRangeInAllTracks(OBATP.FrontOfTrainVirtualOccupation.Track, OBATP.RearOfTrainVirtualOccupation.Track, MainForm.m_mf.m_allTracks);
+              //ushort[] actual = HelperClass.FindTrackRangeInAllTracks(OBATP.ActualFrontOfTrainCurrent.Track, OBATP.ActualRearOfTrainCurrent.Track, MainForm.m_mf.m_allTracks);
 
-            footPrintTracks = HelperClass.FindTrackRangeInAllTracks(OBATP.FrontOfTrainTrackWithFootPrint.Track, OBATP.RearOfTrainTrackWithFootPrint.Track, OBATP.m_route.Route_Tracks);
-            virtualOccupationTracks = HelperClass.FindTrackRangeInAllTracks(OBATP.FrontOfTrainVirtualOccupation.Track, OBATP.RearOfTrainVirtualOccupation.Track, OBATP.m_route.Route_Tracks);
-            ushort[] actual = HelperClass.FindTrackRangeInAllTracks(OBATP.ActualFrontOfTrainCurrent.Track, OBATP.ActualRearOfTrainCurrent.Track, OBATP.m_route.Route_Tracks);
+              //  footPrintTracks = HelperClass.FindTrackRangeInAllTracks(OBATP.FrontOfTrainTrackWithFootPrint.Track, OBATP.RearOfTrainTrackWithFootPrint.Track, OBATP.m_route.Route_Tracks);
+              //virtualOccupationTracks = HelperClass.FindTrackRangeInAllTracks(OBATP.FrontOfTrainVirtualOccupation.Track, OBATP.RearOfTrainVirtualOccupation.Track, OBATP.m_route.Route_Tracks);
+              //ushort[] actual = HelperClass.FindTrackRangeInAllTracks(OBATP.ActualFrontOfTrainCurrent.Track, OBATP.ActualRearOfTrainCurrent.Track, OBATP.m_route.Route_Tracks);
+
+              footPrintTracks = HelperClass.FindTrackRangeInAllTracks(OBATP.FrontOfTrainTrackWithFootPrint.Track, OBATP.RearOfTrainTrackWithFootPrint.Track, OBATP.movementTrack);
+            virtualOccupationTracks = HelperClass.FindTrackRangeInAllTracks(OBATP.FrontOfTrainVirtualOccupation.Track, OBATP.RearOfTrainVirtualOccupation.Track, OBATP.movementTrack);
+            ushort[] actual = HelperClass.FindTrackRangeInAllTracks(OBATP.ActualFrontOfTrainCurrent.Track, OBATP.ActualRearOfTrainCurrent.Track, OBATP.movementTrack);
 
             //arayüzde göstermek için liste
             //TrainOnTracks.VirtualOccupationTracks.Clear();

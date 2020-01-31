@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace OnBoard 
 {
-    public interface ITrainMovementCreatedWatcher
+    public interface ITrainMovementCreatedSendMessageWatcher
     {
-        void TrainMovementCreated(OBATP OBATP);
+        void TrainMovementCreatedSendMessage(OBATP OBATP);
     }
 }

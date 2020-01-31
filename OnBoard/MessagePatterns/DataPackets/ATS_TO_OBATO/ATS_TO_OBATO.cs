@@ -117,21 +117,28 @@ namespace OnBoard
 
 
 
+
+
         protected virtual void Dispose(bool disposing)
         {
-            if (disposing)
+            if (!m_disposed)
             {
-                // Dispose time code 
-                //buraya sonlanma için method eklenecek
+                if (disposing)
+                {
+                    // Dispose time code 
+                    //buraya sonlanma için method eklenecek
+                }
+
+                // Finalize time code 
+                m_disposed = true;
             }
 
-            // Finalize time code 
-            m_disposed = true;
+
         }
 
         public void Dispose()
         {
-            if (m_disposed)
+            //if (m_disposed)
             {
                 Dispose(true);
 

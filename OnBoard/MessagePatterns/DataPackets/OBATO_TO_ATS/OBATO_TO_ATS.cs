@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OnBoard
 {
-    public class OBATO_TO_ATS :  IDisposable
+    public class OBATO_TO_ATS : IMessageType, IDisposable
     {
         private bool m_disposed = false;
 
@@ -139,11 +139,32 @@ namespace OnBoard
         public byte BypassedTrainDoors2_3 { get; set; }
 
 
+        public IMessageType CreateMessage(byte[] message)
+        {
+            this.OBATCActive = (byte)message.GetValue(0);
+
+            this.TrainEmergencyBrakeApplied = (byte)message.GetValue(1);
+
+            this.WaitingApprovalReleaseEmergencyBrake = (byte)message.GetValue(2);
+
+            this.TrainEmergencyBrakeReleased = (byte)message.GetValue(3);
+
+            this.EmergencyHandleActive = (byte)message.GetValue(4);
+
+            this.TrainTemporaryCoastingAccepted = (byte)message.GetValue(5);
+
+            
+
+
+            return this;
+        }
 
 
 
-
-
+        //public override string ToString()
+        //{
+        //    return "Name = " + this.OBATCActive.ToString() + ", Age = " + TrainEmergencyBrakeApplied.ToString();
+        //}
         public byte[] ToByte()
         {
             List<byte> result = new List<byte>();
@@ -300,19 +321,24 @@ namespace OnBoard
 
         protected virtual void Dispose(bool disposing)
         {
-            if (disposing)
+            if (!m_disposed)
             {
-                // Dispose time code 
-                //buraya sonlanma için method eklenecek
+                if (disposing)
+                {
+                    // Dispose time code 
+                    //buraya sonlanma için method eklenecek
+                }
+
+                // Finalize time code 
+                m_disposed = true;
             }
 
-            // Finalize time code 
-            m_disposed = true;
+
         }
 
         public void Dispose()
         {
-            if (m_disposed)
+            //if (m_disposed)
             {
                 Dispose(true);
 

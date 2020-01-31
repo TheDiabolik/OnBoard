@@ -19,43 +19,64 @@ namespace OnBoard
         {
             InitializeComponent();
 
+            MainForm.m_settingsWindowsObserver.SettingsWindowStatus(Enums.SettingsWindowStatus.Open, Enums.SettingsWindow.Communication);
+
+
+
             //ayarları okuma
             m_settings = XMLSerialization.Singleton();
             m_settings = m_settings.DeSerialize(m_settings);
 
 
             //ayarları atama
-            m_ıpAddressControlATSToOBATP.Text = m_settings.ATSToOBATPIPAddress;
-            m_textBoxATSToOBATPPort.Text = m_settings.ATSToOBATPPort;
+            m_ıpAddressControlPAddressATS.Text = m_settings.ATSIPAddress;
+            m_textBoxPortATS.Text = m_settings.ATSPort;
 
-            m_ıpAddressControlOBATPToATS.Text = m_settings.OBATPToATSIPAddress;
-            m_textBoxOBATPToATSPort.Text = m_settings.OBATPToATSPort;
+            m_ıpAddressControlIPAddressWSATC.Text = m_settings.WSATCIPAddress;
+            m_textBoxPortWSATC.Text = m_settings.WSATCPort;
 
-            m_ıpAddressControlWSATCToOBATP.Text = m_settings.WSATCToOBATPIPAddress;
-            m_textBoxWSATCToOBATPPort.Text = m_settings.WSATCToOBATPPort;
-
-            m_ıpAddressControlOBATPToWSATC.Text = m_settings.OBATPToWSATCIPAddress;
-            m_textBoxOBATPToWSATCPort.Text = m_settings.OBATPToWSATCPort;
-
-            if (m_settings.OBATPToWSATCCommunicationType == Enums.CommunicationType.Server)
-                m_radioButtonOBATPToWSATCServer.Checked = true;
+            if (m_settings.ATSCommunicationType == Enums.CommunicationType.Server)
+                m_radioButtonServerATS.Checked = true;
             else
-                m_radioButtonOBATPToWSATCClient.Checked = true;
+                m_radioButtonClientATS.Checked = true;
 
-            if (m_settings.OBATPToATSCommunicationType == Enums.CommunicationType.Server)
-                m_radioButtonOBATPToATSServer.Checked = true;
+            if (m_settings.WSATCCommunicationType == Enums.CommunicationType.Server)
+                m_radioButtonServerWSATC.Checked = true;
             else
-                m_radioButtonOBATPToATSClient.Checked = true;
+                m_radioButtonClientWSATC.Checked = true;
 
-            if (m_settings.ATSToOBATPCommunicationType == Enums.CommunicationType.Server)
-                m_radioButtonATSToOBATPServer.Checked = true;
-            else
-                m_radioButtonATSToOBATPClient.Checked = true;
 
-            if (m_settings.WSATCToOBATPCommunicationType == Enums.CommunicationType.Server)
-                m_radioButtonWSATCToOBATPServer.Checked = true;
-            else
-                m_radioButtonWSATCToOBATPClient.Checked = true;
+            //m_ıpAddressControlATSToOBATP.Text = m_settings.ATSToOBATPIPAddress;
+            //m_textBoxATSToOBATPPort.Text = m_settings.ATSToOBATPPort;
+
+            //m_ıpAddressControlOBATPToATS.Text = m_settings.OBATPToATSIPAddress;
+            //m_textBoxOBATPToATSPort.Text = m_settings.OBATPToATSPort;
+
+            //m_ıpAddressControlWSATCToOBATP.Text = m_settings.WSATCToOBATPIPAddress;
+            //m_textBoxWSATCToOBATPPort.Text = m_settings.WSATCToOBATPPort;
+
+            //m_ıpAddressControlOBATPToWSATC.Text = m_settings.OBATPToWSATCIPAddress;
+            //m_textBoxOBATPToWSATCPort.Text = m_settings.OBATPToWSATCPort;
+
+            //if (m_settings.OBATPToWSATCCommunicationType == Enums.CommunicationType.Server)
+            //    m_radioButtonOBATPToWSATCServer.Checked = true;
+            //else
+            //    m_radioButtonOBATPToWSATCClient.Checked = true;
+
+            //if (m_settings.OBATPToATSCommunicationType == Enums.CommunicationType.Server)
+            //    m_radioButtonOBATPToATSServer.Checked = true;
+            //else
+            //    m_radioButtonOBATPToATSClient.Checked = true;
+
+            //if (m_settings.ATSToOBATPCommunicationType == Enums.CommunicationType.Server)
+            //    m_radioButtonATSToOBATPServer.Checked = true;
+            //else
+            //    m_radioButtonATSToOBATPClient.Checked = true;
+
+            //if (m_settings.WSATCToOBATPCommunicationType == Enums.CommunicationType.Server)
+            //    m_radioButtonWSATCToOBATPServer.Checked = true;
+            //else
+            //    m_radioButtonWSATCToOBATPClient.Checked = true;
         }
 
 
@@ -65,53 +86,87 @@ namespace OnBoard
         }
 
         private void m_buttonSave_Click(object sender, EventArgs e)
-        { 
-            m_settings.ATSToOBATPIPAddress = m_ıpAddressControlATSToOBATP.Text;
-            m_settings.ATSToOBATPPort = m_textBoxATSToOBATPPort.Text;
+        {
 
-            m_settings.OBATPToATSIPAddress = m_ıpAddressControlOBATPToATS.Text;
-            m_settings.OBATPToATSPort = m_textBoxOBATPToATSPort.Text ;
+            m_settings.ATSIPAddress = m_ıpAddressControlPAddressATS.Text;
+            m_settings.ATSPort = m_textBoxPortATS.Text;
 
-            m_settings.WSATCToOBATPIPAddress = m_ıpAddressControlWSATCToOBATP.Text;
-            m_settings.WSATCToOBATPPort = m_textBoxWSATCToOBATPPort.Text;
-
-            m_settings.OBATPToWSATCIPAddress = m_ıpAddressControlOBATPToWSATC.Text;
-            m_settings.OBATPToWSATCPort = m_textBoxOBATPToWSATCPort.Text;
+            m_settings.WSATCIPAddress = m_ıpAddressControlIPAddressWSATC.Text;
+            m_settings.WSATCPort = m_textBoxPortWSATC.Text;
 
 
-            if (m_radioButtonOBATPToWSATCServer.Checked)
-                m_settings.OBATPToWSATCCommunicationType = Enums.CommunicationType.Server;
+
+            if (m_radioButtonServerATS.Checked)
+                m_settings.ATSCommunicationType = Enums.CommunicationType.Server;
             else
-                m_settings.OBATPToWSATCCommunicationType = Enums.CommunicationType.Client;
+                m_settings.ATSCommunicationType = Enums.CommunicationType.Client;
 
-            if (m_radioButtonOBATPToATSServer.Checked)
-                m_settings.OBATPToATSCommunicationType = Enums.CommunicationType.Server;
+            if (m_radioButtonServerWSATC.Checked)
+                m_settings.WSATCCommunicationType = Enums.CommunicationType.Server;
             else
-                m_settings.OBATPToATSCommunicationType = Enums.CommunicationType.Client; 
-
-            if (m_radioButtonATSToOBATPServer.Checked)
-                m_settings.ATSToOBATPCommunicationType = Enums.CommunicationType.Server;
-            else
-                m_settings.ATSToOBATPCommunicationType = Enums.CommunicationType.Client;
+                m_settings.WSATCCommunicationType = Enums.CommunicationType.Client;
 
 
-            if (m_radioButtonWSATCToOBATPServer.Checked)
-                m_settings.WSATCToOBATPCommunicationType = Enums.CommunicationType.Server;
-            else
-                m_settings.WSATCToOBATPCommunicationType = Enums.CommunicationType.Client;  
+            //m_settings.ATSToOBATPIPAddress = m_ıpAddressControlATSToOBATP.Text;
+            //m_settings.ATSToOBATPPort = m_textBoxATSToOBATPPort.Text;
+
+            //m_settings.OBATPToATSIPAddress = m_ıpAddressControlOBATPToATS.Text;
+            //m_settings.OBATPToATSPort = m_textBoxOBATPToATSPort.Text ;
+
+            //m_settings.WSATCToOBATPIPAddress = m_ıpAddressControlWSATCToOBATP.Text;
+            //m_settings.WSATCToOBATPPort = m_textBoxWSATCToOBATPPort.Text;
+
+            //m_settings.OBATPToWSATCIPAddress = m_ıpAddressControlOBATPToWSATC.Text;
+            //m_settings.OBATPToWSATCPort = m_textBoxOBATPToWSATCPort.Text;
+
+
+            //if (m_radioButtonOBATPToWSATCServer.Checked)
+            //    m_settings.OBATPToWSATCCommunicationType = Enums.CommunicationType.Server;
+            //else
+            //    m_settings.OBATPToWSATCCommunicationType = Enums.CommunicationType.Client;
+
+            //if (m_radioButtonOBATPToATSServer.Checked)
+            //    m_settings.OBATPToATSCommunicationType = Enums.CommunicationType.Server;
+            //else
+            //    m_settings.OBATPToATSCommunicationType = Enums.CommunicationType.Client; 
+
+            //if (m_radioButtonATSToOBATPServer.Checked)
+            //    m_settings.ATSToOBATPCommunicationType = Enums.CommunicationType.Server;
+            //else
+            //    m_settings.ATSToOBATPCommunicationType = Enums.CommunicationType.Client;
+
+
+            //if (m_radioButtonWSATCToOBATPServer.Checked)
+            //    m_settings.WSATCToOBATPCommunicationType = Enums.CommunicationType.Server;
+            //else
+            //    m_settings.WSATCToOBATPCommunicationType = Enums.CommunicationType.Client;  
 
 
             m_settings.Serialize(m_settings);
             m_settings = m_settings.DeSerialize(m_settings);
 
+        
+
+
             if ((Button)sender == m_buttonApply)
                 this.Close();
+
+
+          
 
         }
 
         private void CommunicationSettingsModal_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void CommunicationSettingsModal_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            string dsfpıj = this.Name;
+
+            if (CloseReason.FormOwnerClosing != e.CloseReason)
+                MainForm.m_settingsWindowsObserver.SettingsWindowStatus(Enums.SettingsWindowStatus.Close, Enums.SettingsWindow.Communication);
         }
     }
 }

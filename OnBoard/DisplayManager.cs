@@ -68,6 +68,19 @@ namespace OnBoard
             }
         }
 
+        public static void TextBoxClearInvoke(TextBox textBox)
+        {
+            if (textBox.InvokeRequired)
+                textBox.Invoke((MethodInvoker)delegate
+                {
+                    textBox.Clear();
+                });
+            else
+            {
+                textBox.Clear();
+            }
+        }
+
 
         public static void ListViewInvoke(ListView listView, string text)
         {
@@ -82,27 +95,138 @@ namespace OnBoard
             }
         }
 
-       
+
+        public static void ListViewItemsClearInvoke(ListView listView)
+        {
+            //lock (listView)
+            {
+                if (listView.InvokeRequired)
+                    listView.Invoke((MethodInvoker)delegate
+                    {
+                        listView.Items.Clear();
+                    });
+                else
+                {
+                    listView.Items.Clear();
+                }
+            }
+        }
+
+        public static void ListViewItemsAddInvoke(ListView listView, ListViewItem listViewItem)
+        {
+
+            //lock (listView)
+            {
+                if (listView.InvokeRequired)
+                    listView.Invoke((MethodInvoker)delegate
+                    {
+                        listView.Items.Add(listViewItem);
+                    });
+                else
+                {
+                    listView.Items.Add(listViewItem);
+                }
+            }
+        }
+
+
+        public static void ListViewItemBackColorInvoke(ListView listView, int itemIndex, Color backColor)
+        {
+            if (listView.InvokeRequired)
+                listView.Invoke((MethodInvoker)delegate
+                {
+                    listView.Items[itemIndex].BackColor = backColor;
+                });
+            else
+            {
+                listView.Items[itemIndex].BackColor = backColor;
+            }
+        }
+
+        //public static void ListViewItemBackColorInvoke(ListView listView)
+        //{
+        //    if (listView.InvokeRequired)
+        //        listView.Invoke((MethodInvoker)delegate
+        //        {
+        //              //trenin tracklerini kırmızıya boyama
+        //             foreach (ListViewItem li in listView.Items)
+        //            {
+        //                int itemText = Convert.ToInt32(li.Text);
+
+        //                Track lolo = UIOBATP.TrainOnTracks.ActualLocationTracks.Find(x => x.Track_ID == itemText);
+
+        //                if (lolo != null)
+        //                {
+        //                    //li.ForeColor = Color.Red;
+        //                    li.BackColor = Color.Red;
+        //                }
+        //                else
+        //                {
+        //                    li.BackColor = Color.White;
+        //                }
+        //            }
+        //        });
+        //    else
+        //    {
+        //        //trenin tracklerini kırmızıya boyama
+        //        foreach (ListViewItem li in m_listView.Items)
+        //        {
+        //            int itemText = Convert.ToInt32(li.Text);
+
+        //            Track lolo = UIOBATP.TrainOnTracks.ActualLocationTracks.Find(x => x.Track_ID == itemText);
+
+        //            if (lolo != null)
+        //            {
+        //                //li.ForeColor = Color.Red;
+        //                li.BackColor = Color.Red;
+        //            }
+        //            else
+        //            {
+        //                li.BackColor = Color.White;
+        //            }
+        //        }
+        //    }
+        //}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         public static object ComboBoxGetSelectedItemInvoke(ComboBox combobox)
         {
-            object selectedItem = null;
-
-            MethodInvoker miClearItems = delegate
+            //lock(combobox)
             {
-                selectedItem = combobox.SelectedItem;
-            };
+                object selectedItem = null;
 
-            if (combobox.InvokeRequired)
-            {
-                combobox.Invoke(miClearItems);
+                MethodInvoker miClearItems = delegate
+                {
+                    selectedItem = combobox.SelectedItem;
+                };
+
+                if (combobox.InvokeRequired)
+                {
+                    combobox.Invoke(miClearItems);
+                }
+                else
+                {
+                    miClearItems();
+                }
+
+                return selectedItem;
             }
-            else
-            {
-                miClearItems();
-            }
-
-            return selectedItem;
+          
         }
 
         public static void ComboBoxInvoke(ComboBox comboBox, string text)
@@ -115,6 +239,34 @@ namespace OnBoard
             else
             {
                 //label.Text = text;
+            }
+        }
+
+
+        public static void PanelInvoke(Panel panel, Color backColor)
+        {
+            if (panel.InvokeRequired)
+                panel.Invoke((MethodInvoker)delegate
+                {
+                    panel.BackColor = backColor;
+                });
+            else
+            {
+                panel.BackColor = backColor;
+            }
+        }
+
+
+        public static void PictureBoxInvoke(PictureBox pictureBox, Bitmap bitmap)
+        {
+            if (pictureBox.InvokeRequired)
+                pictureBox.Invoke((MethodInvoker)delegate
+                {
+                    pictureBox.Image = bitmap;
+                });
+            else
+            {
+                pictureBox.Image = bitmap;
             }
         }
     }

@@ -17,43 +17,72 @@ using System.Windows.Forms;
 
 namespace OnBoard
 {
-    public partial class MainForm : Form, ITrainMovementCreatedWatcher, ITrainMovementUIWatcher
+    public partial class MainForm : Form, ITrainMovementUIWatcher, ISettingsWindowsWatcher, ITrainNewMovementAuthorityCreatedWatcher //ITrainMovementCreatedSendMessageWatcher, ITrainMovementUIWatcher, ISettingsWindowsWatcher
     {
         XMLSerialization m_settings;
-        SocketCommunication m_OBATPToWSATCSocket;
-        SocketCommunication m_OBATPToATSSocket;
-        SocketCommunication m_ATSToOBATPSocket;
-        SocketCommunication m_WSATCToOBATPSocket;
+        //SocketCommunication m_OBATPToWSATCSocket;
+        //SocketCommunication m_OBATPToATSSocket;
+        //SocketCommunication m_ATSToOBATPSocket;
+        //SocketCommunication m_WSATCToOBATPSocket;
+        internal SocketCommunication m_ATSSocket;
+        internal SocketCommunication m_WSATCSocket;
 
         //List<OBATPUIAdapter> m_ListList;
 
         //internal   BindingList<OBATP> m_allTrains;
         private System.Timers.Timer STTimer;
+        private System.Threading.Timer AllTrainTimer;
+
+
+
         internal ThreadedBindingList<OBATP> m_allTrains;
 
         Stopwatch stopwatch = new Stopwatch();
 
-      
+        //internal BlockingCollection<Message> m_communicationLogs;
+
+        internal BlockingCollection<Tuple<DateTime, string, string>> m_communicationLogs;
+        internal BlockingCollection<Tuple<string, Color>> m_UILogs;
+
+        //internal BlockingCollection<Tuple<DateTime, string, string>> m_communicationLogssdsd;
 
         internal static TrainObserver m_trainObserver;
+
+        //internal static TRAİNmove ATS_TO_OBATO_MessageInComing m_ATS_TO_OBATO_MessageInComing;
+
+
         internal static WSATP_TO_OBATPMessageInComing m_WSATP_TO_OBATPMessageInComing;
         internal static ATS_TO_OBATO_InitMessageInComing m_ATS_TO_OBATO_InitMessageInComing;
         internal static ATS_TO_OBATO_MessageInComing m_ATS_TO_OBATO_MessageInComing;
+         
+        internal static SettingsWindowsObserver m_settingsWindowsObserver;
+
+
+
         public static MainForm m_mf;
         internal static ConcurrentDictionary<int, OBATP> m_allOBATP;
         public ThreadSafeList<Track> m_allTracks;
 
-        public List<Track> m_ToYenikapıTracks;
-        public List<Track> m_FromYenikapıTracks;
+        //public List<Track> m_ToYenikapıTracks;
+        //public List<Track> m_FromYenikapıTracks;
+
+        public List<Track> m_KIR2_YNK1;
+        public List<Track> m_YNK1_KIR2;
+        public List<Track> m_YNK1_KIR2_YNK1;
+
+
+        public ThreadSafeList<Track> m_WSATCMovement_YNK1_KIR2_YNK1;
+
+        public List<Track> m_YNK2_HAV2_YNK2;
 
         public ThreadSafeList<Track> m_simulationAllTracks;
-        public  List<Route> m_allRoute;
+        //public  List<Route> m_allRoute;
         internal static DataTable m_fromFileTracks;
-        internal static DataTable m_simulationRouteTracks;
-        internal static Route m_route;
+        //internal static DataTable m_simulationRouteTracks;
+        //internal static Route m_route;
         readonly object m_movement = new object();
         readonly object m_newRoute = new object();
-        readonly object m_movementUI = new object(); 
+        readonly object m_movementUI = new object();
 
         public MainForm()
         {
@@ -67,15 +96,22 @@ namespace OnBoard
             #endregion
 
             #region SocketCreation
-            m_OBATPToWSATCSocket = new SocketCommunication();
-            m_WSATCToOBATPSocket = new SocketCommunication();
+            //m_OBATPToWSATCSocket = new SocketCommunication();
+            //m_WSATCToOBATPSocket = new SocketCommunication();
 
-            m_OBATPToATSSocket = new SocketCommunication();
-            m_ATSToOBATPSocket = new SocketCommunication();
+            //m_OBATPToATSSocket = new SocketCommunication();
+            //m_ATSToOBATPSocket = new SocketCommunication();
 
+            m_ATSSocket = new SocketCommunication();
+            m_WSATCSocket = new SocketCommunication();
             #endregion
 
-            //CheckForIllegalCrossThreadCalls = false;
+
+            m_communicationLogs = new BlockingCollection<Tuple<DateTime, string, string>>();
+            m_UILogs = new BlockingCollection<Tuple<string, Color>>();
+
+            AllTrainTimer = new System.Threading.Timer(ManageAllTrain);
+
 
             STTimer = new System.Timers.Timer();
             STTimer.Elapsed += OnTimerElapsed;
@@ -83,24 +119,48 @@ namespace OnBoard
             //m_allTrains = new BindingList<OBATP>();
             m_allTrains = new ThreadedBindingList<OBATP>();
 
-            m_ToYenikapıTracks = new List<Track>();
-            m_FromYenikapıTracks = new List<Track>();
+            //m_ToYenikapıTracks = new List<Track>();
+            //m_FromYenikapıTracks = new List<Track>();
+
+            m_KIR2_YNK1 = new List<Track>();
+            m_YNK1_KIR2 = new List<Track>();
+            m_YNK1_KIR2_YNK1 = new List<Track>();
+
+            m_YNK2_HAV2_YNK2 = new List<Track>();
+
+            m_WSATCMovement_YNK1_KIR2_YNK1 = new ThreadSafeList<Track>();
+
+
+
+
             m_simulationAllTracks = new ThreadSafeList<Track>();
 
-            m_allOBATP = new ConcurrentDictionary<int, OBATP>(); 
+            m_allOBATP = new ConcurrentDictionary<int, OBATP>();
             m_trainObserver = new TrainObserver();
-            
+
             m_WSATP_TO_OBATPMessageInComing = new WSATP_TO_OBATPMessageInComing();
             m_ATS_TO_OBATO_InitMessageInComing = new ATS_TO_OBATO_InitMessageInComing();
             m_ATS_TO_OBATO_MessageInComing = new ATS_TO_OBATO_MessageInComing();
 
-           
-            MainForm.m_trainObserver.AddTrainMovementCreatedWatcher(this);
+
+            m_settingsWindowsObserver = new SettingsWindowsObserver();
+
+            //MainForm.m_trainObserver.AddTrainMovementCreatedSendMessageWatcher(this);
+
+            MainForm.m_trainObserver.AddTrainNewMovementAuthorityCreatedWatcher(this);
+
             MainForm.m_trainObserver.AddTrainMovementUIWatcher(this);
 
+         
+            //MainForm.m_trainObserver.AddTrainMovementUIall TracksListWatcher(this);
+
+            MainForm.m_settingsWindowsObserver.AddSettingsWindowWatcher(this);
+
+
+
             //excel tablosundan track listesini ve özelliklerini okuyoruz    
-            m_fromFileTracks = FileOperation.Singleton().EPPlusReadTrackTableInExcel(); 
-             
+            m_fromFileTracks = FileOperation.Singleton().EPPlusReadTrackTableInExcel();
+
 
             if (m_settings.TrackInput == Enums.TrackInput.Manuel)
             {
@@ -108,61 +168,52 @@ namespace OnBoard
             }
             else if (m_settings.TrackInput == Enums.TrackInput.FromFile)
             {
-                m_allTracks = Track.AllTracks(m_fromFileTracks); 
+                m_allTracks = Track.AllTracks(m_fromFileTracks);
             }
 
+            #region veritabanı için commentlendi
+
+
             //m_simulationRouteTracks = FileOperation.Singleton().ReadSimulationRouteTableInExcel();
-            m_simulationRouteTracks = FileOperation.Singleton().EPPlusReadSimulationRouteTableInExcel();
+            //m_simulationRouteTracks = FileOperation.Singleton().EPPlusReadSimulationRouteTableInExcel();
             //m_allRoute =  Route.SimulationRoute(m_simulationRouteTracks);
-            m_allRoute = Route.SimulationRouteStationToStation(m_simulationRouteTracks);
+            //m_allRoute = Route.SimulationRouteStationToStation(m_simulationRouteTracks);
 
 
-            m_simulationAllTracks = Track.SimulationTrack(m_simulationRouteTracks);
+            //m_simulationAllTracks = Track.SimulationTrack(m_simulationRouteTracks);
 
-            Track lastStation = m_simulationAllTracks.Find(x => x.Track_ID == 11502);
-            int indexLastStation = m_simulationAllTracks.IndexOf(lastStation);
+            //Track lastStation = m_simulationAllTracks.Find(x => x.Track_ID == 11502);
+            //int indexLastStation = m_simulationAllTracks.IndexOf(lastStation);
 
             //Track len = m_simulationAllTracks.ToList().FindLastIndex(x => x.Track_ID == 10101);
             //int indexlen = m_simulationAllTracks.IndexOf(len);
 
-            int indexlen = m_simulationAllTracks.ToList().FindLastIndex(x => x.Track_ID == 10101);
+            //int indexlen = m_simulationAllTracks.ToList().FindLastIndex(x => x.Track_ID == 10101);
 
-            m_FromYenikapıTracks =  m_simulationAllTracks.Where((element, index) => (index >= 0) && (index <= indexLastStation)).ToList();
+            //m_FromYenikapıTracks = m_simulationAllTracks.Where((element, index) => (index >= 0) && (index <= indexLastStation)).ToList();
 
-            m_ToYenikapıTracks = m_simulationAllTracks.Where((element, index) => (index >= indexLastStation) && (index <= indexlen)).ToList();
+            //m_ToYenikapıTracks = m_simulationAllTracks.Where((element, index) => (index >= indexLastStation) && (index <= indexlen)).ToList();
 
-
-            //m_FromYenikapıTracks = m_simulationAllTracks.Where((element, index) => (index <= 0) && (index >= indexLastStation))
-
-            //m_route = Route.CreateNewRoute(11502, m_allRoute);.Where((element, index) => (index <= frontTrackIndex) && (index >= rearTrackIndex)).Sele
+            #endregion 
+ 
 
 
-            //m_route = Route.CreateNewRoute(10301, m_ToYenikapıTracks);
+            veri veri = new veri(); 
 
-            m_route = Route.CreateRingRoute(11502, m_ToYenikapıTracks);
 
-            //m_route = Route.CreateNewRoute(11402, m_FromYenikapıTracks);
+            Task<List<Track>> taskSelect2 = veri.AsycSelectYNK1_KIR2_YNK1();
+            taskSelect2.Wait();  
+            m_YNK1_KIR2_YNK1 = taskSelect2.Result;
 
-            //m_route = Route.CreateNewRouteStationToStation(10301, m_allRoute);
-            //var sdf  = Route.CreateNewRoute(11502, m_ToYenikapıTracks);
-            //m_route = Route.CreateNewRoute(m_settings.StartTrackID, m_settings.EndTrackID, m_allTracks);
 
-            //m_route = Route.CreateNewRoute( m_settings.EndTrackID, m_settings.StartTrackID, m_allTracks);
+            m_WSATCMovement_YNK1_KIR2_YNK1.AddRange(m_YNK1_KIR2_YNK1);
 
-            //DataTable rt = FileOperation.ReadRouteTableInExcel();
-            //m_allRoute = Route.AllRoute(rt, m_allTracks);
 
-            //DataTable rt = FileOperation.Singleton().ReadRouteTableInExcel();
-            //Route route1 = new Route();
+            //Task<List<Track>> taskSelect3 = veri.AsycSelectYNK2_HAV2_YNK2();
+            //taskSelect3.Wait(); 
 
-            //m_allRoute = route1.AllRoute(rt, (m_allTracks));
+            //m_YNK2_HAV2_YNK2 = taskSelect3.Result;
 
-            //silinecek
-            //m_socketCommunication.Start(SocketCommunication.CommunicationType.Client, "10.2.149.17", 205);
-            //m_socketCommunication.Start(SocketCommunication.CommunicationType.Client, m_settings.OBATPToWSATCIPAddress, Convert.ToInt32(m_settings.OBATPToWSATCPort)); 
-            //m_OBATPToWSATCSocket.Start(SocketCommunication.CommunicationType.Client, "127.0.0.1", Convert.ToInt32(m_settings.OBATPToWSATCPort));
-            //m_WSATCToOBATPSocket.Start(SocketCommunication.CommunicationType.Client, "127.0.0.1", Convert.ToInt32(m_settings.WSATCToOBATPPort));
-            //m_socketCommunication.Start(SocketCommunication.CommunicationType.Client, "10.2.149.12", 12101);
 
 
 
@@ -176,9 +227,10 @@ namespace OnBoard
             //m_ATSToOBATPSocket.Start(m_settings.ATSToOBATPCommunicationType, m_settings.ATSToOBATPIPAddress, Convert.ToInt32(m_settings.ATSToOBATPPort));
 
             //m_OBATPToWSATCSocket.Start(m_settings.OBATPToWSATCCommunicationType, m_settings.OBATPToWSATCIPAddress, Convert.ToInt32(m_settings.OBATPToWSATCPort));
-            //m_WSATCToOBATPSocket.Start(m_settings.WSATCToOBATPCommunicationType,   m_settings.WSATCToOBATPIPAddress, Convert.ToInt32(m_settings.WSATCToOBATPPort));
+            //m_WSATCToOBATPSocket.Start(m_settings.WSATCToOBATPCommunicationType, m_settings.WSATCToOBATPIPAddress, Convert.ToInt32(m_settings.WSATCToOBATPPort));
 
-
+            m_ATSSocket.Start(m_settings.ATSCommunicationType, SocketCommunication.ClientType.ATS, m_settings.ATSIPAddress, Convert.ToInt32(m_settings.ATSPort));
+            m_WSATCSocket.Start(m_settings.WSATCCommunicationType, SocketCommunication.ClientType.WSATC, m_settings.WSATCIPAddress, Convert.ToInt32(m_settings.WSATCPort));
 
 
 
@@ -187,33 +239,37 @@ namespace OnBoard
                 int trainIndex = index + 1;
                 Enums.Train_ID train_ID = (Enums.Train_ID)trainIndex;
 
-                //Route route = new Route();
-                //route = Route.CreateNewRoute(10105, m_settings.EndTrackID, m_allTracks);
+                //OBATP OBATP = new OBATP(train_ID, m_settings.MaxTrainAcceleration, m_settings.MaxTrainDeceleration, m_settings.TrainSpeedLimit, m_settings.TrainLength, 10101);
+                OBATP OBATP = new OBATP(train_ID, m_settings.MaxTrainAcceleration, m_settings.MaxTrainDeceleration, m_settings.TrainSpeedLimit, m_settings.TrainLength);
 
-                //Route route4 = new Route();
-                //route4 = Route.CreateNewRoute(10101, m_settings.EndTrackID, m_allTracks);
+                #region WSATC Movement Yetkisi Testi
+                //OBATP OBATP = new OBATP(train_ID, m_settings.MaxTrainAcceleration, m_settings.MaxTrainDeceleration);
+                #endregion
 
-                //Route route8 = new Route();
-                //route8 = Route.CreateNewRoute(10103, m_settings.EndTrackID, m_allTracks);
+                ////wayside testi için var test sonrası silinebilir
+                //if (OBATP.Status == Enums.Status.Create)
+                //{
+
+                //    //Track sdf =  MainForm.m_mf.m_YNK1_KIR2_YNK1.Find(x => x.Track_ID == 11402);
+
+                //    OBATP.SetStart(10101, true);
+
+                //    //OBATP.ActualFrontOfTrainCurrent.Track.Track_ID = 11402;
+                //    //OBATP.m_startTrackID = 11402;
 
 
-                OBATP OBATP;
-
-                //if (trainIndex == 8)
-                //     OBATP = new OBATP(train_ID, m_settings.MaxTrainAcceleration, m_settings.MaxTrainDeceleration, m_settings.TrainSpeedLimit, m_settings.TrainLength, route8);
-                //else if (trainIndex == 4)
-                //    OBATP = new OBATP(train_ID, m_settings.MaxTrainAcceleration, m_settings.MaxTrainDeceleration, m_settings.TrainSpeedLimit, m_settings.TrainLength, route4);
-                //else
-                     OBATP = new OBATP(train_ID, m_settings.MaxTrainAcceleration, m_settings.MaxTrainDeceleration, m_settings.TrainSpeedLimit, m_settings.TrainLength, m_route);
-                //OBATP OBATP = new OBATP(train_ID, m_settings.MaxTrainAcceleration, m_settings.MaxTrainDeceleration, m_settings.TrainSpeedLimit, m_settings.TrainLength);
+                //    //break;
+                //}
 
                 m_allOBATP.TryAdd(trainIndex, OBATP);
 
-                m_comboBoxTrain.Items.Add(train_ID.ToString()); 
+                m_comboBoxTrain.Items.Add(train_ID.ToString());
 
+                #region Communication Add Watchers
                 MainForm.m_WSATP_TO_OBATPMessageInComing.AddWatcher(OBATP);
                 MainForm.m_ATS_TO_OBATO_InitMessageInComing.AddWatcher(OBATP);
-                MainForm.m_ATS_TO_OBATO_MessageInComing.AddWatcher(OBATP); 
+                MainForm.m_ATS_TO_OBATO_MessageInComing.AddWatcher(OBATP);
+                #endregion
             }
 
             #region controls doublebuffered
@@ -230,6 +286,10 @@ namespace OnBoard
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+
+             
+
+
             m_labelDoorCounter.Text = "";
             m_labelDoorCounter.BorderStyle = BorderStyle.None;
 
@@ -237,9 +297,8 @@ namespace OnBoard
             //trainSimModal.Owner = this;
             //trainSimModal.Show();
 
-            
-
-            m_comboBoxTrain.SelectedIndex = 0;
+            if(m_settings.Trains.Count > 0)
+                m_comboBoxTrain.SelectedIndex = 0;
 
             m_allTrains.SynchronizationContext = SynchronizationContext.Current;
             m_dataGridViewAllTrains.DataSource = m_allTrains;
@@ -260,29 +319,41 @@ namespace OnBoard
             //total route
             //m_dataGridViewAllTrains.Columns[9].Width = 150;
 
-      
 
+            if (!m_backgroundWorkerCommunicationLogs.IsBusy)
+                m_backgroundWorkerCommunicationLogs.RunWorkerAsync();
+
+            if (!m_backgroundWorkerUILogs.IsBusy)
+                m_backgroundWorkerUILogs.RunWorkerAsync();
 
 
         } 
         private void m_buttonStart_Click(object sender, EventArgs e)
-        { 
-            if (!m_backgroundWorker.IsBusy)
-                m_backgroundWorker.RunWorkerAsync(); 
-        } 
+        {
+            //if (!m_backgroundWorker.IsBusy)
+            //    m_backgroundWorker.RunWorkerAsync(); 
 
-        #region TrainMovementCreated  
-        public void TrainMovementCreated(OBATP OBATP)
+            int waitingMinuteToMiliSecond = Convert.ToInt32(m_settings.TrainFrequencyMinute) * 60000;
+            int waitingSecondToMiliSecond = Convert.ToInt32(m_settings.TrainFrequencySecond) * 1000;
+            int waitingMiliSecond = waitingMinuteToMiliSecond + waitingSecondToMiliSecond;
+
+
+            AllTrainTimer.Change(0, waitingMiliSecond);
+        }
+
+        #region TrainMovementUIRefreshAllTrainList  
+
+        public void TrainMovementUIRefreshAllTrainList(OBATP OBATP)
         {
             try
             {
                 lock (m_movement)
-                {  
-                    int index = m_allTrains.ToList().FindIndex(x => x == OBATP); 
+                {
+                    int index = m_allTrains.ToList().FindIndex(x => x == OBATP);
                     m_allTrains.ResetItem(index);
 
-                    if ((DisplayManager.ComboBoxGetSelectedItemInvoke(m_comboBoxTrain) != null) &&  (DisplayManager.ComboBoxGetSelectedItemInvoke(m_comboBoxTrain).ToString() == OBATP.Vehicle.TrainName))
-                    { 
+                    if ((DisplayManager.ComboBoxGetSelectedItemInvoke(m_comboBoxTrain) != null) && (DisplayManager.ComboBoxGetSelectedItemInvoke(m_comboBoxTrain).ToString() == OBATP.Vehicle.TrainName))
+                    {
                         //general train
                         DisplayManager.TextBoxInvoke(m_textBoxCurrentTrainSpeedKM, OBATP.Vehicle.CurrentTrainSpeedKMH.ToString());
                         DisplayManager.TextBoxInvoke(m_textBoxCurrentLocation, OBATP.ActualFrontOfTrainCurrent.Location.ToString("0.##"));
@@ -291,25 +362,35 @@ namespace OnBoard
 
                         if (OBATP.DoorStatus == Enums.DoorStatus.Open)
                         {
-                            panel1.BackColor = Color.Red; 
-                            m_pictureBoxDoorStatus.Image = Properties.Resources.dooropen;
-                        } 
+                            DisplayManager.PanelInvoke(panel1, Color.Red);
+                            DisplayManager.PictureBoxInvoke(m_pictureBoxDoorStatus, Properties.Resources.dooropen);
+                        }
                         else
                         {
-                            panel1.BackColor = default(Color);
-                            m_pictureBoxDoorStatus.Image = Properties.Resources.doorclose;
+                            DisplayManager.PanelInvoke(panel1, default(Color));
+                            DisplayManager.PictureBoxInvoke(m_pictureBoxDoorStatus, Properties.Resources.doorclose);
                         }
 
 
-                        if(OBATP.DoorTimerCounter.ToString() == "11")
+                        ////if(OBATP.DoorTimerCounter.ToString() == "11")
+                        ////{
+                        ////    DisplayManager.LabelInvoke(m_labelDoorCounter, "");
+                        ////}
+                        ////else
+                        ////{
+                        ////DisplayManager.LabelInvoke(m_labelDoorCounter, OBATP.DoorTimerCounter.ToString()); 
+                        ////}
+                        ///
+
+                        if (OBATP.zongurt.ToString() == "0")
                         {
                             DisplayManager.LabelInvoke(m_labelDoorCounter, "");
                         }
                         else
                         {
-                            DisplayManager.LabelInvoke(m_labelDoorCounter, OBATP.DoorTimerCounter.ToString()); 
+                            DisplayManager.LabelInvoke(m_labelDoorCounter, OBATP.zongurt.ToString());
                         }
-                       
+
 
                         DisplayManager.TextBoxInvoke(m_textBoxDoorTimerCounter, OBATP.DoorTimerCounter.ToString());
 
@@ -317,7 +398,7 @@ namespace OnBoard
                         //    DisplayManager.TextBoxInvoke(m_textBoxDoorStatus, "Open");
                         //else
                         //    DisplayManager.TextBoxInvoke(m_textBoxDoorStatus, "Close"); 
-                    } 
+                    }
                 }
             }
             catch (Exception ex)
@@ -327,13 +408,78 @@ namespace OnBoard
             }
 
         }
+        //public void TrainMovementCreatedSendMessage(OBATP OBATP)
+        //{
+        //    try
+        //    {
+        //        lock (m_movement)
+        //        {
+        //            int index = m_allTrains.ToList().FindIndex(x => x == OBATP);
+        //            m_allTrains.ResetItem(index);
+
+        //            if ((DisplayManager.ComboBoxGetSelectedItemInvoke(m_comboBoxTrain) != null) && (DisplayManager.ComboBoxGetSelectedItemInvoke(m_comboBoxTrain).ToString() == OBATP.Vehicle.TrainName))
+        //            {
+        //                //general train
+        //                DisplayManager.TextBoxInvoke(m_textBoxCurrentTrainSpeedKM, OBATP.Vehicle.CurrentTrainSpeedKMH.ToString());
+        //                DisplayManager.TextBoxInvoke(m_textBoxCurrentLocation, OBATP.ActualFrontOfTrainCurrent.Location.ToString("0.##"));
+        //                DisplayManager.TextBoxInvoke(m_textBoxRearCurrentLocation, OBATP.ActualRearOfTrainCurrent.Location.ToString("0.##"));
+        //                DisplayManager.TextBoxInvoke(m_textBoxCurrentAcceleration, (OBATP.Vehicle.CurrentAcceleration / 100).ToString("0.##"));
+
+        //                if (OBATP.DoorStatus == Enums.DoorStatus.Open)
+        //                {
+        //                    DisplayManager.PanelInvoke(panel1, Color.Red);
+        //                    DisplayManager.PictureBoxInvoke(m_pictureBoxDoorStatus, Properties.Resources.dooropen);
+        //                }
+        //                else
+        //                {
+        //                    DisplayManager.PanelInvoke(panel1, default(Color));
+        //                    DisplayManager.PictureBoxInvoke(m_pictureBoxDoorStatus, Properties.Resources.doorclose);
+        //                }
+
+
+        //                ////if(OBATP.DoorTimerCounter.ToString() == "11")
+        //                ////{
+        //                ////    DisplayManager.LabelInvoke(m_labelDoorCounter, "");
+        //                ////}
+        //                ////else
+        //                ////{
+        //                ////DisplayManager.LabelInvoke(m_labelDoorCounter, OBATP.DoorTimerCounter.ToString()); 
+        //                ////}
+        //                ///
+
+        //                if (OBATP.zongurt.ToString() == "0")
+        //                {
+        //                    DisplayManager.LabelInvoke(m_labelDoorCounter, "");
+        //                }
+        //                else
+        //                {
+        //                    DisplayManager.LabelInvoke(m_labelDoorCounter, OBATP.zongurt.ToString());
+        //                }
+
+
+        //                DisplayManager.TextBoxInvoke(m_textBoxDoorTimerCounter, OBATP.DoorTimerCounter.ToString());
+
+        //                //if (OBATP.DoorStatus == Enums.DoorStatus.Open)
+        //                //    DisplayManager.TextBoxInvoke(m_textBoxDoorStatus, "Open");
+        //                //else
+        //                //    DisplayManager.TextBoxInvoke(m_textBoxDoorStatus, "Close"); 
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Logging.WriteLog(ex.Message.ToString(), ex.StackTrace.ToString(), ex.TargetSite.ToString(), "TrainMovementCreated");
+
+        //    }
+
+        //}
         #endregion
 
         #region TrainMovementUI 
-        public void TrainMovementUI(OBATP OBATP, UIOBATP UIOBATP)
+        public void TrainMovementUIRefreshTracksList(OBATP OBATP, UIOBATP UIOBATP)
         {
             try
-            { 
+            {
                 lock (OBATP)
                 {
                     if ((DisplayManager.ComboBoxGetSelectedItemInvoke(m_comboBoxTrain) != null) && (DisplayManager.ComboBoxGetSelectedItemInvoke(m_comboBoxTrain).ToString() == OBATP.Vehicle.TrainName))
@@ -344,19 +490,19 @@ namespace OnBoard
 
                         //if (!difflistValuesRoute_Tracks)
                         if (UIOBATP.RefreshRouteTracks)
-                        { 
-                            m_listView.Invoke((Action)(() =>
-                            {
-                                m_listView.Items.Clear();
+                        {
 
-                                foreach (var item in OBATP.m_route.Route_Tracks)
-                                {
-                                    m_listView.Items.Add(new ListViewItem(new string[] { item.Track_ID.ToString(), item.Station_Name, item.SpeedChangeVMax.ToString() }));
-                                }
+                            //DisplayManager.ListViewItemsClearInvoke(m_listView);
 
-                                m_listView.Items[0].BackColor = Color.Red;
+                            ////foreach (var item in OBATP.m_route.Route_Tracks)
+                            //foreach (var item in OBATP.movementTrack)
+                            //{
+                            //    DisplayManager.ListViewItemsAddInvoke(m_listView, new ListViewItem(new string[] { item.Track_ID.ToString(), item.Station_Name, item.SpeedChangeVMax.ToString() })); 
+                            //}
 
-                            }));
+                            DisplayManager.ListViewItemBackColorInvoke(m_listView, 0, Color.Red);
+
+                            
 
                         }
 
@@ -368,15 +514,24 @@ namespace OnBoard
 
                         if (UIOBATP.RefreshVirtualOccupationTracks)
                         {
-                            m_listViewVirtualOccupation.Invoke((Action)(() =>
-                            {
-                                m_listViewVirtualOccupation.Items.Clear();
-                            //OBATP.TrainOnTracks.VirtualOccupationTracks.ForEach(x => m_listViewVirtualOccupation.Items.Add(x.Track_ID.ToString()));
+
+                            DisplayManager.ListViewItemsClearInvoke(m_listViewVirtualOccupation);
+
                             foreach (var item in UIOBATP.TrainOnTracks.VirtualOccupationTracks)
                             {
-                                m_listViewVirtualOccupation.Items.Add(item.Track_ID.ToString());
+                                DisplayManager.ListViewItemsAddInvoke(m_listViewVirtualOccupation, new ListViewItem(new string[] { item.Track_ID.ToString() }));
                             }
-                            }));
+                             
+
+                            //m_listViewVirtualOccupation.Invoke((Action)(() =>
+                            //{
+                            //    m_listViewVirtualOccupation.Items.Clear();
+                            ////OBATP.TrainOnTracks.VirtualOccupationTracks.ForEach(x => m_listViewVirtualOccupation.Items.Add(x.Track_ID.ToString()));
+                            //foreach (var item in UIOBATP.TrainOnTracks.VirtualOccupationTracks)
+                            //{
+                            //    m_listViewVirtualOccupation.Items.Add(item.Track_ID.ToString());
+                            //}
+                            //}));
                         }
                         //new ListViewItem(new string[] { x.Track_ID.ToString(), x.Station_Name })
 
@@ -386,18 +541,15 @@ namespace OnBoard
                         //if (!difflistValuesFootPrintTracks)
 
                         if (UIOBATP.RefreshFootPrintTracks)
-                        {
-                            m_listViewVirtualOccupation.Invoke((Action)(() =>
+                        { 
+
+                            DisplayManager.ListViewItemsClearInvoke(m_listViewFootPrintTracks);
+
+                            foreach (var item in UIOBATP.TrainOnTracks.FootPrintTracks)
                             {
-
-                                m_listViewFootPrintTracks.Items.Clear();
-                                //OBATP.TrainOnTracks.FootPrintTracks.ForEach(x => m_listViewFootPrintTracks.Items.Add(x.Track_ID.ToString()));
-
-                                foreach (var item in UIOBATP.TrainOnTracks.FootPrintTracks)
-                                {
-                                    m_listViewFootPrintTracks.Items.Add(item.Track_ID.ToString());
-                                }
-                            }));
+                                DisplayManager.ListViewItemsAddInvoke(m_listViewFootPrintTracks, new ListViewItem(new string[] { item.Track_ID.ToString() }));
+                            } 
+ 
                         }
 
                         if (UIOBATP.RefreshActualLocationTracks)
@@ -477,6 +629,22 @@ namespace OnBoard
             //    }
             //} 
         }
+
+        #endregion
+
+        #region TrainNewMovementAuthorityCreated
+
+        public void TrainNewMovementAuthorityCreated(ThreadSafeList<Track> newMovementAuthorityList)
+        {
+            DisplayManager.ListViewItemsClearInvoke(m_listView);
+
+            //foreach (var item in OBATP.m_route.Route_Tracks)
+            foreach (var item in newMovementAuthorityList)
+            {
+                DisplayManager.ListViewItemsAddInvoke(m_listView, new ListViewItem(new string[] { item.Track_ID.ToString(), item.Station_Name, item.SpeedChangeVMax.ToString() }));
+            }
+        }
+
         #endregion
 
         private void m_trainItem_Click(object sender, EventArgs e)
@@ -488,7 +656,10 @@ namespace OnBoard
 
         private void m_generalItem_Click(object sender, EventArgs e)
         {
-            GeneralSettingsModal generalSettingsModal = new GeneralSettingsModal();
+            //m_ATSSocket.Stop(Enums.CommunicationType.Client, SocketCommunication.ClientType.ATS);
+
+
+            GeneralSettingsModal generalSettingsModal = new GeneralSettingsModal(this);
             generalSettingsModal.Owner = this;
             generalSettingsModal.ShowDialog();
         }
@@ -550,7 +721,7 @@ namespace OnBoard
         int counter = 0;
 
         private void OnTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
-        {  
+        {
 
 
 
@@ -564,16 +735,29 @@ namespace OnBoard
 
                 if (OBATP.Status == Enums.Status.Create)
                 {
+
+                    //Track sdf =  MainForm.m_mf.m_YNK1_KIR2_YNK1.Find(x => x.Track_ID == 11402);
+
+                    OBATP.SetStart(10101, true);
+
+                    //OBATP.ActualFrontOfTrainCurrent.Track.Track_ID = 11402;
+                    //OBATP.m_startTrackID = 11402;
+
                     OBATP.RequestStartProcess();
                     break;
                 }
-                 
- 
+                else if (OBATP.Status == Enums.Status.Stop)
+                {
+
+                    OBATP.RequestStartProcess();
+                }
             }
 
-            int waitingTime = Convert.ToInt32(m_settings.TrainFrequency) * 1000;
+            int waitingMinuteToMiliSecond = Convert.ToInt32(m_settings.TrainFrequencyMinute) * 60000;
+            int waitingSecondToMiliSecond = Convert.ToInt32(m_settings.TrainFrequencySecond) * 1000;
+            int waitingMiliSecond = waitingMinuteToMiliSecond + waitingSecondToMiliSecond;
 
-            this.STTimer.Interval = waitingTime;
+            this.STTimer.Interval = waitingMiliSecond;
 
 
             //var dsfıjop = m_allOBATP.Values.ToList();
@@ -581,10 +765,77 @@ namespace OnBoard
         }
 
 
+        public void ManageAllTrain(object o)
+        {
+            //try
+            //{
+
+
+            foreach (KeyValuePair<int, OBATP> item in m_allOBATP)
+            {
+                OBATP OBATP = item.Value;
+
+                if (!m_allTrains.Contains(OBATP))
+                    m_allTrains.Add(OBATP);
+
+
+                if (OBATP.Status == Enums.Status.Create)
+                {
+
+                    //Track sdf =  MainForm.m_mf.m_YNK1_KIR2_YNK1.Find(x => x.Track_ID == 11402);
+
+                    OBATP.SetStart(10101, true);
+
+                    //OBATP.ActualFrontOfTrainCurrent.Track.Track_ID = 11402;
+                    //OBATP.m_startTrackID = 11402;
+
+                    OBATP.RequestStartProcess();
+                    break;
+                }
+                else if (OBATP.Status == Enums.Status.Stop)
+                {
+
+                    OBATP.RequestStartProcess();
+                }
+            }
+
+
+            int startOBATCCount = m_allOBATP.Values.ToList().Where(x => x.Status == Enums.Status.Start).Count();
+
+            if (startOBATCCount == m_allOBATP.Count())
+                AllTrainTimer.Change(Timeout.Infinite, Timeout.Infinite);
+
+            //int waitingMinuteToMiliSecond = Convert.ToInt32(m_settings.TrainFrequencyMinute) * 60000;
+            //int waitingSecondToMiliSecond = Convert.ToInt32(m_settings.TrainFrequencySecond) * 1000;
+            //int waitingMiliSecond = waitingMinuteToMiliSecond + waitingSecondToMiliSecond;
+
+            //this.STTimer.Interval = waitingMiliSecond;
+
+
+            //var dsfıjop = m_allOBATP.Values.ToList();
+
+
+            //}
+            //catch (ThreadInterruptedException ex)
+            //{
+            //    kontrol = false;
+            //    sda();
+            //    //Logging.WriteLog(DateTime.Now.ToString(), ex.Message.ToString(), ex.StackTrace.ToString(), ex.TargetSite.ToString(), "socket1");
+
+            //}
+            //catch (Exception ex)
+            //{
+            //    kontrol = false;
+            //    sda();
+            //    //Logging.WriteLog(DateTime.Now.ToString(), ex.Message.ToString(), ex.StackTrace.ToString(), ex.TargetSite.ToString(), "socket2");
+            //}
+        }
+
+
         public void DeleteInValidImages(object o)
         {
             //try
-            //{ 
+            //{
 
                 m_settings = m_settings.DeSerialize(m_settings);
                 //List<Track> route = Route.CreateNewRoute(10101, 10103, allTracks);
@@ -714,13 +965,13 @@ namespace OnBoard
 
         private void m_richTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (m_richTextBox.Text.Length > 5000)
+            if (m_richTextBoxCommunicationLogs.Text.Length > 5000)
             {
                 
-                m_richTextBox.ResetText();
+                m_richTextBoxCommunicationLogs.ResetText();
             }
 
-            m_richTextBox.ScrollToCaret();
+            m_richTextBoxCommunicationLogs.ScrollToCaret();
         }
 
         private void m_mainMenu_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
@@ -788,16 +1039,162 @@ namespace OnBoard
         }
 
         private void m_buttonStop_Click(object sender, EventArgs e)
-        { 
-            if(m_comboBoxTrain.SelectedItem != null)
-            { 
-                bool isGetValue = MainForm.m_allOBATP.TryGetValue(Convert.ToInt32(m_comboBoxTrain.SelectedIndex + 1), out OBATP OBATP);
+        {
+            //if(m_comboBoxTrain.SelectedItem != null)
+            //{ 
+            //    bool isGetValue = MainForm.m_allOBATP.TryGetValue(Convert.ToInt32(m_comboBoxTrain.SelectedIndex + 1), out OBATP OBATP);
 
-                if (isGetValue)
-                    OBATP.RequestStopProcess();
+            //    if (isGetValue)
+            //        OBATP.RequestStopProcess();
+            //}  
+
+            if(STTimer.Enabled)
+            {
+                STTimer.Stop();
+                STTimer.Interval = 1;
             }
 
-           
+            foreach (KeyValuePair<int, OBATP> item in m_allOBATP)
+            {
+                OBATP OBATP = item.Value;
+
+                OBATP.RequestStopProcess();
+
+            }
+        }
+
+        private void m_backgroundWorkerCommunicationLogs_DoWork(object sender, DoWorkEventArgs e)
+        {
+            foreach (Tuple<DateTime, string, string> messageToWriteLog in m_communicationLogs.GetConsumingEnumerable())
+            {
+
+                StringBuilder messageToWriteLogStringBuilder = new StringBuilder(messageToWriteLog.Item2);
+                messageToWriteLogStringBuilder.Replace("*", messageToWriteLog.Item3);
+
+                Logging.WriteCommunicationLog(messageToWriteLog.Item1, messageToWriteLogStringBuilder);
+
+            }
+        }
+
+        private void m_backgroundWorkerUILogs_DoWork(object sender, DoWorkEventArgs e)
+        {
+            foreach (Tuple<string, Color> messageToWriteLog in m_UILogs.GetConsumingEnumerable())
+            {
+
+                DisplayManager.RichTextBoxInvoke(m_richTextBoxCommunicationLogs, messageToWriteLog.Item1, messageToWriteLog.Item2);
+
+               
+
+            }
+        }
+
+        public void SettingsWindowStatus(Enums.SettingsWindowStatus settingsWindowStatus, Enums.SettingsWindow settingsWindow)
+        {
+            if(settingsWindowStatus == Enums.SettingsWindowStatus.Open)
+            {
+                if (STTimer.Enabled)
+                {
+                    STTimer.Stop();
+                    STTimer.Interval = 1;
+                }
+                    
+
+
+                m_ATSSocket.Stop(m_settings.ATSCommunicationType, SocketCommunication.ClientType.ATS);
+                m_WSATCSocket.Stop(m_settings.WSATCCommunicationType, SocketCommunication.ClientType.WSATC);
+
+
+
+                foreach (KeyValuePair<int, OBATP> item in m_allOBATP)
+                {
+                    OBATP OBATP = item.Value;  
+
+                    if (m_allTrains.Contains(OBATP))
+                        m_allTrains.Remove(OBATP); 
+
+                    if (OBATP.Status == Enums.Status.Start)
+                    { 
+                        OBATP.RequestStopProcess();
+                      
+                    }
+
+                    OBATP.Dispose();
+
+                    MainForm.m_WSATP_TO_OBATPMessageInComing.RemoveWatcher(OBATP);
+                    MainForm.m_ATS_TO_OBATO_InitMessageInComing.RemoveWatcher(OBATP);
+                    MainForm.m_ATS_TO_OBATO_MessageInComing.RemoveWatcher(OBATP); 
+
+                }
+
+                m_allOBATP.Clear();
+                m_comboBoxTrain.Items.Clear();
+
+                DisplayManager.ListViewItemsClearInvoke(m_listView);
+                DisplayManager.ListViewItemsClearInvoke(m_listViewVirtualOccupation);
+                DisplayManager.ListViewItemsClearInvoke(m_listViewFootPrintTracks);
+
+                DisplayManager.TextBoxClearInvoke(m_textBoxCurrentTrainSpeedKM);
+                DisplayManager.TextBoxClearInvoke(m_textBoxCurrentLocation);
+                DisplayManager.TextBoxClearInvoke(m_textBoxRearCurrentLocation);
+                DisplayManager.TextBoxClearInvoke(m_textBoxCurrentAcceleration);
+
+
+                DisplayManager.PanelInvoke(panel1, default(Color));
+                DisplayManager.PictureBoxInvoke(m_pictureBoxDoorStatus, Properties.Resources.doorclose);
+
+                m_labelDoorCounter.Text = "";
+
+                m_richTextBoxCommunicationLogs.Clear();
+                m_richTextBoxTrainsLogs.Clear();
+
+            }
+            else
+            {
+                m_settings = m_settings.DeSerialize(m_settings);
+
+                m_ATSSocket.Start(m_settings.ATSCommunicationType, SocketCommunication.ClientType.ATS, m_settings.ATSIPAddress, Convert.ToInt32(m_settings.ATSPort));
+                m_WSATCSocket.Start(m_settings.WSATCCommunicationType, SocketCommunication.ClientType.WSATC, m_settings.WSATCIPAddress, Convert.ToInt32(m_settings.WSATCPort));
+
+
+                foreach (int index in m_settings.Trains)
+                {
+                    int trainIndex = index + 1;
+                    Enums.Train_ID train_ID = (Enums.Train_ID)trainIndex;
+                     
+                    OBATP OBATP = new OBATP(train_ID, m_settings.MaxTrainAcceleration, m_settings.MaxTrainDeceleration, m_settings.TrainSpeedLimit, m_settings.TrainLength);
+
+ 
+                    m_allOBATP.TryAdd(trainIndex, OBATP);
+
+                    m_comboBoxTrain.Items.Add(train_ID.ToString());
+
+                    MainForm.m_WSATP_TO_OBATPMessageInComing.AddWatcher(OBATP);
+                    MainForm.m_ATS_TO_OBATO_InitMessageInComing.AddWatcher(OBATP);
+                    MainForm.m_ATS_TO_OBATO_MessageInComing.AddWatcher(OBATP);
+                }
+
+                if (m_comboBoxTrain.Items.Count > 0)
+                    m_comboBoxTrain.SelectedIndex = 0;
+
+
+
+
+
+            }
+
+
+
+        }
+
+        private void m_richTextBoxTrainsLogs_TextChanged(object sender, EventArgs e)
+        {
+            if (m_richTextBoxTrainsLogs.Text.Length > 5000)
+            {
+
+                m_richTextBoxTrainsLogs.ResetText();
+            }
+
+            m_richTextBoxTrainsLogs.ScrollToCaret();
         }
     }
 }

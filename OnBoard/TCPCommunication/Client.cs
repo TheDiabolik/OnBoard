@@ -15,31 +15,34 @@ namespace OnBoard
 {
     partial class SocketCommunication
     {
-        public class Client :  ITrainCreatedWatcher, ITrainMovementCreatedWatcher   
+        public class Client
         {
             #region variables
             private static Client m_do = null;
             internal Socket m_clientSock;
             string m_ipAddress;
             int m_port;
+            string m_name;
 
-            ConcurrentBag<OBATP> m_createdTrainsMessage;
-            BlockingCollection<OBATP> m_createdTrains;
+            internal XMLSerialization m_settings;
 
-            private byte[] m_clientBufRecv, m_clientBufSend;
-            private int m_clientIndexRecv, m_clientLeftRecv, m_clientIndexSend, m_clientLeftSend; 
+            //ConcurrentBag<OBATP> m_createdTrainsMessage;
+            //BlockingCollection<OBATP> m_createdTrains;
 
-           
+            internal byte[] m_clientBufRecv, m_clientBufSend;
+            internal int m_clientIndexRecv, m_clientLeftRecv, m_clientIndexSend, m_clientLeftSend;
+
+
             //System.Threading.Timer m_threadTimer;
-          
-            Stopwatch m_stopWatch;
-            System.Timers.Timer m_timer;
+
+            internal Stopwatch m_stopWatch;
+            internal System.Timers.Timer m_timer;
             #endregion
 
             #region constructor
             public Client()
             {
-               
+
                 m_clientBufRecv = new byte[1024];
                 m_clientBufSend = new byte[1024];
 
@@ -47,29 +50,26 @@ namespace OnBoard
                 m_timer = new System.Timers.Timer(1000);
                 m_timer.Elapsed += m_stopWatch_Elapsed;
 
-                m_createdTrainsMessage = new ConcurrentBag<OBATP>();
-                m_createdTrains = new BlockingCollection<OBATP>();
+                //m_createdTrainsMessage = new ConcurrentBag<OBATP>();
+                //m_createdTrains = new BlockingCollection<OBATP>(); 
 
-
-                //create
-                MainForm.m_trainObserver.AddTrainCreatedWatcher(this);
-                //movement
-                MainForm.m_trainObserver.AddTrainMovementCreatedWatcher(this);
-                
- 
+                #region ayarları okuma
+                m_settings = XMLSerialization.Singleton();
+                m_settings = m_settings.DeSerialize(m_settings);
+                #endregion
 
 
             }
 
             void m_stopWatch_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
-            { 
+            {
                 if (m_clientSock != null)
                 {
                     if (m_stopWatch.Elapsed.TotalSeconds > 3)
                     {
-                        SendMsgToServer("AREYOUALIVE$");
-                        DisplayManager.RichTextBoxInvoke(MainForm.m_mf.m_richTextBox, "Connect Check to WaySide...", Color.DarkRed); 
-                        
+                        //SendMsgToServer("AREYOUALIVE$");
+                        //DisplayManager.RichTextBoxInvoke(MainForm.m_mf.m_richTextBox, "Connect Check to WaySide...", Color.DarkRed);
+
                     }
                 }
                 else
@@ -77,7 +77,9 @@ namespace OnBoard
                     //m_clientSock.Dispose(); 
                     //StartClient( "127.0.0.1", 5050);
                     StartClient(m_ipAddress, m_port);
-                    DisplayManager.RichTextBoxInvoke(MainForm.m_mf.m_richTextBox, "Try to ReConnect to WaySide...", Color.DarkRed);
+
+                    MainForm.m_mf.m_UILogs.Add(Tuple.Create<string, Color>("Try to ReConnect... - " + m_name, Color.DarkRed));
+                    //DisplayManager.RichTextBoxInvoke(MainForm.m_mf.m_richTextBox, "Try to ReConnect...", Color.DarkRed);
                 }
 
 
@@ -96,15 +98,24 @@ namespace OnBoard
             }
             #endregion
 
- 
-            public void StartClient(string ipAddress, int port)
-            {
-                try
-                {
-                    m_ipAddress = ipAddress;
-                    m_port = port;
-                    DisplayManager.RichTextBoxInvoke(MainForm.m_mf.m_richTextBox, "Try to Connect WaySide...", Color.DarkRed);
 
+            public virtual void StartClient(string ipAddress, int port)
+            {
+                m_ipAddress = ipAddress;
+                m_port = port; 
+              
+
+                if (m_port == 11001)
+                    m_name = "WSATC";
+                else if (m_port == 12101)
+                    m_name = "ATS"; 
+
+                try
+                { 
+
+
+                    //DisplayManager.RichTextBoxInvoke(MainForm.m_mf.m_richTextBox, "Try to Connect...", Color.DarkRed);
+                    MainForm.m_mf.m_UILogs.Add(Tuple.Create<string, Color>("Try to Connect... - " + m_name, Color.DarkRed));
 
                     if (m_timer.Enabled)
                         m_timer.Stop();
@@ -114,7 +125,7 @@ namespace OnBoard
                     m_stopWatch.Start();
 
 
-                    SocketCommunication.Singleton().sda();
+                    //SocketCommunication.Singleton().sda();
 
                     m_clientSock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                     m_clientSock.NoDelay = true;
@@ -122,16 +133,16 @@ namespace OnBoard
 
                     m_clientSock.BeginConnect(new IPEndPoint(IPAddress.Parse(ipAddress), port), new AsyncCallback(ClientConnectProc), null);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Logging.WriteLog(ex.Message.ToString(), ex.StackTrace.ToString(), ex.TargetSite.ToString(), "StartClient");
 
                 }
-              
+
 
             }
 
-            public void StopClient(bool keepAlive)
+            public virtual void StopClient(bool keepAlive)
             {
                 if ((m_clientSock != null) || (m_clientSock != null && m_clientSock.Connected))
                 {
@@ -152,8 +163,10 @@ namespace OnBoard
                     m_timer.Stop();
             }
 
-            private void ClientConnectProc(IAsyncResult iar)
+            internal virtual void ClientConnectProc(IAsyncResult iar)
             {
+               
+
                 try
                 {
                     m_clientSock.EndConnect(iar);
@@ -161,15 +174,28 @@ namespace OnBoard
 
                     //alma
                     m_clientIndexRecv = 0;
-                    m_clientLeftRecv = m_clientBufRecv.Length; 
+                    m_clientLeftRecv = m_clientBufRecv.Length;
 
-                    DisplayManager.RichTextBoxInvoke(MainForm.m_mf.m_richTextBox, "Connect to WaySide...", Color.DarkRed);
 
-                    m_clientSock.BeginReceive(m_clientBufRecv, m_clientIndexRecv, m_clientLeftRecv,  SocketFlags.None, new AsyncCallback(ClientReceiveProc), null);
+
+                 
+
+               
+
+                    //DisplayManager.RichTextBoxInvoke(MainForm.m_mf.m_richTextBox, "Connect to " + isim, Color.DarkRed);
+
+                    MainForm.m_mf.m_UILogs.Add(Tuple.Create<string, Color>("Connect to " + m_name, Color.DarkRed));
+
+                    //SendMsgToServer("");
+
+                    m_clientSock.BeginReceive(m_clientBufRecv, m_clientIndexRecv, m_clientLeftRecv, SocketFlags.None, new AsyncCallback(ClientReceiveProc), null);
                 }
                 catch (Exception e)
                 {
-                    DisplayManager.RichTextBoxInvoke(MainForm.m_mf.m_richTextBox, "Connection Failure to WaySide...", Color.DarkRed);
+                    //DisplayManager.RichTextBoxInvoke(MainForm.m_mf.m_richTextBox, "Connection Failure to " + isim, Color.DarkRed);
+
+                    MainForm.m_mf.m_UILogs.Add(Tuple.Create<string, Color>("Connection Failure to " + m_name, Color.DarkRed));
+
 
                     if (m_clientSock != null)
                     {
@@ -184,16 +210,23 @@ namespace OnBoard
             }
 
 
-            public Enums.Train_ID FindTrainID(uint msgDST)
-            { 
-                uint lastdigit = (msgDST % 100);
-                Enums.Train_ID train_ID = (Enums.Train_ID)lastdigit;
+            readonly object m_msgDST = new object();
 
-                return train_ID;
+            public Enums.Train_ID FindTrainID(uint msgDST)
+            {
+                lock(m_msgDST)
+                {
+                    uint lastdigit = (msgDST % 100);
+                    Enums.Train_ID train_ID = (Enums.Train_ID)lastdigit;
+
+                    return train_ID;
+                }
+
+              
 
             }
 
-            private void ClientReceiveProc(IAsyncResult iar)
+            internal virtual void ClientReceiveProc(IAsyncResult iar)
             {
                 try
                 {
@@ -205,79 +238,87 @@ namespace OnBoard
                     uint messageBase = BitConverter.ToUInt32(m_clientBufRecv, 0);
 
 
-                    if(messageBase == 5)
+                    if (messageBase == 5)
                     {
                         uint messageLength = BitConverter.ToUInt32(m_clientBufRecv, 4);
                         byte[] incomingBytes = new byte[messageLength];
                         Array.Copy(m_clientBufRecv, incomingBytes, messageLength);
-                         
 
-                        uint messageID = BitConverter.ToUInt32(incomingBytes, 8); 
 
-                        if(messageID == (UInt32) Enums.Message.ID.WSATP_TO_OBATP)
+                        uint messageID = BitConverter.ToUInt32(incomingBytes, 8);
+
+                        if (messageID == (UInt32)Enums.Message.ID.WSATP_TO_OBATP)
                         {
-                            Message message = new Message(incomingBytes);
+                            using (Message message = new Message(incomingBytes))
+                            {
+                                MessageSelector messageSelector = new MessageSelector();
+                                IMessageType messageType = messageSelector.GetMessageType((Enums.Message.ID)messageID);
+                                IMessageType dataorj = messageType.CreateMessage(message.DATA);
 
-                            MessageSelector messageSelector = new MessageSelector();
-                            IMessageType messageType = messageSelector.GetMessageType((Enums.Message.ID)messageID);
-                            IMessageType dataorj = messageType.CreateMessage(message.DATA);
+                                using (WSATP_TO_OBATPAdapter adap = new WSATP_TO_OBATPAdapter(dataorj))
+                                {
+                                    //obatpye wsatp gelen wsatp mesajını gönderiyor
+                                    //Enums.OBATP_ID OBATPID = (Enums.OBATP_ID)message.DST;
+                                    Enums.Train_ID train_ID = FindTrainID(message.DST);
 
-                       
+                                    MainForm.m_WSATP_TO_OBATPMessageInComing.WSATP_TO_OBATPNewMessageInComing(train_ID, adap);
 
-                            WSATP_TO_OBATPAdapter adap = new WSATP_TO_OBATPAdapter(dataorj);
+                                    CheckWriteLog(Tuple.Create<DateTime, string, string>(DateTime.Now, message.ToString(), adap.ToString()));
+                                }
+                            }
 
-                            //obatpye wsatp gelen wsatp mesajını gönderiyor
-                            //Enums.OBATP_ID OBATPID = (Enums.OBATP_ID)message.DST;
-                            Enums.Train_ID train_ID = FindTrainID(message.DST);
-
-                            MainForm.m_WSATP_TO_OBATPMessageInComing.WSATP_TO_OBATPNewMessageInComing(train_ID, adap);
+                            //MainForm.m_mf.m_communicationLogs.Add(Tuple.Create<DateTime, string, string>(DateTime.Now, message.ToString(), adap.ToString()));
 
                         }
                         else if (messageID == (UInt32)Enums.Message.ID.ATS_SERVER_TO_OBATO_Init)
                         {
-                            Message message = new Message(incomingBytes);
+                            using (Message message = new Message(incomingBytes))
+                            { 
+                                MessageSelector messageSelector = new MessageSelector();
+                                IMessageType messageType = messageSelector.GetMessageType((Enums.Message.ID)messageID);
+                                IMessageType dataorj = messageType.CreateMessage(message.DATA); 
 
-                            MessageSelector messageSelector = new MessageSelector();
-                            IMessageType messageType = messageSelector.GetMessageType((Enums.Message.ID)messageID);
-                            IMessageType dataorj = messageType.CreateMessage(message.DATA); 
+                                using (ATS_TO_OBATO_InitAdapter adap = new ATS_TO_OBATO_InitAdapter(dataorj))
+                                {  
+                                    //atsden gelen init mesajı
+                                    //Enums.OBATP_ID OBATPID = (Enums.OBATP_ID)message.DST;
+                                    Enums.Train_ID train_ID = FindTrainID(message.DST); 
 
+                                    MainForm.m_ATS_TO_OBATO_InitMessageInComing.ATS_TO_OBATO_InitNewMessageInComing(train_ID, adap);
 
-                            ATS_TO_OBATO_InitAdapter adap = new ATS_TO_OBATO_InitAdapter(dataorj);
-
-
-                   
-
-                            //atsden gelen init mesajı
-                            //Enums.OBATP_ID OBATPID = (Enums.OBATP_ID)message.DST;
-                            Enums.Train_ID train_ID = FindTrainID(message.DST);
-                            MainForm.m_ATS_TO_OBATO_InitMessageInComing.ATS_TO_OBATO_InitNewMessageInComing(train_ID, adap);
+                                    CheckWriteLog(Tuple.Create<DateTime, string, string>(DateTime.Now, message.ToString(), adap.ToString()));
+                                    //MainForm.m_mf.m_communicationLogs.Add(Tuple.Create<DateTime, string, string>(DateTime.Now, message.ToString(), adap.ToString()));
+                                }
+                            }
 
                         }
                         else if (messageID == (UInt32)Enums.Message.ID.ATS_SERVER_TO_OBATO)
                         {
-                            Message message = new Message(incomingBytes);
+                            using (Message message = new Message(incomingBytes))
+                            {
+                                MessageSelector messageSelector = new MessageSelector();
+                                IMessageType messageType = messageSelector.GetMessageType((Enums.Message.ID)messageID);
+                                IMessageType dataorj = messageType.CreateMessage(message.DATA);
 
-                            MessageSelector messageSelector = new MessageSelector();
-                            IMessageType messageType = messageSelector.GetMessageType((Enums.Message.ID)messageID);
-                            IMessageType dataorj = messageType.CreateMessage(message.DATA);
+                                using (ATS_TO_OBATOAdapter adap = new ATS_TO_OBATOAdapter(dataorj))
+                                {
+                                    adap.DwellTime = 50;
 
+                                    //atsden gelen init mesajı
+                                    //Enums.OBATP_ID OBATPID = (Enums.OBATP_ID)message.DST;
+                                    Enums.Train_ID train_ID = FindTrainID(message.DST);
+                                    MainForm.m_ATS_TO_OBATO_MessageInComing.ATS_TO_OBATO_NewMessageInComing(train_ID, adap);
 
-
-                            ATS_TO_OBATOAdapter adap = new ATS_TO_OBATOAdapter(dataorj); 
-
-                            //atsden gelen init mesajı
-                            //Enums.OBATP_ID OBATPID = (Enums.OBATP_ID)message.DST;
-                            Enums.Train_ID train_ID = FindTrainID(message.DST);
-                            MainForm.m_ATS_TO_OBATO_MessageInComing.ATS_TO_OBATO_NewMessageInComing(train_ID, adap);
-
-                        } 
-
-
+                                    CheckWriteLog(Tuple.Create<DateTime, string, string>(DateTime.Now, message.ToString(), adap.ToString()));
+                                    //MainForm.m_mf.m_communicationLogs.Add(Tuple.Create<DateTime, string, string>(DateTime.Now, message.ToString(), adap.ToString()));
+                                }
+                            }
+                        }
                     }
 
 
 
-  
+
 
 
                     if (!m_stopWatch.IsRunning)
@@ -292,7 +333,7 @@ namespace OnBoard
                 }
                 catch (Exception e)
                 {
-                  
+
                     if (m_clientSock != null)
                     {
                         m_clientSock.Close();
@@ -304,7 +345,7 @@ namespace OnBoard
                 }
             }
 
-            private void ClientSendProc(IAsyncResult iar)
+            internal virtual void ClientSendProc(IAsyncResult iar)
             {
                 try
                 {
@@ -321,8 +362,8 @@ namespace OnBoard
                 }
                 catch (Exception e)
                 {
-                 
-                 
+
+
                 }
             }
 
@@ -352,10 +393,10 @@ namespace OnBoard
                     return;
                 }
             }
-            public void SendMsgToServer(byte[] buf)
+            public virtual void SendMsgToServer(byte[] buf, Tuple<DateTime, string, string> sendingMessageToLog)
             {
                 try
-                {  
+                {
                     m_clientBufSend = buf;
 
                     m_clientIndexSend = 0;
@@ -375,200 +416,242 @@ namespace OnBoard
                     }
                     return;
                 }
-            }
-
-
-            #endregion
-
-
-            #region TrainCreated
-            public void TrainCreated(OBATP OBATP)
-            {
-
-                //m_createdTrains.Add(OBATP);
-
-                m_createdTrainsMessage.Add(OBATP);
-
-                //lock (OBATP)
-                //{
-                //    using (OBATO_TO_ATSAdapter adappppppppp = new OBATO_TO_ATSAdapter(OBATP))
-                //    {
-                //        byte[] OBATO_TO_ATS_ByteArray = adappppppppp.ToByte();
-
-                //        MessageCreator messageCreator = new MessageCreator();
-                //        OBATO_TO_ATS_MessageBuilder OBATO_TO_ATS_Message = new OBATO_TO_ATS_MessageBuilder();
-
-                //        messageCreator.SetMessageBuilder(OBATO_TO_ATS_Message);
-
-
-                //        int OBATP_ID = 20000 + Convert.ToInt32(OBATP.Vehicle.TrainID);
-
-                //        messageCreator.CreateMessage(1, (UInt32)OBATP_ID, DateTimeExtensions.GetAllMiliSeconds(), 1, OBATO_TO_ATS_ByteArray, 47851476196393100);
-
-                //        Message message = messageCreator.GetMessage();
-
-                //        var dsfsd = message.ToByte();
-
-                //        m_createdTrainsMessage.Add(message.ToByte());
-
-
-
-                //        //SendMsgToServer(message.ToByte());
-                //    }
-                //}
-            }
-            #endregion
-
-
-            #region TrainMovementCreated
-            public void TrainMovementCreated(OBATP OBATP)
-            {
-
-                lock (OBATP)
+                finally
                 {
-                    #region OBATP_TO_WSATPAdapter
 
-                    //using (OBATP_TO_WSATPAdapter adappppppppp = new OBATP_TO_WSATPAdapter(OBATP))
-                    //{
-                    //    byte[] OBATP_TO_WSATP_ByteArray = adappppppppp.ToByte();
-
-
-
-                    //    MessageCreator messageCreator = new MessageCreator();
-                    //    OBATP_TO_WSATP_MessageBuilder OBATP_TO_WSATP_Message = new OBATP_TO_WSATP_MessageBuilder();
-
-
-                    //    messageCreator.SetMessageBuilder(OBATP_TO_WSATP_Message);
-
-                    //    int OBATP_ID = 25000 + Convert.ToInt32(OBATP.Vehicle.TrainID);
-
-                    //    messageCreator.CreateMessage(61001, (UInt32)OBATP_ID, DateTimeExtensions.GetAllMiliSeconds(), 1, OBATP_TO_WSATP_ByteArray, 47851476196393100);
-
-
-                    //    Message message = messageCreator.GetMessage();
-
-                    //    SendMsgToServer(message.ToByte());
-                    //}
-                    #endregion
-
-
-                    #region OBATP_TO_WSATPAdapter
-
-                    using (OBATO_TO_ATSAdapter adappppppppp = new OBATO_TO_ATSAdapter(OBATP))
+                    if (m_clientSock != null && m_clientSock.Connected)
                     {
-
-                        if(adappppppppp.VirtualOccupancyTrackSectionID.Length > 1)
-                        {
-
-                        }
-
-
-                        byte[] OBATO_TO_ATS_ByteArray = adappppppppp.ToByte();  
-
-                        MessageCreator messageCreator = new MessageCreator();
-                        OBATO_TO_ATS_MessageBuilder OBATO_TO_ATS_Message = new OBATO_TO_ATS_MessageBuilder();
-
-
-                        messageCreator.SetMessageBuilder(OBATO_TO_ATS_Message);
-
-                        int OBATP_ID = 20000 + Convert.ToInt32(OBATP.Vehicle.TrainID);
-
-                        messageCreator.CreateMessage(1, (UInt32)OBATP_ID, DateTimeExtensions.GetAllMiliSeconds(), 1, OBATO_TO_ATS_ByteArray, 47851476196393100);
-
-
-                        Message message = messageCreator.GetMessage();
-
-                        SendMsgToServer(message.ToByte());
+                        CheckWriteLog(sendingMessageToLog);
                     }
-                    #endregion
-
 
                 }
+
+
             }
+
+
+            #endregion
+
+
+
+            public void CheckWriteLog(Tuple<DateTime, string, string> sendingMessageToLog)
+            {
+                lock(sendingMessageToLog)
+                {
+                    //string messageID = 
+                    string[] logToWriteSplitArray = sendingMessageToLog.Item2.ToString().Split('\r');
+                    string idName = logToWriteSplitArray[2];
+                    string[] idNameSplitArray = idName.Split(' ');
+                    string id = idNameSplitArray[2];
+
+                    switch (id)
+                    {
+                        case "OBATO_TO_WSATO":
+                            {
+                                break;
+                            }
+                        case "OBATP_TO_WSATP":
+                            {
+                                if (m_settings.WriteLogOBATP_TO_WSATP)
+                                    MainForm.m_mf.m_communicationLogs.Add(sendingMessageToLog);
+
+                                break;
+                            }
+                        case "WSATO_TO_OBATO":
+                            {
+                                break;
+                            }
+                        case "WSATP_TO_OBATP":
+                            {
+                                if (m_settings.WriteLogWSATP_TO_OBATP)
+                                    MainForm.m_mf.m_communicationLogs.Add(sendingMessageToLog);
+
+                                break;
+                            }
+                        case "ATS_SERVER_TO_OBATO":
+                            {
+                                if (m_settings.WriteLogATS_TO_OBATO)
+                                    MainForm.m_mf.m_communicationLogs.Add(sendingMessageToLog);
+                                break;
+                            }
+                        case "ATS_SERVER_TO_OBATO_Init":
+                            {
+                                if (m_settings.WriteLogATS_TO_OBATO_Init)
+                                    MainForm.m_mf.m_communicationLogs.Add(sendingMessageToLog);
+
+                                break;
+                            }
+                        case "OBATO_TO_ATS_SERVER":
+                            {
+                                if (m_settings.WriteLogOBATO_TO_ATS)
+                                    MainForm.m_mf.m_communicationLogs.Add(sendingMessageToLog);
+
+                                break;
+                            }
+                    }
+
+                }
+
+
+            }
+
 
 
             #region SendCreatedTrain
-            public void SendTrainCreated()
-            { 
 
-                while (!m_createdTrainsMessage.IsEmpty && m_clientSock.Connected)
-                {
-                    if (m_createdTrainsMessage.TryTake(out OBATP OBATP))
-                    {
+            //public virtual void SendTrainCreated()
+            //{
 
-                        if (OBATP.Status == Enums.Status.Create)
-                            m_createdTrainsMessage.Add(OBATP);
+            //    while (!m_createdTrainsMessage.IsEmpty &&  m_clientSock.Connected)
+            //    {
+            //        if (m_createdTrainsMessage.TryTake(out OBATP OBATP))
+            //        {
+            //            if (OBATP.Status == Enums.Status.Create)
+            //                m_createdTrainsMessage.Add(OBATP);
 
+            //            using (OBATO_TO_ATSAdapter adappppppppp = new OBATO_TO_ATSAdapter(OBATP))
+            //            {
+            //                byte[] OBATO_TO_ATS_ByteArray = adappppppppp.ToByte();
 
-                        using (OBATO_TO_ATSAdapter adappppppppp = new OBATO_TO_ATSAdapter(OBATP))
-                        {
-                            byte[] OBATO_TO_ATS_ByteArray = adappppppppp.ToByte();
+            //                MessageCreator messageCreator = new MessageCreator();
+            //                OBATO_TO_ATS_MessageBuilder OBATO_TO_ATS_Message = new OBATO_TO_ATS_MessageBuilder();
 
-                            MessageCreator messageCreator = new MessageCreator();
-                            OBATO_TO_ATS_MessageBuilder OBATO_TO_ATS_Message = new OBATO_TO_ATS_MessageBuilder();
-
-                            messageCreator.SetMessageBuilder(OBATO_TO_ATS_Message);
-
-
-                            int OBATP_ID = 20000 + Convert.ToInt32(OBATP.Vehicle.TrainID);
-
-                            messageCreator.CreateMessage(1, (UInt32)OBATP_ID, DateTimeExtensions.GetAllMiliSeconds(), 1, OBATO_TO_ATS_ByteArray, 47851476196393100);
-
-                            Message message = messageCreator.GetMessage();
-
-                            var dsfsd = message.ToByte();
-
-                            //m_createdTrainsMessage.Add(message.ToByte()); 
-
-                            SendMsgToServer(message.ToByte());
+            //                messageCreator.SetMessageBuilder(OBATO_TO_ATS_Message);
 
 
-                        }
+            //                int OBATP_ID = 20000 + Convert.ToInt32(OBATP.Vehicle.TrainID);
 
-                        //Thread.Sleep(1000);
-                    }
+            //                messageCreator.CreateMessage(1, (UInt32)OBATP_ID, DateTimeExtensions.GetAllMiliSeconds(), 1, OBATO_TO_ATS_ByteArray, 47851476196393100);
 
-                }  
+            //                Message message = messageCreator.GetMessage();
 
-
-
-
-                //if (m_clientSock.Connected)
-                //{
-                //    foreach (OBATP OBATP in m_createdTrains.GetConsumingEnumerable())
-                //    {
-                //        using (OBATO_TO_ATSAdapter adappppppppp = new OBATO_TO_ATSAdapter(OBATP))
-                //        {
-                //            byte[] OBATO_TO_ATS_ByteArray = adappppppppp.ToByte();
-
-                //            MessageCreator messageCreator = new MessageCreator();
-                //            OBATO_TO_ATS_MessageBuilder OBATO_TO_ATS_Message = new OBATO_TO_ATS_MessageBuilder();
-
-                //            messageCreator.SetMessageBuilder(OBATO_TO_ATS_Message);
+            //                var dsfsd = message.ToByte();
 
 
-                //            int OBATP_ID = 20000 + Convert.ToInt32(OBATP.Vehicle.TrainID);
-
-                //            messageCreator.CreateMessage(1, (UInt32)OBATP_ID, DateTimeExtensions.GetAllMiliSeconds(), 1, OBATO_TO_ATS_ByteArray, 47851476196393100);
-
-                //            Message message = messageCreator.GetMessage();
-
-                //            var dsfsd = message.ToByte();
-
-                //            //m_createdTrainsMessage.Add(message.ToByte()); 
-
-                //            SendMsgToServer(message.ToByte());
+            //                //if (OBATP_ID == 20001)
+            //                //    Debug.WriteLine(OBATP_ID + " movement");
+            //                //else if (OBATP_ID == 20002)
+            //                Debug.WriteLine(OBATP_ID + " create");
+            //                //m_createdTrainsMessage.Add(message.ToByte());  
 
 
-                //        }
-                //    }
-                //}
+            //                SendMsgToServer(message.ToByte());
+
+            //                MainForm.m_mf.m_communicationLogs.Add(Tuple.Create<DateTime, string, string>(DateTime.Now, message.ToString(), adappppppppp.ToString()));
 
 
-            }
+            //                //Logging.WriteCommunicationLog((Enums.Message.DS)message.DS, (Enums.Message.Size)message.Size, (Enums.Message.ID) message.ID, message.DST.ToString(), message.SRC.ToString(), message.RTC.ToString(), message.NO.ToString(), message.CRC.ToString());
+
+
+
+
+
+
+
+            //            }
+
+            //            Thread.Sleep(3000);
+            //        }
+
+            //    }
+
+            //}
+
+            //public void SendTrainCreated()
+            //{
+
+            //    while (!m_createdTrainsMessage.IsEmpty && m_clientSock.Connected)
+            //    {
+            //        if (m_createdTrainsMessage.TryTake(out OBATP OBATP))
+            //        {
+            //            if (OBATP.Status == Enums.Status.Create)
+            //                m_createdTrainsMessage.Add(OBATP);
+
+            //            using (OBATO_TO_ATSAdapter adappppppppp = new OBATO_TO_ATSAdapter(OBATP))
+            //            {
+            //                byte[] OBATO_TO_ATS_ByteArray = adappppppppp.ToByte();
+
+            //                MessageCreator messageCreator = new MessageCreator();
+            //                OBATO_TO_ATS_MessageBuilder OBATO_TO_ATS_Message = new OBATO_TO_ATS_MessageBuilder();
+
+            //                messageCreator.SetMessageBuilder(OBATO_TO_ATS_Message);
+
+
+            //                int OBATP_ID = 20000 + Convert.ToInt32(OBATP.Vehicle.TrainID);
+
+            //                messageCreator.CreateMessage(1, (UInt32)OBATP_ID, DateTimeExtensions.GetAllMiliSeconds(), 1, OBATO_TO_ATS_ByteArray, 47851476196393100);
+
+            //                Message message = messageCreator.GetMessage();
+
+            //                var dsfsd = message.ToByte();
+
+
+            //                //if (OBATP_ID == 20001)
+            //                //    Debug.WriteLine(OBATP_ID + " movement");
+            //                //else if (OBATP_ID == 20002)
+            //                Debug.WriteLine(OBATP_ID + " create");
+            //                //m_createdTrainsMessage.Add(message.ToByte());  
+
+
+            //                SendMsgToServer(message.ToByte());
+
+            //                MainForm.m_mf.m_communicationLogs.Add(Tuple.Create<DateTime, string, string>(DateTime.Now, message.ToString(), adappppppppp.ToString()));
+
+
+            //                //Logging.WriteCommunicationLog((Enums.Message.DS)message.DS, (Enums.Message.Size)message.Size, (Enums.Message.ID) message.ID, message.DST.ToString(), message.SRC.ToString(), message.RTC.ToString(), message.NO.ToString(), message.CRC.ToString());
+
+
+
+
+
+
+
+            //            }
+
+            //            Thread.Sleep(3000);
+            //        }
+
+            //    }
+
+
+
+
+            //if (m_clientSock.Connected)
+            //{
+            //    foreach (OBATP OBATP in m_createdTrains.GetConsumingEnumerable())
+            //    {
+            //        using (OBATO_TO_ATSAdapter adappppppppp = new OBATO_TO_ATSAdapter(OBATP))
+            //        {
+            //            byte[] OBATO_TO_ATS_ByteArray = adappppppppp.ToByte();
+
+            //            MessageCreator messageCreator = new MessageCreator();
+            //            OBATO_TO_ATS_MessageBuilder OBATO_TO_ATS_Message = new OBATO_TO_ATS_MessageBuilder();
+
+            //            messageCreator.SetMessageBuilder(OBATO_TO_ATS_Message);
+
+
+            //            int OBATP_ID = 20000 + Convert.ToInt32(OBATP.Vehicle.TrainID);
+
+            //            messageCreator.CreateMessage(1, (UInt32)OBATP_ID, DateTimeExtensions.GetAllMiliSeconds(), 1, OBATO_TO_ATS_ByteArray, 47851476196393100);
+
+            //            Message message = messageCreator.GetMessage();
+
+            //            var dsfsd = message.ToByte();
+
+            //            //m_createdTrainsMessage.Add(message.ToByte()); 
+
+            //            SendMsgToServer(message.ToByte());
+
+
+            //        }
+            //    }
+            //}
+
+
+            //}
             #endregion
 
-            #endregion
+
 
         }
     }

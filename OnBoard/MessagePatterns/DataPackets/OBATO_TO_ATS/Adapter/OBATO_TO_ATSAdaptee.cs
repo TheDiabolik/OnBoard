@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ namespace OnBoard
 {
     class OBATO_TO_ATSAdaptee
     {
-        OBATP m_messageType;
+        dynamic m_messageType;
 
         public bool OBATCActive { get; set; }
         public bool TrainEmergencyBrakeApplied { get; set; }
@@ -46,7 +47,7 @@ namespace OnBoard
         public bool UnsuccessfulBerthingAlarm { get; set; }
         public bool TrainIntegrityAlarm { get; set; }
         public bool TrainActiveCab { get; set; }
-        public bool TrainDirection { get; set; }
+        public Enums.TrainDirection TrainDirection { get; set; }
         //
         public bool OBATCOff { get; set; }
         public bool OBATCClockFault { get; set; }
@@ -299,7 +300,17 @@ namespace OnBoard
             this.UnsuccessfulBerthingAlarm = false;
             this.TrainIntegrityAlarm = false;
             this.TrainActiveCab = false;
-            this.TrainDirection = false;
+
+
+
+            Enums.TrainDirection trainDirection;
+
+            if (OBATP.Direction == Enums.Direction.Left)
+                trainDirection = Enums.TrainDirection.ToYenikapı;
+            else
+                trainDirection = Enums.TrainDirection.FromYenikapı;
+
+            this.TrainDirection = trainDirection;
             //
             this.OBATCOff = false;
             this.OBATCClockFault = false;
@@ -324,36 +335,55 @@ namespace OnBoard
             this.TrainSpeed = Convert.ToInt32(OBATP.Vehicle.CurrentTrainSpeedKMH);
 
 
-
+           
             //footPrintTracks = HelperClass.FindTrackRangeInAllTracks(OBATP.FrontOfTrainTrackWithFootPrint.Track, OBATP.RearOfTrainTrackWithFootPrint.Track, MainForm.m_mf.m_allTracks);
-            footPrintTracks = HelperClass.FindTrackRangeInAllTracks(OBATP.FrontOfTrainTrackWithFootPrint.Track, OBATP.RearOfTrainTrackWithFootPrint.Track,OBATP.m_route.Route_Tracks);
+            //footPrintTracks = HelperClass.FindTrackRangeInAllTracks(OBATP.FrontOfTrainTrackWithFootPrint.Track, OBATP.RearOfTrainTrackWithFootPrint.Track,OBATP.m_route.Route_Tracks);
+            //footPrintTracks = HelperClass.FindTrackRangeInAllTracks(OBATP.FrontOfTrainTrackWithFootPrint.Track, OBATP.RearOfTrainTrackWithFootPrint.Track, OBATP.movementTrack);
+             footPrintTracks = HelperClass.FindTrackRangeInAllTracks(OBATP.FrontOfTrainTrackWithFootPrint.Track, OBATP.RearOfTrainTrackWithFootPrint.Track, MainForm.m_mf.m_WSATCMovement_YNK1_KIR2_YNK1);
+
+            Array.Reverse(footPrintTracks);
 
             Array.Copy(footPrintTracks, this.FootPrintTrackSectionID, footPrintTracks.Length);
 
-            //this.FootPrintFirstTrackSectionOffset = OBATP.FrontOfTrainTrackWithFootPrint.Location;
+            this.FootPrintFirstTrackSectionOffset = Math.Abs(OBATP.FrontOfTrainTrackWithFootPrint.Location);
             //this.FootPrintLastTrackSectionOffset = OBATP.RearOfTrainTrackWithFootPrint.Location;
-            this.FootPrintFirstTrackSectionOffset = 0;
-            this.FootPrintLastTrackSectionOffset = 0;
+            //this.FootPrintFirstTrackSectionOffset = 0;
+            //this.FootPrintLastTrackSectionOffset = 0;
 
 
 
             //ushort[] virtualOccupationTracks = HelperClass.FindTrackRangeInAllTracks(OBATP.FrontOfTrainVirtualOccupation.Track, OBATP.RearOfTrainVirtualOccupation.Track, MainForm.m_mf.m_allTracks);
-            ushort[] virtualOccupationTracks = HelperClass.FindTrackRangeInAllTracks(OBATP.FrontOfTrainVirtualOccupation.Track, OBATP.RearOfTrainVirtualOccupation.Track, OBATP.m_route.Route_Tracks);
+            //ushort[] virtualOccupationTracks = HelperClass.FindTrackRangeInAllTracks(OBATP.FrontOfTrainVirtualOccupation.Track, OBATP.RearOfTrainVirtualOccupation.Track, OBATP.m_route.Route_Tracks);
+            //ushort[] virtualOccupationTracks = HelperClass.FindTrackRangeInAllTracks(OBATP.FrontOfTrainVirtualOccupation.Track, OBATP.RearOfTrainVirtualOccupation.Track, OBATP.movementTrack);
+            ushort[] virtualOccupationTracks = HelperClass.FindTrackRangeInAllTracks(OBATP.FrontOfTrainVirtualOccupation.Track, OBATP.RearOfTrainVirtualOccupation.Track, MainForm.m_mf.m_WSATCMovement_YNK1_KIR2_YNK1);
 
+            Array.Reverse(virtualOccupationTracks);
             Array.Copy(virtualOccupationTracks, this.VirtualOccupancyTrackSectionID, virtualOccupationTracks.Length);
 
-            //this.VirtualOccupancyFirstTrackSectionOffset = OBATP.FrontOfTrainVirtualOccupation.Location;
+            this.VirtualOccupancyFirstTrackSectionOffset = Math.Abs(OBATP.FrontOfTrainVirtualOccupation.Location);
             //this.VirtualOccupancyLastTrackSectionOffset = OBATP.RearOfTrainVirtualOccupation.Location;
 
-            this.VirtualOccupancyFirstTrackSectionOffset = 0;
-            this.VirtualOccupancyLastTrackSectionOffset = 0;
+         
+
+            //this.VirtualOccupancyFirstTrackSectionOffset = 0;
+            //this.VirtualOccupancyLastTrackSectionOffset = 0;
 
 
             //belli olmayanlar
 
             this.TrainCoupled = Enums.TrainCoupled.NotCoupled;
 
-            this.DwellTime = OBATP.ActualFrontOfTrainCurrent.Track.DwellTime;
+
+            if(OBATP.ActualFrontOfTrainCurrent.Track != null)
+            {
+                //this.DwellTime = OBATP.ActualFrontOfTrainCurrent.Track.DwellTime;
+
+                //deneme için comment
+                //this.DwellTime = OBATP.DoorTimerCounter;//.ActualFrontOfTrainCurrent.Track.DwellTime;
+
+                this.DwellTime = OBATP.zongurt;//.ActualFrontOfTrainCurrent.Track.DwellTime;
+            }
+               
 
             //belli olmayanlar
 
@@ -479,7 +509,226 @@ namespace OnBoard
         }
 
 
+        public OBATO_TO_ATSAdaptee(IMessageType OBATP)
+        {
+            m_messageType = (OBATO_TO_ATS)OBATP;
 
- 
+            this.OBATCActive = false;
+            this.TrainEmergencyBrakeApplied = false;
+            this.WaitingApprovalReleaseEmergencyBrake = false;
+            this.TrainEmergencyBrakeReleased = false;
+            this.EmergencyHandleActive = false;
+
+            this.TrainTemporaryCoastingAccepted = false;
+            this.TrainTemporaryCoastingRejected = false;
+            this.HoldTrainAccepted = false;
+            this.HoldTrainRejected = false;
+            this.CancelHoldTrainAccepted = false;
+
+
+            this.SkipStationAccepted = false;
+            this.SkipStationRejected = false;
+            this.CancelSkipStationAccepted = false;
+            this.CancelSkipStationRejected = false;
+            this.StandbyActive = false;
+
+            this.StandbyCmdRejected = false;
+            this.TrainLeftDoorOpened = false;
+            this.TrainRightDoorOpened = false;
+            this.TrainDoorClosedAndLocked = false;
+            this.TrainDoorClosedAndLockedFault = false;
+
+            this.TrainDoorWrongSideOpenedFault = false;
+            this.DoorFaultAtStandby = false;
+            this.DerailmentDetection = false;
+            this.FireDetection = false;
+            this.ObstacleDetection = false;
+
+            this.BerthingOK = false;
+            this.UnsuccessfulBerthingAlarm = false;
+            this.TrainIntegrityAlarm = false;
+            this.TrainActiveCab = false;
+            //this.TrainDirection = false;
+            //
+            this.OBATCOff = false;
+            this.OBATCClockFault = false;
+            this.TrainDepartureFailure = false;
+            this.TrainRollBack = false;
+            this.BatteryOK = false;
+            this.TractionStatus = false;
+            this.BrakingStatus = false;
+
+            //
+
+            this.TrainCBTCMode = Enums.TrainCBTCMode.ATO;
+            this.PerformanceLevel = 0;
+            this.OBATCSoftwareVersion = 0;
+            this.OBATCHardwareVersion = 0;
+            this.TrainNumber = 0;
+            this.TrainSetCarNumber = Enums.TrainSetCarNumber.Four;
+
+
+            this.TrainSpeed = 0;
+
+
+
+            //ushort[] footPrintTracks = FindTrackRangeInAllTracks(OBATP.FrontOfTrainTrackWithFootPrint.Track, OBATP.RearOfTrainTrackWithFootPrint.Track, MainForm.m_allTracks);
+
+            //Array.Copy(OBATP.footPrintTracks, this.FootPrintTrackSectionID, OBATP.footPrintTracks.Length);
+
+            //this.FootPrintFirstTrackSectionOffset = OBATP.FrontOfTrainTrackWithFootPrint.Location;
+            //this.FootPrintLastTrackSectionOffset = OBATP.RearOfTrainTrackWithFootPrint.Location;
+
+            Array.Copy(m_messageType.FootPrintTrackSectionID, this.FootPrintTrackSectionID, m_messageType.FootPrintTrackSectionID.Length);
+
+            //this.FootPrintFirstTrackSectionOffset = m_messageType.FrontOfTrainTrackWithFootPrint.Location;
+            //this.FootPrintLastTrackSectionOffset = m_messageType.RearOfTrainTrackWithFootPrint.Location;
+
+
+            //ushort[] virtualOccupationTracks = FindTrackRangeInAllTracks(OBATP.vi.FrontOfTrainVirtualOccupation.Track, OBATP.RearOfTrainVirtualOccupation.Track, MainForm.m_allTracks);
+
+            //Array.Copy(OBATP.virtualOccupationTracks, this.VirtualOccupancyTrackSectionID, OBATP.virtualOccupationTracks.Length);
+
+            //this.VirtualOccupancyFirstTrackSectionOffset = OBATP.FrontOfTrainVirtualOccupation.Location;
+            //this.VirtualOccupancyLastTrackSectionOffset = OBATP.RearOfTrainVirtualOccupation.Location;
+
+
+            Array.Copy(m_messageType.VirtualOccupancyTrackSectionID, this.VirtualOccupancyTrackSectionID, m_messageType.VirtualOccupancyTrackSectionID.Length);
+
+            //this.VirtualOccupancyFirstTrackSectionOffset = m_messageType.FrontOfTrainVirtualOccupation.Location;
+            //this.VirtualOccupancyLastTrackSectionOffset = m_messageType.RearOfTrainVirtualOccupation.Location;
+
+
+            //belli olmayanlarm_messageType
+
+            this.TrainCoupled = Enums.TrainCoupled.NotCoupled;
+
+            //this.DwellTime = OBATP.ActualFrontOfTrainCurrent.Track.DwellTime;
+            //this.DwellTime = m_messageType.ActualFrontOfTrainCurrent.Track.DwellTime;
+            //belli olmayanlar
+
+
+            this.OBATCtoATS_OverspeedAlarm = false;
+            this.OBATCtoATS_SafeDistanceAlarm = false;
+            this.OBATCtoATS_UnsuccessfulTrainStop = false;
+            this.OBATCtoATS_UnexpectedSkipStation = false;
+            this.OBATCtoATS_PSDEnableFault = false;
+            this.OBATCtoATS_TrainDoorEnableFault = false;
+            this.OBATCtoATS_PSDOpenFault = false;
+            this.OBATCtoATS_TrainDoorOpenFault = false;
+
+
+            //bit conversation
+            this.FaultyTrainDoors1_1 = false;
+            this.FaultyTrainDoors1_2 = false;
+            this.FaultyTrainDoors1_3 = false;
+            this.FaultyTrainDoors1_4 = false;
+            this.FaultyTrainDoors1_5 = false;
+            this.FaultyTrainDoors1_6 = false;
+            this.FaultyTrainDoors1_7 = false;
+            this.FaultyTrainDoors1_8 = false;
+            this.FaultyTrainDoors1_9 = false;
+            this.FaultyTrainDoors1_10 = false;
+            this.FaultyTrainDoors1_11 = false;
+            this.FaultyTrainDoors1_12 = false;
+            this.FaultyTrainDoors1_13 = false;
+            this.FaultyTrainDoors1_14 = false;
+            this.FaultyTrainDoors1_15 = false;
+            this.FaultyTrainDoors1_16 = false;
+            this.FaultyTrainDoors1_17 = false;
+            this.FaultyTrainDoors1_18 = false;
+            this.FaultyTrainDoors1_19 = false;
+            this.FaultyTrainDoors1_20 = false;
+            this.FaultyTrainDoors1_21 = false;
+            this.FaultyTrainDoors1_22 = false;
+            this.FaultyTrainDoors1_23 = false;
+            this.FaultyTrainDoors1_24 = false;
+
+
+
+
+            this.FaultyTrainDoors2_1 = false;
+            this.FaultyTrainDoors2_2 = false;
+            this.FaultyTrainDoors2_3 = false;
+            this.FaultyTrainDoors2_4 = false;
+            this.FaultyTrainDoors2_5 = false;
+            this.FaultyTrainDoors2_6 = false;
+            this.FaultyTrainDoors2_7 = false;
+            this.FaultyTrainDoors2_8 = false;
+            this.FaultyTrainDoors2_9 = false;
+            this.FaultyTrainDoors2_10 = false;
+            this.FaultyTrainDoors2_11 = false;
+            this.FaultyTrainDoors2_12 = false;
+            this.FaultyTrainDoors2_13 = false;
+            this.FaultyTrainDoors2_14 = false;
+            this.FaultyTrainDoors2_15 = false;
+            this.FaultyTrainDoors2_16 = false;
+            this.FaultyTrainDoors2_17 = false;
+            this.FaultyTrainDoors2_18 = false;
+            this.FaultyTrainDoors2_19 = false;
+            this.FaultyTrainDoors2_20 = false;
+            this.FaultyTrainDoors2_21 = false;
+            this.FaultyTrainDoors2_22 = false;
+            this.FaultyTrainDoors2_23 = false;
+            this.FaultyTrainDoors2_24 = false;
+
+
+
+
+            this.BypassedTrainDoors1_1 = false;
+            this.BypassedTrainDoors1_2 = false;
+            this.BypassedTrainDoors1_3 = false;
+            this.BypassedTrainDoors1_4 = false;
+            this.BypassedTrainDoors1_5 = false;
+            this.BypassedTrainDoors1_6 = false;
+            this.BypassedTrainDoors1_7 = false;
+            this.BypassedTrainDoors1_8 = false;
+            this.BypassedTrainDoors1_9 = false;
+            this.BypassedTrainDoors1_10 = false;
+            this.BypassedTrainDoors1_11 = false;
+            this.BypassedTrainDoors1_12 = false;
+            this.BypassedTrainDoors1_13 = false;
+            this.BypassedTrainDoors1_14 = false;
+            this.BypassedTrainDoors1_15 = false;
+            this.BypassedTrainDoors1_16 = false;
+            this.BypassedTrainDoors1_17 = false;
+            this.BypassedTrainDoors1_18 = false;
+            this.BypassedTrainDoors1_19 = false;
+            this.BypassedTrainDoors1_20 = false;
+            this.BypassedTrainDoors1_21 = false;
+            this.BypassedTrainDoors1_22 = false;
+            this.BypassedTrainDoors1_23 = false;
+            this.BypassedTrainDoors1_24 = false;
+
+
+
+            this.BypassedTrainDoors2_1 = false;
+            this.BypassedTrainDoors2_2 = false;
+            this.BypassedTrainDoors2_3 = false;
+            this.BypassedTrainDoors2_4 = false;
+            this.BypassedTrainDoors2_5 = false;
+            this.BypassedTrainDoors2_6 = false;
+            this.BypassedTrainDoors2_7 = false;
+            this.BypassedTrainDoors2_8 = false;
+            this.BypassedTrainDoors2_9 = false;
+            this.BypassedTrainDoors2_10 = false;
+            this.BypassedTrainDoors2_11 = false;
+            this.BypassedTrainDoors2_12 = false;
+            this.BypassedTrainDoors2_13 = false;
+            this.BypassedTrainDoors2_14 = false;
+            this.BypassedTrainDoors2_15 = false;
+            this.BypassedTrainDoors2_16 = false;
+            this.BypassedTrainDoors2_17 = false;
+            this.BypassedTrainDoors2_18 = false;
+            this.BypassedTrainDoors2_19 = false;
+            this.BypassedTrainDoors2_20 = false;
+            this.BypassedTrainDoors2_21 = false;
+            this.BypassedTrainDoors2_22 = false;
+            this.BypassedTrainDoors2_23 = false;
+            this.BypassedTrainDoors2_24 = false;
+        }
+
+
+     
     }
 }

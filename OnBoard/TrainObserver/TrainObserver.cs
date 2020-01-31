@@ -10,15 +10,15 @@ namespace OnBoard
     {
 
         private ThreadSafeList<ITrainCreatedWatcher> m_trainCreatedWatcher = new ThreadSafeList<ITrainCreatedWatcher>();
-        private ThreadSafeList<ITrainMovementCreatedWatcher> m_trainMovementCreatedWatcher = new ThreadSafeList<ITrainMovementCreatedWatcher>();
+        private ThreadSafeList<ITrainMovementCreatedSendMessageWatcher> m_trainMovementCreatedWatcher = new ThreadSafeList<ITrainMovementCreatedSendMessageWatcher>();
         private ThreadSafeList<ITrainMovementRouteCreatedWatcher> m_trainMovementRouteCreatedWatcher = new ThreadSafeList<ITrainMovementRouteCreatedWatcher>();
         private ThreadSafeList<ITrainMovementUIWatcher> m_trainMovementUIWatcher = new ThreadSafeList<ITrainMovementUIWatcher>();
-
+        private ThreadSafeList<ITrainNewMovementAuthorityCreatedWatcher> m_trainNewMovementAuthorityCreatedWatcher = new ThreadSafeList<ITrainNewMovementAuthorityCreatedWatcher>();
 
         private OBATP m_OBATP;
         private UIOBATP m_UIOBATP;
         private Route m_route;
-
+        private ThreadSafeList<Track> m_newMovementAuthorityList;
 
         public void InformTrainCreatedWatcher()
         {
@@ -28,11 +28,11 @@ namespace OnBoard
             } 
         }
 
-        public void InformTrainMovementCreatedWatcher()
+        public void InformTrainMovementCreatedSendMessageWatcher()
         {
-            foreach (ITrainMovementCreatedWatcher watcher in m_trainMovementCreatedWatcher)
+            foreach (ITrainMovementCreatedSendMessageWatcher watcher in m_trainMovementCreatedWatcher)
             {
-                watcher.TrainMovementCreated(m_OBATP);
+                watcher.TrainMovementCreatedSendMessage(m_OBATP);
             }
         }
 
@@ -44,25 +44,54 @@ namespace OnBoard
             }
         }
 
-        public void InformTrainMovementUIWatcher()
+
+        public void InformTrainNewMovementAuthorityCreatedWatcher()
         {
-            foreach (ITrainMovementUIWatcher watcher in m_trainMovementUIWatcher)
+            foreach (ITrainNewMovementAuthorityCreatedWatcher watcher in m_trainNewMovementAuthorityCreatedWatcher)
             {
-                watcher.TrainMovementUI(m_OBATP, m_UIOBATP);
+                watcher.TrainNewMovementAuthorityCreated(m_newMovementAuthorityList);
             }
         }
 
- 
+
+        public void InformTrainMovementUIAllTrainListWatcher()
+        {
+            foreach (ITrainMovementUIWatcher watcher in m_trainMovementUIWatcher)
+            {
+                watcher.TrainMovementUIRefreshAllTrainList(m_OBATP);
+            }
+        }
+
+
+        public void InformTrainMovementUITracksListWatcher()
+        {
+            foreach (ITrainMovementUIWatcher watcher in m_trainMovementUIWatcher)
+            {
+                watcher.TrainMovementUIRefreshTracksList(m_OBATP, m_UIOBATP);
+            }
+        }
+
+        public void DisposeTrainCreated(OBATP OBATP)
+        {
+            //this.m_OBATP = OBATP;
+            //InformTrainCreatedWatcher();
+
+            MovementTracks.Clear();
+        }
 
         public void TrainCreated(OBATP OBATP)
         {
             this.m_OBATP = OBATP;
             InformTrainCreatedWatcher();
         }
-        public void TrainMovementCreated(OBATP OBATP)
+        public void TrainMovementSendMessageCreated(OBATP OBATP)
         {
-            this.m_OBATP = OBATP;
-            InformTrainMovementCreatedWatcher();
+            //lock(OBATP)
+            {
+                this.m_OBATP = OBATP;
+                InformTrainMovementCreatedSendMessageWatcher();
+            }
+          
         }
 
         public void TrainMovementRouteCreated(Route route)
@@ -71,70 +100,103 @@ namespace OnBoard
             InformTrainMovementRouteCreatedWatcher();
         }
 
+        
+        public void TrainNewMovementAuthorityCreated(ThreadSafeList<Track> newMovementAuthorityList)
+        {
+            this.m_newMovementAuthorityList = newMovementAuthorityList;
 
-        TrainOnTracks sdf = new TrainOnTracks();
+            InformTrainNewMovementAuthorityCreatedWatcher();
+        }
+
+        public void TrainMovementUIRefreshAllTrainList(OBATP OBATP)
+        {
+            this.m_OBATP = OBATP;
+
+            InformTrainMovementUIAllTrainListWatcher();
+        } 
+
+
+
+
+
+            TrainOnTracks sdf = new TrainOnTracks();
 
         bool zozo;
        
-        public ThreadSafeList<Track> RouteTracks = new ThreadSafeList<Track>();
-        public void TrainMovementUI(OBATP OBATP, UIOBATP UIOBATP)
+        public ThreadSafeList<Track> MovementTracks = new ThreadSafeList<Track>();
+        public void TrainMovementUIRefreshTracksList(OBATP OBATP, UIOBATP UIOBATP)
         {
-            UIOBATP adapter = new OBATPUIAdapter(OBATP);
-
-            bool isSameActualLocationTracks = sdf.ActualLocationTracks.SequenceEqual(adapter.TrainOnTracks.ActualLocationTracks);
-            bool isSameVirtualOccupationTracks = sdf.VirtualOccupationTracks.SequenceEqual(adapter.TrainOnTracks.VirtualOccupationTracks); 
-            bool isSameFootPrintTracks = sdf.FootPrintTracks.SequenceEqual(adapter.TrainOnTracks.FootPrintTracks);  
-            bool isSameRoute_Tracks = RouteTracks.SequenceEqual(OBATP.m_route.Route_Tracks); 
-
-
-            if (isSameActualLocationTracks)
+            //lock (OBATP)
             {
-                adapter.RefreshActualLocationTracks = false;
+                if(DisplayManager.ComboBoxGetSelectedItemInvoke(MainForm.m_mf.m_comboBoxTrain) != null && OBATP.Train_Name == DisplayManager.ComboBoxGetSelectedItemInvoke(MainForm.m_mf.m_comboBoxTrain).ToString())
+                {
+                    using (UIOBATP adapter = new OBATPUIAdapter(OBATP))
+                    {
+                        bool isSameActualLocationTracks = sdf.ActualLocationTracks.SequenceEqual(adapter.TrainOnTracks.ActualLocationTracks);
+                        bool isSameVirtualOccupationTracks = sdf.VirtualOccupationTracks.SequenceEqual(adapter.TrainOnTracks.VirtualOccupationTracks);
+                        bool isSameFootPrintTracks = sdf.FootPrintTracks.SequenceEqual(adapter.TrainOnTracks.FootPrintTracks);
+                        //bool isSameRoute_Tracks = RouteTracks.SequenceEqual(OBATP.m_route.Route_Tracks);
+                        bool isSameRoute_Tracks = MovementTracks.SequenceEqual(OBATP.movementTrack);
+
+
+                        if (isSameActualLocationTracks)
+                        {
+                            adapter.RefreshActualLocationTracks = false;
+                        }
+                        else
+                        {
+                            sdf.ActualLocationTracks = adapter.TrainOnTracks.ActualLocationTracks;
+                            adapter.RefreshActualLocationTracks = true;
+                        }
+
+
+                        if (isSameVirtualOccupationTracks)
+                        {
+                            adapter.RefreshVirtualOccupationTracks = false;
+                        }
+                        else
+                        {
+                            sdf.VirtualOccupationTracks = adapter.TrainOnTracks.VirtualOccupationTracks;
+                            adapter.RefreshVirtualOccupationTracks = true;
+                        }
+
+
+                        if (isSameFootPrintTracks)
+                        {
+                            adapter.RefreshFootPrintTracks = false;
+                        }
+                        else
+                        {
+                            sdf.FootPrintTracks = adapter.TrainOnTracks.FootPrintTracks;
+                            adapter.RefreshFootPrintTracks = true;
+                        }
+
+
+                        if (isSameRoute_Tracks)
+                        {
+                            adapter.RefreshRouteTracks = false;
+                        }
+                        else
+                        {
+
+                            //RouteTracks = OBATP.m_route.Route_Tracks;
+                            MovementTracks = OBATP.movementTrack;
+                            adapter.RefreshRouteTracks = true;
+                        }
+
+
+                        this.m_UIOBATP = adapter;
+                    }
+
+                     
+                    this.m_OBATP = OBATP;
+
+                    InformTrainMovementUITracksListWatcher();
+                }
+
+             
             }
-            else
-            {
-                sdf.ActualLocationTracks = adapter.TrainOnTracks.ActualLocationTracks;
-                adapter.RefreshActualLocationTracks = true;
-            }
-
-
-            if (isSameVirtualOccupationTracks)
-            {
-                adapter.RefreshVirtualOccupationTracks = false;
-            }
-            else
-            {
-                sdf.VirtualOccupationTracks = adapter.TrainOnTracks.VirtualOccupationTracks;
-                adapter.RefreshVirtualOccupationTracks = true;
-            }
-
-
-            if (isSameFootPrintTracks)
-            {
-                adapter.RefreshFootPrintTracks = false;
-            }
-            else
-            {
-                sdf.FootPrintTracks = adapter.TrainOnTracks.FootPrintTracks;
-                adapter.RefreshFootPrintTracks = true;
-            }
-
-
-            if (isSameRoute_Tracks)
-            {
-                adapter.RefreshRouteTracks = false;
-            }
-            else
-            {
-                RouteTracks = OBATP.m_route.Route_Tracks;
-                adapter.RefreshRouteTracks = true;
-            }
-
-
-            this.m_UIOBATP = adapter;
-            this.m_OBATP = OBATP;  
-
-            InformTrainMovementUIWatcher();
+          
         }
 
 
@@ -144,20 +206,76 @@ namespace OnBoard
             m_trainCreatedWatcher.Add(watcher);
         }
 
-        public void AddTrainMovementCreatedWatcher(ITrainMovementCreatedWatcher watcher)
+        public void RemoveTrainCreatedWatcher(ITrainCreatedWatcher watcher)
+        {
+            if (m_trainCreatedWatcher.Contains(watcher))
+                m_trainCreatedWatcher.Remove(watcher);
+        }
+
+
+
+
+        public void AddTrainMovementCreatedSendMessageWatcher(ITrainMovementCreatedSendMessageWatcher watcher)
         {
             m_trainMovementCreatedWatcher.Add(watcher);
         }
+
+
+        public void RemoveTrainMovementCreatedSendMessageWatcher(ITrainMovementCreatedSendMessageWatcher watcher)
+        {
+            if (m_trainMovementCreatedWatcher.Contains(watcher))
+                m_trainMovementCreatedWatcher.Remove(watcher);
+        }
+
+         
+        public void AddTrainNewMovementAuthorityCreatedWatcher(ITrainNewMovementAuthorityCreatedWatcher watcher)
+        {
+            m_trainNewMovementAuthorityCreatedWatcher.Add(watcher);
+        }
+
+
+        public void RemoveTrainNewMovementAuthorityCreatedWatcher(ITrainNewMovementAuthorityCreatedWatcher watcher)
+        {
+            if (m_trainNewMovementAuthorityCreatedWatcher.Contains(watcher))
+                m_trainNewMovementAuthorityCreatedWatcher.Remove(watcher);
+        }
+
 
         public void AddTrainMovementRouteCreatedWatcher(ITrainMovementRouteCreatedWatcher watcher)
         {
             m_trainMovementRouteCreatedWatcher.Add(watcher);
         }
 
+        public void RemoveTrainMovementRouteCreatedWatcher(ITrainMovementRouteCreatedWatcher watcher)
+        {
+            if (m_trainMovementRouteCreatedWatcher.Contains(watcher))
+                m_trainMovementRouteCreatedWatcher.Remove(watcher);
+        }
+
+
         public void AddTrainMovementUIWatcher(ITrainMovementUIWatcher watcher)
         {
             m_trainMovementUIWatcher.Add(watcher);
         }
-        
+
+
+        public void RemoveTrainMovementUIWatcher(ITrainMovementUIWatcher watcher)
+        {
+            if (m_trainMovementUIWatcher.Contains(watcher))
+                m_trainMovementUIWatcher.Remove(watcher);
+        }
+
+
+        //public void AddTrainMovementUITracksListWatcher(ITrainMovementUIWatcher watcher)
+        //{
+        //    m_trainMovementUIWatcher.Add(watcher);
+        //}
+
+
+        //public void RemoveTrainMovementUITracksListWatcher(ITrainMovementUIWatcher watcher)
+        //{
+        //    if (m_trainMovementUIWatcher.Contains(watcher))
+        //        m_trainMovementUIWatcher.Remove(watcher);
+        //}
     }
 }

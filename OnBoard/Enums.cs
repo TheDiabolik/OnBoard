@@ -8,6 +8,10 @@ namespace OnBoard
 {
     public class Enums
     {
+        public enum SettingsWindowStatus {Open, Close }
+
+        public enum SettingsWindow { General, Communication, Train }
+
         public enum TrainDirection { ToYenikapı , FromYenikapı };
         public enum Direction { Left = 1, Right = 2 };
         public enum DoorStatus { Open, Close };
@@ -31,31 +35,76 @@ namespace OnBoard
         public enum WakeUpTrain { WithDepartureTest, WithOutDepartureTest, False }
 
 
- 
+
 
 
         public enum Train_ID : UInt32
         {
             Train1 = 1,
-            Train2= 2,
-            Train3= 3,
-            Train4= 4,
-            Train5= 5,
-            Train6= 6,
-            Train7= 7,
-            Train8= 8,
+            Train2 = 2,
+            Train3 = 3,
+            Train4 = 4,
+            Train5 = 5,
+            Train6 = 6,
+            Train7 = 7,
+            Train8 = 8,
             Train9 = 9,
-            Train10= 10,
-            Train11= 11,
-            Train12= 12,
-            Train13= 13,
-            Train14= 14,
-            Train15= 15,
-            Train16= 16,
-            Train17= 17,
-            Train18= 18,
-            Train19= 19,
+            Train10 = 10,
+            Train11 = 11,
+            Train12 = 12,
+            Train13 = 13,
+            Train14 = 14,
+            Train15 = 15,
+            Train16 = 16,
+            Train17 = 17,
+            Train18 = 18,
+            Train19 = 19,
             Train20 = 20,
+            Train21 = 21,
+            Train22 = 22,
+            Train23 = 23,
+            Train24 = 24,
+            Train25 = 25,
+            Train26 = 26,
+            Train27 = 27,
+            Train28 = 28,
+            Train29 = 29,
+            Train30 = 30,
+            Train31 = 31,
+            Train32 = 32,
+            Train33 = 33,
+            Train34 = 34,
+            Train35 = 35,
+            Train36 = 36,
+            Train37 = 37,
+            Train38 = 38,
+            Train39 = 39,
+            Train40 = 40,
+            Train41 = 41,
+            Train42 = 42,
+            Train43 = 43,
+            Train44 = 44,
+            Train45 = 45,
+            Train46 = 46,
+            Train47 = 47,
+            Train48 = 48,
+            Train49 = 49,
+            Train50 = 50,
+            Train51 = 51,
+            Train52 = 52,
+            Train53 = 53,
+            Train54 = 54,
+            Train55 = 55,
+            Train56 = 56,
+            Train57 = 57,
+            Train58 = 58,
+            Train59 = 59,
+            Train60 = 60,
+            Train61 = 61,
+            Train62 = 62,
+            Train63 = 63,
+            Train64 = 64,
+            Train65 = 65
         };
 
 

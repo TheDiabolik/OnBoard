@@ -43,7 +43,7 @@ namespace OnBoard
  
 
             this.EmergencyBrakeApplied = false;
-            this.TrainAbsoluteZeroSpeed = false;
+            this.TrainAbsoluteZeroSpeed = OBATP.TrainAbsoluteZeroSpeed;
             this.AllTrainDoorsClosedAndLocked = false;
             this.EnablePSD1 = 1;
             this.EnablePSD2 = 1;
@@ -63,21 +63,34 @@ namespace OnBoard
 
             //FootPrintTrackSectionID = HelperClass.FindTrackRangeInAllTracks(OBATP.FrontOfTrainTrackWithFootPrint.Track, OBATP.RearOfTrainTrackWithFootPrint.Track, MainForm.m_mf.m_allTracks);
             //VirtualOccupancyTrackSectionID = HelperClass.FindTrackRangeInAllTracks(OBATP.FrontOfTrainVirtualOccupation.Track, OBATP.RearOfTrainVirtualOccupation.Track, MainForm.m_mf.m_allTracks);
-            FootPrintTrackSectionID = HelperClass.FindTrackRangeInAllTracks(OBATP.FrontOfTrainTrackWithFootPrint.Track, OBATP.RearOfTrainTrackWithFootPrint.Track, OBATP.m_route.Route_Tracks);
-            VirtualOccupancyTrackSectionID = HelperClass.FindTrackRangeInAllTracks(OBATP.FrontOfTrainVirtualOccupation.Track, OBATP.RearOfTrainVirtualOccupation.Track, OBATP.m_route.Route_Tracks);
+            //FootPrintTrackSectionID = HelperClass.FindTrackRangeInAllTracks(OBATP.FrontOfTrainTrackWithFootPrint.Track, OBATP.RearOfTrainTrackWithFootPrint.Track, OBATP.m_route.Route_Tracks);
+            //VirtualOccupancyTrackSectionID = HelperClass.FindTrackRangeInAllTracks(OBATP.FrontOfTrainVirtualOccupation.Track, OBATP.RearOfTrainVirtualOccupation.Track, OBATP.m_route.Route_Tracks);
 
 
+            #region WSATC Hareket Yetkisi Testi
+            FootPrintTrackSectionID = HelperClass.FindTrackRangeInAllTracks(OBATP.FrontOfTrainTrackWithFootPrint.Track, OBATP.RearOfTrainTrackWithFootPrint.Track, MainForm.m_mf.m_WSATCMovement_YNK1_KIR2_YNK1);
+            VirtualOccupancyTrackSectionID = HelperClass.FindTrackRangeInAllTracks(OBATP.FrontOfTrainVirtualOccupation.Track, OBATP.RearOfTrainVirtualOccupation.Track, MainForm.m_mf.m_WSATCMovement_YNK1_KIR2_YNK1);
+            #endregion
+
+            #region Normal olması gereken
+            //FootPrintTrackSectionID = HelperClass.FindTrackRangeInAllTracks(OBATP.FrontOfTrainTrackWithFootPrint.Track, OBATP.RearOfTrainTrackWithFootPrint.Track, OBATP.movementTrack);
+            //VirtualOccupancyTrackSectionID = HelperClass.FindTrackRangeInAllTracks(OBATP.FrontOfTrainVirtualOccupation.Track, OBATP.RearOfTrainVirtualOccupation.Track, OBATP.movementTrack);
+            #endregion
 
             Array.Copy(FootPrintTrackSectionID, this.FootPrintTrackSectionID, FootPrintTrackSectionID.Length);
             Array.Copy(VirtualOccupancyTrackSectionID, this.VirtualOccupancyTrackSectionID,  VirtualOccupancyTrackSectionID.Length);
 
-            this.BerthingOk = false;
+            this.BerthingOk = OBATP.OBATCtoWSATC_BerthingOk;
             this.TrainNumber = OBATP.Vehicle.TrainID;
 
 
         }
-        
- 
+
+
+
+     
+
+
 
     }
 }

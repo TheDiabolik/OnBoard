@@ -79,5 +79,97 @@ namespace OnBoard
                 throw new Exception(ExceptionMessages.LoggingExceptionMessage, ex);
             }
         }
+
+
+        public static void WriteCommunicationLog(DateTime logTime, StringBuilder logToWrite)
+        {
+            try
+            {
+                if (!Directory.Exists("Logs"))
+                    Directory.CreateDirectory("Logs");
+
+                string[] logToWriteSplitArray = logToWrite.ToString().Split('\n'); 
+                string sizeName = logToWriteSplitArray[1];
+                string[] sizeNameSplitArray = sizeName.Split(' '); 
+                string idPath = sizeNameSplitArray[2];
+
+                if (!Directory.Exists("Logs\\" ))
+                    Directory.CreateDirectory("Logs\\");
+
+                if (!Directory.Exists("Logs\\" +   DateTime.Now.Year.ToString()))
+                    Directory.CreateDirectory("Logs\\"  + DateTime.Now.Year.ToString());
+
+                if (!Directory.Exists("Logs\\"  + DateTime.Now.Year.ToString() + "\\" + DateTime.Now.Month.ToString("00")))
+                    Directory.CreateDirectory("Logs\\" + DateTime.Now.Year.ToString() + "\\" + DateTime.Now.Month.ToString("00"));
+
+
+                if (!Directory.Exists("Logs\\" + DateTime.Now.Year.ToString() + "\\" + DateTime.Now.Month.ToString("00") + "\\" + DateTime.Now.Day.ToString("00")))
+                    Directory.CreateDirectory("Logs\\" +  DateTime.Now.Year.ToString() + "\\" + DateTime.Now.Month.ToString("00") + "\\" + DateTime.Now.Day.ToString("00"));
+
+
+                if (!Directory.Exists("Logs\\" + DateTime.Now.Year.ToString() + "\\" + DateTime.Now.Month.ToString("00") + "\\" + DateTime.Now.Day.ToString("00") + "\\" + idPath))
+                    Directory.CreateDirectory("Logs\\" + DateTime.Now.Year.ToString() + "\\" + DateTime.Now.Month.ToString("00") + "\\" + DateTime.Now.Day.ToString("00") + "\\" + idPath);
+
+
+                string mainPath = "Logs\\" + DateTime.Now.Year.ToString() + "\\" + DateTime.Now.Month.ToString("00") + "\\" + DateTime.Now.Day.ToString("00") + "\\" + idPath;
+
+                string lastFileName;
+                string newFileName;
+                StringBuilder loggingPath = new StringBuilder();
+
+
+                if (Directory.Exists(mainPath))
+                {
+                    DirectoryInfo di = new DirectoryInfo(mainPath);
+                    FileInfo[] fi = di.GetFiles().OrderByDescending(p => p.LastWriteTime).ToArray();
+
+                    //FileInfo[] fi = di.GetFiles().OrderBy(p => File.GetLastAccessTime(p.Name)).ToArray();
+
+                    if (fi.Length > 0)
+                    {
+                        lastFileName = System.IO.Path.GetFileNameWithoutExtension(fi[0].Name); 
+
+                        long len = fi[0].Length;
+
+                        //10485760;
+
+                        if (len > 5242880)
+                        {
+                            newFileName = PreparePath();
+
+                            loggingPath.Append(mainPath).Append("\\").Append(newFileName).Append(".txt");
+                        }
+                        else
+                        {
+                            loggingPath.Append(mainPath).Append("\\").Append(lastFileName).Append(".txt");
+                        } 
+                    }
+                    else
+                    {
+                        loggingPath.Append(mainPath).Append("\\").Append(Path).Append(".txt");
+                    } 
+                } 
+
+                StreamWriter sw;
+
+                if (!File.Exists(loggingPath.ToString()))
+                    sw = new StreamWriter(loggingPath.ToString());
+                else
+                    sw = File.AppendText(loggingPath.ToString());
+
+                sw.WriteLine("-------------------------------------");
+                sw.Write("Haberleşme Zamanı : ");
+                sw.WriteLine(logTime.ToString());
+                sw.Write(logToWrite.ToString()); 
+                sw.WriteLine("-------------------------------------");
+
+                sw.Flush();
+                sw.Close();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ExceptionMessages.LoggingExceptionMessage, ex);
+            }
+        }
     }
 }

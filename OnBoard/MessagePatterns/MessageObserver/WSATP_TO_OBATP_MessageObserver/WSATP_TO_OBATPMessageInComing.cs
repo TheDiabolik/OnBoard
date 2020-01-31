@@ -24,6 +24,12 @@ namespace OnBoard
             m_syncFileWatcher.Add(watcher);
         }
 
+        public void RemoveWatcher(IWSATP_TO_OBATPMessageWatcher watcher)
+        {
+            if (m_syncFileWatcher.Contains(watcher))
+                  m_syncFileWatcher.Remove(watcher); 
+        }
+
 
         public void WSATP_TO_OBATPNewMessageInComing(Enums.Train_ID train_ID, WSATP_TO_OBATPAdapter WSATP_TO_OBATPAdapter)
         {

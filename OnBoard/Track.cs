@@ -21,7 +21,7 @@ namespace OnBoard
         public int Track_End_Position { get; set; }
         public int Track_Length { get; set; }
         public int Track_Speed_Limit_KMH { get; set; }
-        public int Track_Speed_Limit_CMSEC { get; set; }
+        public double Track_Speed_Limit_CMSEC { get; set; }
         public int Stopping_Point_Position_1 { get; set; }
         public int Stopping_Point_Type_1 { get; set; }
         public int Stopping_Point_Positon_2 { get; set; }

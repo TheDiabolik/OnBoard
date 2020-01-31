@@ -11,5 +11,7 @@ namespace OnBoard
         void InformWatcher();
 
         void AddWatcher(IATS_TO_OBATO_MessageWatcher watcher);
+
+        void RemoveWatcher(IATS_TO_OBATO_MessageWatcher watcher);
     }
 }

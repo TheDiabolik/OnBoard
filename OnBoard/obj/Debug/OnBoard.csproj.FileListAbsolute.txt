@@ -168,3 +168,197 @@ C:\Users\sahmet.tacgin\Desktop\OnBoard-master\OnBoard\obj\Debug\OnBoard.csproj.C
 C:\Users\sahmet.tacgin\Desktop\OnBoard-master\OnBoard\obj\Debug\OnBoard.exe
 C:\Users\sahmet.tacgin\Desktop\OnBoard-master\OnBoard\obj\Debug\OnBoard.pdb
 C:\Users\Diabolik\Desktop\OnBoard-master\OnBoard\obj\Debug\OnBoard.csprojAssemblyReference.cache
+C:\Users\sahmet.tacgin\Desktop\OnBoard-master movement\OnBoard\bin\Debug\OnBoard.exe.config
+C:\Users\sahmet.tacgin\Desktop\OnBoard-master movement\OnBoard\bin\Debug\OnBoard.exe
+C:\Users\sahmet.tacgin\Desktop\OnBoard-master movement\OnBoard\bin\Debug\OnBoard.pdb
+C:\Users\sahmet.tacgin\Desktop\OnBoard-master movement\OnBoard\bin\Debug\DevComponents.DotNetBar2.dll
+C:\Users\sahmet.tacgin\Desktop\OnBoard-master movement\OnBoard\obj\Debug\OnBoard.CommunicationSettingsModal.resources
+C:\Users\sahmet.tacgin\Desktop\OnBoard-master movement\OnBoard\obj\Debug\OnBoard.GeneralSettingsModal.resources
+C:\Users\sahmet.tacgin\Desktop\OnBoard-master movement\OnBoard\obj\Debug\OnBoard.MainForm.resources
+C:\Users\sahmet.tacgin\Desktop\OnBoard-master movement\OnBoard\obj\Debug\OnBoard.Properties.Resources.resources
+C:\Users\sahmet.tacgin\Desktop\OnBoard-master movement\OnBoard\obj\Debug\OnBoard.TrainSettingsModal.resources
+C:\Users\sahmet.tacgin\Desktop\OnBoard-master movement\OnBoard\obj\Debug\OnBoard.TrackSettingsModal.resources
+C:\Users\sahmet.tacgin\Desktop\OnBoard-master movement\OnBoard\obj\Debug\OnBoard.TrainSimModal.resources
+C:\Users\sahmet.tacgin\Desktop\OnBoard-master movement\OnBoard\obj\Debug\OnBoard.csproj.GenerateResource.cache
+C:\Users\sahmet.tacgin\Desktop\OnBoard-master movement\OnBoard\obj\Debug\OnBoard.csproj.CoreCompileInputs.cache
+C:\Users\sahmet.tacgin\Desktop\OnBoard-master movement\OnBoard\obj\Debug\OnBoard.csproj.CopyComplete
+C:\Users\sahmet.tacgin\Desktop\OnBoard-master movement\OnBoard\obj\Debug\OnBoard.exe
+C:\Users\sahmet.tacgin\Desktop\OnBoard-master movement\OnBoard\obj\Debug\OnBoard.pdb
+C:\Users\Diabolik\Desktop\OnBoard-master movement - avusturalya\OnBoard\bin\Debug\OnBoard.exe.config
+C:\Users\Diabolik\Desktop\OnBoard-master movement - avusturalya\OnBoard\bin\Debug\OnBoard.exe
+C:\Users\Diabolik\Desktop\OnBoard-master movement - avusturalya\OnBoard\bin\Debug\OnBoard.pdb
+C:\Users\Diabolik\Desktop\OnBoard-master movement - avusturalya\OnBoard\obj\Debug\OnBoard.CommunicationSettingsModal.resources
+C:\Users\Diabolik\Desktop\OnBoard-master movement - avusturalya\OnBoard\obj\Debug\OnBoard.GeneralSettingsModal.resources
+C:\Users\Diabolik\Desktop\OnBoard-master movement - avusturalya\OnBoard\obj\Debug\OnBoard.MainForm.resources
+C:\Users\Diabolik\Desktop\OnBoard-master movement - avusturalya\OnBoard\obj\Debug\OnBoard.Properties.Resources.resources
+C:\Users\Diabolik\Desktop\OnBoard-master movement - avusturalya\OnBoard\obj\Debug\OnBoard.TrainSettingsModal.resources
+C:\Users\Diabolik\Desktop\OnBoard-master movement - avusturalya\OnBoard\obj\Debug\OnBoard.TrackSettingsModal.resources
+C:\Users\Diabolik\Desktop\OnBoard-master movement - avusturalya\OnBoard\obj\Debug\OnBoard.TrainSimModal.resources
+C:\Users\Diabolik\Desktop\OnBoard-master movement - avusturalya\OnBoard\obj\Debug\OnBoard.csproj.GenerateResource.cache
+C:\Users\Diabolik\Desktop\OnBoard-master movement - avusturalya\OnBoard\obj\Debug\OnBoard.csproj.CopyComplete
+C:\Users\Diabolik\Desktop\OnBoard-master movement - avusturalya\OnBoard\obj\Debug\OnBoard.exe
+C:\Users\Diabolik\Desktop\OnBoard-master movement - avusturalya\OnBoard\obj\Debug\OnBoard.pdb
+C:\Users\Diabolik\Desktop\OnBoard-master movement - avusturalya\OnBoard\bin\Debug\System.Data.SQLite.Linq.xml
+C:\Users\Diabolik\Desktop\OnBoard-master movement - avusturalya\OnBoard\obj\Debug\OnBoard.csprojAssemblyReference.cache
+C:\Users\Diabolik\Desktop\OnBoard-master movement - avusturalya\OnBoard\bin\Debug\System.Data.SQLite.EF6.xml
+C:\Users\Diabolik\Desktop\OnBoard-master movement - avusturalya\OnBoard\bin\Debug\System.Data.SQLite.xml
+C:\Users\sahmet.tacgin\Desktop\OnBoard-master movement - veritabanı\OnBoard\bin\Debug\OnBoard.exe.config
+C:\Users\sahmet.tacgin\Desktop\OnBoard-master movement - veritabanı\OnBoard\bin\Debug\OnBoard.exe
+C:\Users\sahmet.tacgin\Desktop\OnBoard-master movement - veritabanı\OnBoard\bin\Debug\OnBoard.pdb
+C:\Users\sahmet.tacgin\Desktop\OnBoard-master movement - veritabanı\OnBoard\bin\Debug\DevComponents.DotNetBar2.dll
+C:\Users\sahmet.tacgin\Desktop\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.CommunicationSettingsModal.resources
+C:\Users\sahmet.tacgin\Desktop\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.GeneralSettingsModal.resources
+C:\Users\sahmet.tacgin\Desktop\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.MainForm.resources
+C:\Users\sahmet.tacgin\Desktop\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.Properties.Resources.resources
+C:\Users\sahmet.tacgin\Desktop\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.TrainSettingsModal.resources
+C:\Users\sahmet.tacgin\Desktop\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.TrackSettingsModal.resources
+C:\Users\sahmet.tacgin\Desktop\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.TrainSimModal.resources
+C:\Users\sahmet.tacgin\Desktop\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.csproj.GenerateResource.cache
+C:\Users\sahmet.tacgin\Desktop\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.csproj.CoreCompileInputs.cache
+C:\Users\sahmet.tacgin\Desktop\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.csproj.CopyComplete
+C:\Users\sahmet.tacgin\Desktop\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.exe
+C:\Users\sahmet.tacgin\Desktop\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.pdb
+C:\Users\sahmet.tacgin\Desktop\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.csprojAssemblyReference.cache
+C:\Users\Diabolik\Desktop\tatil sorası\OnBoard-master movement - veritabanı\OnBoard\bin\Debug\OnBoard.exe.config
+C:\Users\Diabolik\Desktop\tatil sorası\OnBoard-master movement - veritabanı\OnBoard\bin\Debug\OnBoard.exe
+C:\Users\Diabolik\Desktop\tatil sorası\OnBoard-master movement - veritabanı\OnBoard\bin\Debug\OnBoard.pdb
+C:\Users\Diabolik\Desktop\tatil sorası\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.csprojAssemblyReference.cache
+C:\Users\Diabolik\Desktop\tatil sorası\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.CommunicationSettingsModal.resources
+C:\Users\Diabolik\Desktop\tatil sorası\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.GeneralSettingsModal.resources
+C:\Users\Diabolik\Desktop\tatil sorası\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.MainForm.resources
+C:\Users\Diabolik\Desktop\tatil sorası\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.Properties.Resources.resources
+C:\Users\Diabolik\Desktop\tatil sorası\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.TrainSettingsModal.resources
+C:\Users\Diabolik\Desktop\tatil sorası\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.TrackSettingsModal.resources
+C:\Users\Diabolik\Desktop\tatil sorası\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.TrainSimModal.resources
+C:\Users\Diabolik\Desktop\tatil sorası\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.csproj.GenerateResource.cache
+C:\Users\Diabolik\Desktop\tatil sorası\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.csproj.CopyComplete
+C:\Users\Diabolik\Desktop\tatil sorası\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.exe
+C:\Users\Diabolik\Desktop\tatil sorası\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.pdb
+C:\Users\sahmet.tacgin\Desktop\tatil sorası-ev\OnBoard-master movement - veritabanı\OnBoard\bin\Debug\OnBoard.exe.config
+C:\Users\sahmet.tacgin\Desktop\tatil sorası-ev\OnBoard-master movement - veritabanı\OnBoard\bin\Debug\OnBoard.exe
+C:\Users\sahmet.tacgin\Desktop\tatil sorası-ev\OnBoard-master movement - veritabanı\OnBoard\bin\Debug\OnBoard.pdb
+C:\Users\sahmet.tacgin\Desktop\tatil sorası-ev\OnBoard-master movement - veritabanı\OnBoard\bin\Debug\DevComponents.DotNetBar2.dll
+C:\Users\sahmet.tacgin\Desktop\tatil sorası-ev\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.CommunicationSettingsModal.resources
+C:\Users\sahmet.tacgin\Desktop\tatil sorası-ev\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.GeneralSettingsModal.resources
+C:\Users\sahmet.tacgin\Desktop\tatil sorası-ev\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.MainForm.resources
+C:\Users\sahmet.tacgin\Desktop\tatil sorası-ev\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.Properties.Resources.resources
+C:\Users\sahmet.tacgin\Desktop\tatil sorası-ev\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.TrainSettingsModal.resources
+C:\Users\sahmet.tacgin\Desktop\tatil sorası-ev\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.TrackSettingsModal.resources
+C:\Users\sahmet.tacgin\Desktop\tatil sorası-ev\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.TrainSimModal.resources
+C:\Users\sahmet.tacgin\Desktop\tatil sorası-ev\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.csproj.GenerateResource.cache
+C:\Users\sahmet.tacgin\Desktop\tatil sorası-ev\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.csproj.CoreCompileInputs.cache
+C:\Users\sahmet.tacgin\Desktop\tatil sorası-ev\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.csproj.CopyComplete
+C:\Users\sahmet.tacgin\Desktop\tatil sorası-ev\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.exe
+C:\Users\sahmet.tacgin\Desktop\tatil sorası-ev\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.pdb
+C:\Users\sahmet.tacgin\Desktop\tatil sorası-ev\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.csprojAssemblyReference.cache
+I:\tatil sorası-eviş\OnBoard-master movement - veritabanı\OnBoard\bin\Debug\OnBoard.exe.config
+I:\tatil sorası-eviş\OnBoard-master movement - veritabanı\OnBoard\bin\Debug\OnBoard.exe
+I:\tatil sorası-eviş\OnBoard-master movement - veritabanı\OnBoard\bin\Debug\OnBoard.pdb
+I:\tatil sorası-eviş\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.CommunicationSettingsModal.resources
+I:\tatil sorası-eviş\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.GeneralSettingsModal.resources
+I:\tatil sorası-eviş\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.MainForm.resources
+I:\tatil sorası-eviş\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.Properties.Resources.resources
+I:\tatil sorası-eviş\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.TrainSettingsModal.resources
+I:\tatil sorası-eviş\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.TrackSettingsModal.resources
+I:\tatil sorası-eviş\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.TrainSimModal.resources
+I:\tatil sorası-eviş\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.csproj.GenerateResource.cache
+I:\tatil sorası-eviş\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.csproj.CopyComplete
+I:\tatil sorası-eviş\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.exe
+I:\tatil sorası-eviş\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.pdb
+I:\tatil sorası-eviş\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.csprojAssemblyReference.cache
+C:\Users\sahmet.tacgin\Desktop\tatil sorası-eviş - hareket yetkili\OnBoard-master movement - veritabanı\OnBoard\bin\Debug\OnBoard.exe.config
+C:\Users\sahmet.tacgin\Desktop\tatil sorası-eviş - hareket yetkili\OnBoard-master movement - veritabanı\OnBoard\bin\Debug\OnBoard.exe
+C:\Users\sahmet.tacgin\Desktop\tatil sorası-eviş - hareket yetkili\OnBoard-master movement - veritabanı\OnBoard\bin\Debug\OnBoard.pdb
+C:\Users\sahmet.tacgin\Desktop\tatil sorası-eviş - hareket yetkili\OnBoard-master movement - veritabanı\OnBoard\bin\Debug\DevComponents.DotNetBar2.dll
+C:\Users\sahmet.tacgin\Desktop\tatil sorası-eviş - hareket yetkili\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.CommunicationSettingsModal.resources
+C:\Users\sahmet.tacgin\Desktop\tatil sorası-eviş - hareket yetkili\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.GeneralSettingsModal.resources
+C:\Users\sahmet.tacgin\Desktop\tatil sorası-eviş - hareket yetkili\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.MainForm.resources
+C:\Users\sahmet.tacgin\Desktop\tatil sorası-eviş - hareket yetkili\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.Properties.Resources.resources
+C:\Users\sahmet.tacgin\Desktop\tatil sorası-eviş - hareket yetkili\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.TrainSettingsModal.resources
+C:\Users\sahmet.tacgin\Desktop\tatil sorası-eviş - hareket yetkili\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.TrackSettingsModal.resources
+C:\Users\sahmet.tacgin\Desktop\tatil sorası-eviş - hareket yetkili\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.TrainSimModal.resources
+C:\Users\sahmet.tacgin\Desktop\tatil sorası-eviş - hareket yetkili\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.csproj.GenerateResource.cache
+C:\Users\sahmet.tacgin\Desktop\tatil sorası-eviş - hareket yetkili\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.csproj.CoreCompileInputs.cache
+C:\Users\sahmet.tacgin\Desktop\tatil sorası-eviş - hareket yetkili\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.csproj.CopyComplete
+C:\Users\sahmet.tacgin\Desktop\tatil sorası-eviş - hareket yetkili\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.exe
+C:\Users\sahmet.tacgin\Desktop\tatil sorası-eviş - hareket yetkili\OnBoard-master movement - veritabanı\OnBoard\obj\Debug\OnBoard.pdb
+I:\OnBoard\OnBoard\bin\Debug\OnBoard.exe.config
+I:\OnBoard\OnBoard\bin\Debug\OnBoard.exe
+I:\OnBoard\OnBoard\bin\Debug\OnBoard.pdb
+I:\OnBoard\OnBoard\obj\Debug\OnBoard.csprojAssemblyReference.cache
+I:\OnBoard\OnBoard\obj\Debug\OnBoard.CommunicationSettingsModal.resources
+I:\OnBoard\OnBoard\obj\Debug\OnBoard.GeneralSettingsModal.resources
+I:\OnBoard\OnBoard\obj\Debug\OnBoard.MainForm.resources
+I:\OnBoard\OnBoard\obj\Debug\OnBoard.Properties.Resources.resources
+I:\OnBoard\OnBoard\obj\Debug\OnBoard.TrainSettingsModal.resources
+I:\OnBoard\OnBoard\obj\Debug\OnBoard.TrackSettingsModal.resources
+I:\OnBoard\OnBoard\obj\Debug\OnBoard.TrainSimModal.resources
+I:\OnBoard\OnBoard\obj\Debug\OnBoard.csproj.GenerateResource.cache
+I:\OnBoard\OnBoard\obj\Debug\OnBoard.csproj.CopyComplete
+I:\OnBoard\OnBoard\obj\Debug\OnBoard.exe
+I:\OnBoard\OnBoard\obj\Debug\OnBoard.pdb
+C:\Users\sahmet.tacgin\Desktop\OnBoard\OnBoard\bin\Debug\OnBoard.exe.config
+C:\Users\sahmet.tacgin\Desktop\OnBoard\OnBoard\bin\Debug\OnBoard.exe
+C:\Users\sahmet.tacgin\Desktop\OnBoard\OnBoard\bin\Debug\OnBoard.pdb
+C:\Users\sahmet.tacgin\Desktop\OnBoard\OnBoard\bin\Debug\DevComponents.DotNetBar2.dll
+C:\Users\sahmet.tacgin\Desktop\OnBoard\OnBoard\obj\Debug\OnBoard.CommunicationSettingsModal.resources
+C:\Users\sahmet.tacgin\Desktop\OnBoard\OnBoard\obj\Debug\OnBoard.GeneralSettingsModal.resources
+C:\Users\sahmet.tacgin\Desktop\OnBoard\OnBoard\obj\Debug\OnBoard.MainForm.resources
+C:\Users\sahmet.tacgin\Desktop\OnBoard\OnBoard\obj\Debug\OnBoard.Properties.Resources.resources
+C:\Users\sahmet.tacgin\Desktop\OnBoard\OnBoard\obj\Debug\OnBoard.TrainSettingsModal.resources
+C:\Users\sahmet.tacgin\Desktop\OnBoard\OnBoard\obj\Debug\OnBoard.TrackSettingsModal.resources
+C:\Users\sahmet.tacgin\Desktop\OnBoard\OnBoard\obj\Debug\OnBoard.TrainSimModal.resources
+C:\Users\sahmet.tacgin\Desktop\OnBoard\OnBoard\obj\Debug\OnBoard.csproj.GenerateResource.cache
+C:\Users\sahmet.tacgin\Desktop\OnBoard\OnBoard\obj\Debug\OnBoard.csproj.CoreCompileInputs.cache
+C:\Users\sahmet.tacgin\Desktop\OnBoard\OnBoard\obj\Debug\OnBoard.csproj.CopyComplete
+C:\Users\sahmet.tacgin\Desktop\OnBoard\OnBoard\obj\Debug\OnBoard.exe
+C:\Users\sahmet.tacgin\Desktop\OnBoard\OnBoard\obj\Debug\OnBoard.pdb
+C:\Users\sahmet.tacgin\Desktop\OnBoard Versiyonları\WSATC Test\OnBoard\OnBoard\bin\Debug\OnBoard.exe.config
+C:\Users\sahmet.tacgin\Desktop\OnBoard Versiyonları\WSATC Test\OnBoard\OnBoard\bin\Debug\OnBoard.exe
+C:\Users\sahmet.tacgin\Desktop\OnBoard Versiyonları\WSATC Test\OnBoard\OnBoard\bin\Debug\OnBoard.pdb
+C:\Users\sahmet.tacgin\Desktop\OnBoard Versiyonları\WSATC Test\OnBoard\OnBoard\bin\Debug\DevComponents.DotNetBar2.dll
+C:\Users\sahmet.tacgin\Desktop\OnBoard Versiyonları\WSATC Test\OnBoard\OnBoard\obj\Debug\OnBoard.csprojAssemblyReference.cache
+C:\Users\sahmet.tacgin\Desktop\OnBoard Versiyonları\WSATC Test\OnBoard\OnBoard\obj\Debug\OnBoard.CommunicationSettingsModal.resources
+C:\Users\sahmet.tacgin\Desktop\OnBoard Versiyonları\WSATC Test\OnBoard\OnBoard\obj\Debug\OnBoard.GeneralSettingsModal.resources
+C:\Users\sahmet.tacgin\Desktop\OnBoard Versiyonları\WSATC Test\OnBoard\OnBoard\obj\Debug\OnBoard.MainForm.resources
+C:\Users\sahmet.tacgin\Desktop\OnBoard Versiyonları\WSATC Test\OnBoard\OnBoard\obj\Debug\OnBoard.Properties.Resources.resources
+C:\Users\sahmet.tacgin\Desktop\OnBoard Versiyonları\WSATC Test\OnBoard\OnBoard\obj\Debug\OnBoard.TrainSettingsModal.resources
+C:\Users\sahmet.tacgin\Desktop\OnBoard Versiyonları\WSATC Test\OnBoard\OnBoard\obj\Debug\OnBoard.TrackSettingsModal.resources
+C:\Users\sahmet.tacgin\Desktop\OnBoard Versiyonları\WSATC Test\OnBoard\OnBoard\obj\Debug\OnBoard.TrainSimModal.resources
+C:\Users\sahmet.tacgin\Desktop\OnBoard Versiyonları\WSATC Test\OnBoard\OnBoard\obj\Debug\OnBoard.csproj.GenerateResource.cache
+C:\Users\sahmet.tacgin\Desktop\OnBoard Versiyonları\WSATC Test\OnBoard\OnBoard\obj\Debug\OnBoard.csproj.CoreCompileInputs.cache
+C:\Users\sahmet.tacgin\Desktop\OnBoard Versiyonları\WSATC Test\OnBoard\OnBoard\obj\Debug\OnBoard.csproj.CopyComplete
+C:\Users\sahmet.tacgin\Desktop\OnBoard Versiyonları\WSATC Test\OnBoard\OnBoard\obj\Debug\OnBoard.exe
+C:\Users\sahmet.tacgin\Desktop\OnBoard Versiyonları\WSATC Test\OnBoard\OnBoard\obj\Debug\OnBoard.pdb
+C:\Users\sahmet.tacgin\Desktop\WSATC Test\OnBoard\OnBoard\bin\Debug\OnBoard.exe.config
+C:\Users\sahmet.tacgin\Desktop\WSATC Test\OnBoard\OnBoard\bin\Debug\OnBoard.exe
+C:\Users\sahmet.tacgin\Desktop\WSATC Test\OnBoard\OnBoard\bin\Debug\OnBoard.pdb
+C:\Users\sahmet.tacgin\Desktop\WSATC Test\OnBoard\OnBoard\bin\Debug\DevComponents.DotNetBar2.dll
+C:\Users\sahmet.tacgin\Desktop\WSATC Test\OnBoard\OnBoard\obj\Debug\OnBoard.csprojAssemblyReference.cache
+C:\Users\sahmet.tacgin\Desktop\WSATC Test\OnBoard\OnBoard\obj\Debug\OnBoard.CommunicationSettingsModal.resources
+C:\Users\sahmet.tacgin\Desktop\WSATC Test\OnBoard\OnBoard\obj\Debug\OnBoard.GeneralSettingsModal.resources
+C:\Users\sahmet.tacgin\Desktop\WSATC Test\OnBoard\OnBoard\obj\Debug\OnBoard.MainForm.resources
+C:\Users\sahmet.tacgin\Desktop\WSATC Test\OnBoard\OnBoard\obj\Debug\OnBoard.Properties.Resources.resources
+C:\Users\sahmet.tacgin\Desktop\WSATC Test\OnBoard\OnBoard\obj\Debug\OnBoard.TrainSettingsModal.resources
+C:\Users\sahmet.tacgin\Desktop\WSATC Test\OnBoard\OnBoard\obj\Debug\OnBoard.TrackSettingsModal.resources
+C:\Users\sahmet.tacgin\Desktop\WSATC Test\OnBoard\OnBoard\obj\Debug\OnBoard.TrainSimModal.resources
+C:\Users\sahmet.tacgin\Desktop\WSATC Test\OnBoard\OnBoard\obj\Debug\OnBoard.csproj.GenerateResource.cache
+C:\Users\sahmet.tacgin\Desktop\WSATC Test\OnBoard\OnBoard\obj\Debug\OnBoard.csproj.CoreCompileInputs.cache
+C:\Users\sahmet.tacgin\Desktop\WSATC Test\OnBoard\OnBoard\obj\Debug\OnBoard.csproj.CopyComplete
+C:\Users\sahmet.tacgin\Desktop\WSATC Test\OnBoard\OnBoard\obj\Debug\OnBoard.exe
+C:\Users\sahmet.tacgin\Desktop\WSATC Test\OnBoard\OnBoard\obj\Debug\OnBoard.pdb
+I:\WSATC Test\OnBoard\OnBoard\bin\Debug\OnBoard.exe.config
+I:\WSATC Test\OnBoard\OnBoard\bin\Debug\OnBoard.exe
+I:\WSATC Test\OnBoard\OnBoard\bin\Debug\OnBoard.pdb
+I:\WSATC Test\OnBoard\OnBoard\obj\Debug\OnBoard.CommunicationSettingsModal.resources
+I:\WSATC Test\OnBoard\OnBoard\obj\Debug\OnBoard.GeneralSettingsModal.resources
+I:\WSATC Test\OnBoard\OnBoard\obj\Debug\OnBoard.MainForm.resources
+I:\WSATC Test\OnBoard\OnBoard\obj\Debug\OnBoard.Properties.Resources.resources
+I:\WSATC Test\OnBoard\OnBoard\obj\Debug\OnBoard.TrainSettingsModal.resources
+I:\WSATC Test\OnBoard\OnBoard\obj\Debug\OnBoard.TrackSettingsModal.resources
+I:\WSATC Test\OnBoard\OnBoard\obj\Debug\OnBoard.TrainSimModal.resources
+I:\WSATC Test\OnBoard\OnBoard\obj\Debug\OnBoard.csproj.GenerateResource.cache
+I:\WSATC Test\OnBoard\OnBoard\obj\Debug\OnBoard.csproj.CopyComplete
+I:\WSATC Test\OnBoard\OnBoard\obj\Debug\OnBoard.exe
+I:\WSATC Test\OnBoard\OnBoard\obj\Debug\OnBoard.pdb
+I:\WSATC Test\OnBoard\OnBoard\obj\Debug\OnBoard.csprojAssemblyReference.cache

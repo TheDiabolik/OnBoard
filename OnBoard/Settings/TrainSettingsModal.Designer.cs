@@ -177,6 +177,7 @@
             this.Name = "TrainSettingsModal";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Train Settings";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TrainSettingsModal_FormClosing);
             this.Load += new System.EventHandler(this.TrainSettings_Load);
             this.m_groupBoxTrainSettings.ResumeLayout(false);
             this.m_groupBoxTrainSettings.PerformLayout();

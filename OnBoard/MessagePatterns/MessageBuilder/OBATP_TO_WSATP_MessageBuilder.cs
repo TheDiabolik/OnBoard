@@ -8,6 +8,8 @@ namespace OnBoard
 {
     public class OBATP_TO_WSATP_MessageBuilder : MessageBuilder
     {
+
+       
         public override void CreateMessageDS()
         {
             m_message.DS = (UInt32)Enums.Message.DS.OBATP_TO_WSATP;
@@ -39,7 +41,11 @@ namespace OnBoard
        
         public override void CreateMessageNO(UInt32 NO)
         {
-            m_message.NO = NO;
+            //m_message.NO = NO;
+
+            m_message.NO = MessageCounter.OBATP_TO_WSATP_Counter;
+
+            MessageCounter.OBATP_TO_WSATP_Counter++;
         }
 
         public override void CreateMessageDATA(byte[] DATA)

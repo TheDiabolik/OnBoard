@@ -18,6 +18,14 @@ namespace OnBoard
             {
                 return new OBATP_TO_WSATP();
             }
+            else if (messageID == Enums.Message.ID.OBATO_TO_ATS_SERVER)
+            {
+                return new OBATO_TO_ATS();
+            }
+            else if (messageID == Enums.Message.ID.ATS_SERVER_TO_OBATO)
+            {
+                return new ATS_TO_OBATO();
+            }
             else // (messageID == Enums.Message.ID.ATS_SERVER_TO_OBATO_Init)
             {
                 return new ATS_TO_OBATO_Init();

@@ -1,5 +1,11 @@
 <?xml version="1.0"?>
 <XMLSerialization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ATSIPAddress>127.0.0.1</ATSIPAddress>
+  <ATSPort>12101</ATSPort>
+  <ATSCommunicationType>Client</ATSCommunicationType>
+  <WSATCIPAddress>127.0.0.1</WSATCIPAddress>
+  <WSATCPort>11001</WSATCPort>
+  <WSATCCommunicationType>Client</WSATCCommunicationType>
   <ATSToOBATPIPAddress>127.0.0.1</ATSToOBATPIPAddress>
   <ATSToOBATPPort>12101</ATSToOBATPPort>
   <ATSToOBATPCommunicationType>Client</ATSToOBATPCommunicationType>
@@ -166,7 +172,16 @@
       </DocumentElement>
     </diffgr:diffgram>
   </RouteTrack>
-  <TrainFrequency>5</TrainFrequency>
+  <TrainFrequencyMinute>0</TrainFrequencyMinute>
+  <TrainFrequencySecond>21</TrainFrequencySecond>
+  <OBATCWorkingCycle>10</OBATCWorkingCycle>
+  <MessageSendWorkingCycle>200</MessageSendWorkingCycle>
+  <UIRefreshWorkingCycle>350</UIRefreshWorkingCycle>
+  <WriteLogATS_TO_OBATO>false</WriteLogATS_TO_OBATO>
+  <WriteLogATS_TO_OBATO_Init>false</WriteLogATS_TO_OBATO_Init>
+  <WriteLogOBATO_TO_ATS>false</WriteLogOBATO_TO_ATS>
+  <WriteLogOBATP_TO_WSATP>false</WriteLogOBATP_TO_WSATP>
+  <WriteLogWSATP_TO_OBATP>false</WriteLogWSATP_TO_OBATP>
   <Trains>
     <int>0</int>
   </Trains>

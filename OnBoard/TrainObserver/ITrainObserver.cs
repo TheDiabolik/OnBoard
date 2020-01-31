@@ -10,15 +10,38 @@ namespace OnBoard
     {
         void InformTrainCreatedWatcher();
 
-        void InformTrainMovementCreatedWatcher();
+        void InformTrainMovementCreatedSendMessageWatcher();
         void InformTrainMovementRouteCreatedWatcher();
+        void InformTrainNewMovementAuthorityCreatedWatcher();
+        void InformTrainMovementUITracksListWatcher();
+        void InformTrainMovementUIAllTrainListWatcher();
 
-        void InformTrainMovementUIWatcher();
+
 
         void AddTrainCreatedWatcher(ITrainCreatedWatcher watcher);
 
-        void AddTrainMovementCreatedWatcher(ITrainMovementCreatedWatcher watcher);
+        void RemoveTrainCreatedWatcher(ITrainCreatedWatcher watcher);
+
+
+
+        void AddTrainMovementCreatedSendMessageWatcher(ITrainMovementCreatedSendMessageWatcher watcher);
+        void RemoveTrainMovementCreatedSendMessageWatcher(ITrainMovementCreatedSendMessageWatcher watcher);
+
+        //
+        void AddTrainNewMovementAuthorityCreatedWatcher(ITrainNewMovementAuthorityCreatedWatcher watcher);
+        void RemoveTrainNewMovementAuthorityCreatedWatcher(ITrainNewMovementAuthorityCreatedWatcher watcher);
+
+
         void AddTrainMovementRouteCreatedWatcher(ITrainMovementRouteCreatedWatcher watcher);
+
+        void RemoveTrainMovementRouteCreatedWatcher(ITrainMovementRouteCreatedWatcher watcher);
+
+
         void AddTrainMovementUIWatcher(ITrainMovementUIWatcher watcher);
+        void RemoveTrainMovementUIWatcher(ITrainMovementUIWatcher watcher);
+
+
+        //void AddTrainMovementUITracksListWatcher(ITrainMovementUIWatcher watcher);
+        //void RemoveTrainMovementUITracksListWatcher(ITrainMovementUIWatcher watcher);
     }
 }

@@ -8,14 +8,14 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>OnBoard</RootNamespace>
     <AssemblyName>OnBoard</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -49,6 +49,18 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.SQLite, Version=1.0.112.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SQLite.EF6, Version=1.0.112.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\System.Data.SQLite.EF6.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SQLite.Linq, Version=1.0.112.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\System.Data.SQLite.Linq.dll</HintPath>
+    </Reference>
     <Reference Include="System.Design" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
@@ -65,18 +77,26 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Database\ConnectionString.cs" />
+    <Compile Include="Database\veri.cs" />
     <Compile Include="ExtensionMethods\ActiveATPExtensions.cs" />
     <Compile Include="ExtensionMethods\ActiveCabExtensions.cs" />
     <Compile Include="ExtensionMethods\BoolExtensions.cs" />
     <Compile Include="ExtensionMethods\TrainDirectionExtensions.cs" />
     <Compile Include="ExtensionMethods\WakeUpTrainExtensions.cs" />
     <Compile Include="HelperClass.cs" />
+    <Compile Include="MessagePatterns\MessageBuilder\ATS_TO_OBATO_MessageBuilder.cs" />
+    <Compile Include="OBATP\ATS_TO_OBATO_InitMessageInComing.cs" />
+    <Compile Include="OBATP\ATS_TO_OBATO_MessageInComing.cs" />
+    <Compile Include="OBATP\IATS.cs" />
+    <Compile Include="OBATP\IWSATC.cs" />
     <Compile Include="Logging.cs" />
     <Compile Include="MessagePatterns\DataPackets\OBATO_TO_ATS\Adapter\OBATO_TO_ATSAdaptee.cs" />
     <Compile Include="MessagePatterns\DataPackets\OBATO_TO_ATS\Adapter\OBATO_TO_ATSAdapter.cs" />
     <Compile Include="MessagePatterns\DataPackets\OBATP_TO_WSATP\Adapter\OBATP_TO_WSATPAdaptee.cs" />
     <Compile Include="MessagePatterns\DataPackets\OBATP_TO_WSATP\Adapter\OBATP_TO_WSATPAdapter.cs" />
     <Compile Include="MessagePatterns\MessageBuilder\OBATO_TO_ATS_MessageBuilder.cs" />
+    <Compile Include="MessagePatterns\MessageCounter.cs" />
     <Compile Include="MessagePatterns\MessageObserver\ATS_TO_OBATO_Init_MessageObserver\ATS_TO_OBATO_InitMessageInComing.cs" />
     <Compile Include="MessagePatterns\MessageObserver\ATS_TO_OBATO_Init_MessageObserver\IATS_TO_OBATO_InitMessageCreate.cs" />
     <Compile Include="MessagePatterns\MessageObserver\ATS_TO_OBATO_Init_MessageObserver\IATS_TO_OBATO_InitMessageWatcher.cs" />
@@ -108,11 +128,25 @@
     <Compile Include="OBATPPool.cs" />
     <Compile Include="OBATPUIPartial.cs" />
     <Compile Include="ExtensionMethods\TrainCoupledExtensions.cs" />
+    <Compile Include="OBATP\OBATPHelperClass.cs" />
+    <Compile Include="OBATP\OBATP_ATS_Properties.cs" />
+    <Compile Include="OBATP\OBATP_CalculationOperations.cs" />
+    <Compile Include="OBATP\OBATP_Constructor.cs" />
+    <Compile Include="OBATP\OBATP_Properties.cs" />
+    <Compile Include="OBATP\OBATP_WSATC_Properties.cs" />
+    <Compile Include="OBATP\WSATP_TO_OBATPMessageInComing.cs" />
+    <Compile Include="SettingsWindowsObserver\ISettingsWindowsObserver.cs" />
+    <Compile Include="SettingsWindowsObserver\ISettingsWindowsWatcher.cs" />
+    <Compile Include="SettingsWindowsObserver\SettingsWindowsObserver.cs" />
+    <Compile Include="TCPCommunication\ClientATS.cs" />
+    <Compile Include="TCPCommunication\Client.cs" />
+    <Compile Include="TCPCommunication\ClientWSATC.cs" />
     <Compile Include="ThreadedBindingList.cs" />
     <Compile Include="TrainObserver\ITrainCreatedWatcher.cs" />
     <Compile Include="TrainObserver\ITrainMovementCreatedWatcher.cs" />
     <Compile Include="TrainObserver\ITrainMovementRouteCreatedWatcher.cs" />
     <Compile Include="TrainObserver\ITrainMovementUIWatcher.cs" />
+    <Compile Include="TrainObserver\ITrainNewMovementAuthorityCreatedWatcher.cs" />
     <Compile Include="UIAdapter\OBATPUIAdaptee.cs" />
     <Compile Include="UIAdapter\OBATPUIAdapter.cs" />
     <Compile Include="Settings\CommunicationSettingsModal.cs">
@@ -121,7 +155,7 @@
     <Compile Include="Settings\CommunicationSettingsModal.Designer.cs">
       <DependentUpon>CommunicationSettingsModal.cs</DependentUpon>
     </Compile>
-    <Compile Include="TCPCommunication\Client.cs" />
+    <Compile Include="TCPCommunication\ClientAAA.cs" />
     <Compile Include="TCPCommunication\Server.cs" />
     <Compile Include="TCPCommunication\SocketCommunication.cs" />
     <Compile Include="ModalForms\TrackSettingsModal.cs">
@@ -147,7 +181,7 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="OBATP.cs" />
+    <Compile Include="OBATP\OBATP.cs" />
     <Compile Include="Oldie.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

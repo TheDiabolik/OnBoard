@@ -560,8 +560,112 @@ namespace OnBoard
             }
         }
 
+        public static Route CreateDatabaseRoute(int startTrackID, List<Track> routes)
+        {
+            Route route = new Route();
+            try
+            {
+                Track entry = routes.Find(x => x.Track_ID == startTrackID);
+                int index = routes.FindIndex(x => x == entry);
+                List<Track> trackRange = routes.GetRange(index, routes.Count - index);
 
 
+                route.Route_Tracks.Add(routes.ElementAt(index));
+
+                for (int i = ++index; i < routes.Count; i++)
+                {
+                    Track track = routes.ElementAt(i);
+
+                    route.Route_Tracks.Add(track);
+
+                    if (entry.Track_ID == track.Track_ID)
+                        break;
+                }
+
+
+                route.Entry_Track_ID = route.Route_Tracks.First().Track_ID;
+                route.Entry_Track = route.Route_Tracks.First();
+                route.Exit_Track_ID = route.Route_Tracks.Last().Track_ID;
+                route.Exit_Track = route.Route_Tracks.Last();
+
+                double routeLength = 0;
+
+                foreach (Track track in route.Route_Tracks)
+                {
+                    track.StartPositionInRoute = routeLength;
+                    track.StopPositionInRoute = routeLength + track.Track_Length;
+                    routeLength += track.Track_Length;
+                }
+
+                route.Length = routeLength;
+
+
+
+                return route;
+            }
+            catch (Exception ex)
+            {
+                Logging.WriteLog(ex.Message.ToString(), ex.StackTrace.ToString(), ex.TargetSite.ToString(), "CreateRingRoute(int startTrackID, List<Track> routes)");
+                return route;
+            }
+        }
+
+        public static ThreadSafeList<Track>  CreateMovementTracksStationToStation(int startTrackID, List<Track> YNK1_KIR2_YNK1, List<Track> m_YNK2_HAV2_YNK2, bool circle)
+        {
+            ThreadSafeList<Track> movementTrack = new ThreadSafeList<Track>();
+            try
+            {
+                Track entry;
+                List<Track> circleRouteTracks = new List<Track>(); 
+                
+
+                if(circle)
+                {
+                    entry = YNK1_KIR2_YNK1.Find(x => x.Track_ID == startTrackID);
+
+                    if (entry != null)
+                    {
+                        circleRouteTracks = YNK1_KIR2_YNK1;
+                    }
+                }
+                else
+                {
+                    entry = m_YNK2_HAV2_YNK2.Find(x => x.Track_ID == startTrackID);
+
+                    if (entry != null)
+                    {
+                        circleRouteTracks = m_YNK2_HAV2_YNK2;
+                    } 
+                }
+
+               
+
+              
+
+                int index = circleRouteTracks.FindIndex(x => x == entry);
+                List<Track> trackRange = circleRouteTracks.GetRange(index, circleRouteTracks.Count - index); 
+
+                movementTrack.Add(circleRouteTracks.ElementAt(index));
+
+                for (int i = ++index; i < circleRouteTracks.Count; i++)
+                {
+                    Track track = circleRouteTracks.ElementAt(i);
+
+                    movementTrack.Add(track);
+
+                    if (!string.IsNullOrEmpty(track.Station_Name))
+                        break;
+                } 
+ 
+
+                return movementTrack;
+            }
+            catch (Exception ex)
+            {
+                Logging.WriteLog(ex.Message.ToString(), ex.StackTrace.ToString(), ex.TargetSite.ToString(), "CreatemovementTracksStationToStation(int startTrackID, List<Track> database)");
+                return movementTrack;
+            }
+        }
 
 
         public static Route CreateRingRoute(int startTrackID, List<Track> routes)

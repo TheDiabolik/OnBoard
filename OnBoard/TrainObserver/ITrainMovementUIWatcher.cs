@@ -8,6 +8,7 @@ namespace OnBoard
 {
     public interface ITrainMovementUIWatcher
     {
-        void TrainMovementUI(OBATP OBATP, UIOBATP UIOBATP);
+        void TrainMovementUIRefreshAllTrainList(OBATP OBATP);
+        void TrainMovementUIRefreshTracksList(OBATP OBATP, UIOBATP UIOBATP);
     }
 }

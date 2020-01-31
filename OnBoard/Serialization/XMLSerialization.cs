@@ -28,9 +28,31 @@ namespace OnBoard
         #region properties 
 
 
- 
+
 
         #region connection
+
+
+        public string ATSIPAddress { get; set; }
+        public string ATSPort { get; set; }
+        public Enums.CommunicationType ATSCommunicationType { get; set; }
+
+        public string WSATCIPAddress { get; set; }
+        public string WSATCPort { get; set; }
+        public Enums.CommunicationType WSATCCommunicationType { get; set; }
+
+
+
+
+
+
+
+
+
+
+
+
+
         public string ATSToOBATPIPAddress { get; set; }
         public string ATSToOBATPPort { get; set; }
         public Enums.CommunicationType ATSToOBATPCommunicationType { get; set; }
@@ -63,19 +85,28 @@ namespace OnBoard
 
 
 
-        public decimal TrainFrequency { get; set; }
+        public decimal TrainFrequencyMinute { get; set; }
+        public decimal TrainFrequencySecond { get; set; }
 
 
-        private HashSet<int> m_trains = new HashSet<int>();
 
-        public HashSet<int> Trains
-        {
-            get { return m_trains; }
-            set { m_trains = value; }
-        }
+        public int OBATCWorkingCycle { get; set; }
+        public int MessageSendWorkingCycle { get; set; }
+        public int  UIRefreshWorkingCycle { get; set; }
 
+
+
+        #region write log
+        public bool WriteLogATS_TO_OBATO { get; set; }
+        public bool WriteLogATS_TO_OBATO_Init { get; set; }
+        public bool WriteLogOBATO_TO_ATS { get; set; }
+        public bool WriteLogOBATP_TO_WSATP { get; set; }
+        public bool WriteLogWSATP_TO_OBATP { get; set; }
+        #endregion
+        public HashSet<int> Trains { get; set; } = new HashSet<int>();
 
         #endregion
+
         public void CheckSerializationFile()
         {
             try
@@ -87,21 +118,44 @@ namespace OnBoard
                 //xmlserilization dosyasını kontrol ediyoruz
                 if (!File.Exists(SerializationPaths.Settings))
                 {
-                    this.OBATPToATSIPAddress = "127.0.0.1";
-                    this.OBATPToATSPort = 10201.ToString();
+                    //this.OBATPToATSIPAddress = "127.0.0.1";
+                    //this.OBATPToATSPort = 10201.ToString();
+                    //OBATPToATSCommunicationType = Enums.CommunicationType.Client;
+
+                    //this.ATSToOBATPIPAddress = "127.0.0.1";
+                    //this.ATSToOBATPPort = 12101.ToString();
+                    //ATSToOBATPCommunicationType = Enums.CommunicationType.Client;
+
+                    //this.OBATPToWSATCIPAddress = "127.0.0.1";
+                    //this.OBATPToWSATCPort = 14001.ToString();
+                    //OBATPToWSATCCommunicationType = Enums.CommunicationType.Client;
+
+                    //this.WSATCToOBATPIPAddress = "127.0.0.1";
+                    //this.WSATCToOBATPPort = 11001.ToString();
+                    //WSATCToOBATPCommunicationType = Enums.CommunicationType.Client;
+
+                    this.WSATCIPAddress  = "127.0.0.1";
+                    this.WSATCPort = 11001.ToString();
                     OBATPToATSCommunicationType = Enums.CommunicationType.Client;
 
-                    this.ATSToOBATPIPAddress = "127.0.0.1";
-                    this.ATSToOBATPPort = 12101.ToString();
+                    this.ATSIPAddress = "127.0.0.1";
+                    this.ATSPort = 12101.ToString();
                     ATSToOBATPCommunicationType = Enums.CommunicationType.Client;
 
-                    this.OBATPToWSATCIPAddress = "127.0.0.1";
-                    this.OBATPToWSATCPort = 14001.ToString();
-                    OBATPToWSATCCommunicationType = Enums.CommunicationType.Client;
 
-                    this.WSATCToOBATPIPAddress = "127.0.0.1";
-                    this.WSATCToOBATPPort = 11001.ToString();
-                    WSATCToOBATPCommunicationType = Enums.CommunicationType.Client;
+                    this.OBATCWorkingCycle = 200;
+                    this.MessageSendWorkingCycle = 200;
+                    this.UIRefreshWorkingCycle = 200;
+
+                    this.TrainFrequencyMinute = 0;
+                    this.TrainFrequencySecond = 1;
+
+                    this.TrainLength = 11200;
+                    this.MaxTrainDeceleration = 1.1;
+                    this.MaxTrainAcceleration = 0.8;
+                    this.TrainSpeedLimit = 80;
+
+                    this.Trains.Add(0);
 
 
                     this.Serialize(XMLSerialization.Singleton());

@@ -11,16 +11,19 @@ namespace OnBoard
 { 
         partial class SocketCommunication 
     {
-            #region variables   
-        private System.Threading.Timer STTimer;
+        #region variables   
+        internal System.Threading.Timer STTimer;
         bool kontrol = false;
         //Server m_server;
-        //Client m_client;
+        public enum ClientType { ATS, WSATC };
+
+        Client m_clientWSATC;
+        Client m_clientATS;
 
         #endregion
 
         #region constructor
-       public SocketCommunication()
+        public SocketCommunication()
         {
            
         }
@@ -42,7 +45,9 @@ namespace OnBoard
         #endregion
 
 
-        public void Start(Enums.CommunicationType communicationType, string ipAddress, int port)
+       
+
+        public void Start(Enums.CommunicationType communicationType, ClientType clientType, string ipAddress, int port)
         {
 
             if (communicationType == Enums.CommunicationType.Server)
@@ -58,11 +63,29 @@ namespace OnBoard
                 // Client  client = new Client();
 
                 //client.StartClient(ipAddress, port);  m_client = client;
-                SocketCommunication.Client.Singleton().StartClient(ipAddress, port);
+                //SocketCommunication.Client.Singleton().StartClient(ipAddress, port);
+                if(clientType == ClientType.ATS)
+                {
+                    m_clientATS = new ClientATS();
+                    m_clientATS.StartClient(ipAddress, port);
+                }
+                   
+                else if (clientType == ClientType.WSATC)
+                {
+                    m_clientWSATC = new ClientWSATC();
+
+                    m_clientWSATC.StartClient(ipAddress, port);
+                }
+                   
+
+
+
+              
+
             }
         }
 
-        public void Stop(Enums.CommunicationType communicationType)
+        public void Stop(Enums.CommunicationType communicationType, ClientType clientType)
         {
 
             if (communicationType == Enums.CommunicationType.Server)
@@ -73,7 +96,18 @@ namespace OnBoard
             }
             else
             {
-              
+                if (clientType == ClientType.ATS)
+                { 
+                    m_clientATS.StopClient(false);
+                }
+
+                else if (clientType == ClientType.WSATC)
+                {
+
+                    //m_clientWSATC.StopClient(false);
+                }
+
+
                 //m_client.StopClient(false);
                 //SocketCommunication.Client.Singleton().StopClient(false);
             }
@@ -95,42 +129,8 @@ namespace OnBoard
                
             }
 
-        public void sda()
-        {
-            if (!kontrol)
-            {
-                kontrol = true;
-
-                if (STTimer != null)
-                    STTimer.Dispose();
-
-                //this.STTimer = new System.Threading.Timer(DeleteInValidImages, null, 1000, System.Threading.Timeout.Infinite);
-                this.STTimer = new System.Threading.Timer(DeleteInValidImages, null, 1000, 1000);
-            }
-
-        }
-        public void DeleteInValidImages(object o)
-        {
-            try
-            {
-
-                SocketCommunication.Client.Singleton().SendTrainCreated();
-
-            }
-            catch (ThreadInterruptedException ex)
-            {
-                kontrol = false;
-                sda();
-                //Logging.WriteLog(DateTime.Now.ToString(), ex.Message.ToString(), ex.StackTrace.ToString(), ex.TargetSite.ToString(), "socket1");
-
-            }
-            catch (Exception ex)
-            {
-                kontrol = false;
-                sda();
-                //Logging.WriteLog(DateTime.Now.ToString(), ex.Message.ToString(), ex.StackTrace.ToString(), ex.TargetSite.ToString(), "socket2");
-            }
-        }
+       
+     
 
 
         #endregion

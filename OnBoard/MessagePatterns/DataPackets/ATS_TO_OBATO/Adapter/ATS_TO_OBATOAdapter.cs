@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace OnBoard
 {
-    public class ATS_TO_OBATOAdapter
+    public class ATS_TO_OBATOAdapter : IDisposable
     {
-        private ATS_TO_OBATOAdaptee _adaptee; 
+        private ATS_TO_OBATOAdaptee _adaptee;
+
+        private bool m_disposed = false;
 
 
         public bool ApplyEmergencyBrake { get; set; }
@@ -119,6 +121,129 @@ namespace OnBoard
             this.TrackDatabaseVersionMajor = Convert.ToInt32(ATS_TO_OBATO.TrackDatabaseVersionMajor);
             this.TrackDatabaseVersionMinor = Convert.ToInt32(ATS_TO_OBATO.TrackDatabaseVersionMinor); 
 
+        }
+
+
+        public override string ToString()
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.AppendFormat("{0} : {1}", "ApplyEmergencyBrake", this.ApplyEmergencyBrake.ToString());
+            stringBuilder.AppendLine();
+            stringBuilder.AppendFormat("{0} : {1}", "ReleaseEmergencyBrake", this.ReleaseEmergencyBrake.ToString());
+            stringBuilder.AppendLine();
+            stringBuilder.AppendFormat("{0} : {1}", "BlockTrainDoor", this.BlockTrainDoor.ToString());
+            stringBuilder.AppendLine(); 
+
+
+            stringBuilder.AppendFormat("{0} : {1}", "UnblockTrainDoor", this.UnblockTrainDoor.ToString());
+            stringBuilder.AppendLine();
+            stringBuilder.AppendFormat("{0} : {1}", "HoldTrain", this.HoldTrain.ToString());
+            stringBuilder.AppendLine();
+            stringBuilder.AppendFormat("{0} : {1}", "CancelHoldTrain", this.CancelHoldTrain.ToString());
+            stringBuilder.AppendLine();
+
+
+            stringBuilder.AppendFormat("{0} : {1}", "SkipStation", this.SkipStation.ToString());
+            stringBuilder.AppendLine();
+            stringBuilder.AppendFormat("{0} : {1}", "CancelSkipStation", this.CancelSkipStation.ToString());
+            stringBuilder.AppendLine();
+            stringBuilder.AppendFormat("{0} : {1}", "StandbyCmd", this.StandbyCmd.ToString());
+            stringBuilder.AppendLine();
+
+
+            stringBuilder.AppendFormat("{0} : {1}", "WakeUpTrain", this.WakeUpTrain.ToString());
+            stringBuilder.AppendLine();
+            stringBuilder.AppendFormat("{0} : {1}", "OpenTrainLeftDoor", this.OpenTrainLeftDoor.ToString());
+            stringBuilder.AppendLine();
+            stringBuilder.AppendFormat("{0} : {1}", "OpenTrainRightDoor", this.OpenTrainRightDoor.ToString());
+            stringBuilder.AppendLine();
+
+
+            stringBuilder.AppendFormat("{0} : {1}", "CloseTrainLeftDoor", this.CloseTrainLeftDoor.ToString());
+            stringBuilder.AppendLine();
+            stringBuilder.AppendFormat("{0} : {1}", "CloseTrainRightDoor", this.CloseTrainRightDoor.ToString());
+            stringBuilder.AppendLine();
+            stringBuilder.AppendFormat("{0} : {1}", "StopTrainAtNextStation", this.StopTrainAtNextStation.ToString());
+            stringBuilder.AppendLine();
+
+
+            stringBuilder.AppendFormat("{0} : {1}", "ResetOBATC", this.ResetOBATC.ToString());
+            stringBuilder.AppendLine();
+            stringBuilder.AppendFormat("{0} : {1}", "OutOfServiceTrain", this.OutOfServiceTrain.ToString());
+            stringBuilder.AppendLine();
+            stringBuilder.AppendFormat("{0} : {1}", "TriggerAnnouncement", this.TriggerAnnouncement.ToString());
+            stringBuilder.AppendLine();
+
+
+
+            stringBuilder.AppendFormat("{0} : {1}", "CoastingStartTrackID", this.CoastingStartTrackID.ToString());
+            stringBuilder.AppendLine();
+            stringBuilder.AppendFormat("{0} : {1}", "CoastingEndTrackID", this.CoastingEndTrackID.ToString());
+            stringBuilder.AppendLine();
+            stringBuilder.AppendFormat("{0} : {1}", "PerformanceLevel", this.PerformanceLevel.ToString());
+            stringBuilder.AppendLine();
+
+
+
+            stringBuilder.AppendFormat("{0} : {1}", "DoorOpenSequence", this.DoorOpenSequence.ToString());
+            stringBuilder.AppendLine();
+            stringBuilder.AppendFormat("{0} : {1}", "DwellTime", this.DwellTime.ToString());
+            stringBuilder.AppendLine();
+            stringBuilder.AppendFormat("{0} : {1}", "StartingStationID", this.StartingStationID.ToString());
+            stringBuilder.AppendLine();
+
+
+            stringBuilder.AppendFormat("{0} : {1}", "TargetStationID", this.TargetStationID.ToString());
+            stringBuilder.AppendLine();
+            stringBuilder.AppendFormat("{0} : {1}", "TargetPlatformID", this.TargetPlatformID.ToString());
+            stringBuilder.AppendLine();
+
+
+            for (int i = 0; i < this.NextFourStationID.Count; i++)
+            {
+                stringBuilder.AppendFormat("{0}{1} : {2}", "NextFourStationID", (i + 1).ToString(), this.NextFourStationID[i].ToString());
+                stringBuilder.AppendLine(); 
+            }  
+
+
+            stringBuilder.AppendFormat("{0} : {1}", "AnnouncementNumber", this.AnnouncementNumber.ToString());
+            stringBuilder.AppendLine();
+
+
+
+            stringBuilder.AppendFormat("{0} : {1}", "TrackDatabaseVersionMajor", this.TrackDatabaseVersionMajor.ToString());
+            stringBuilder.AppendLine();
+            stringBuilder.AppendFormat("{0} : {1}", "TrackDatabaseVersionMinor", this.TrackDatabaseVersionMinor.ToString());
+            stringBuilder.AppendLine();  
+
+            return stringBuilder.ToString();
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!m_disposed)
+            {
+                if (disposing)
+                {
+                    // Dispose time code 
+                    //buraya sonlanma için method eklenecek
+                }
+
+                // Finalize time code 
+                m_disposed = true;
+            }
+
+
+        }
+
+        public void Dispose()
+        {
+            //if (m_disposed)
+            {
+                Dispose(true);
+
+                GC.SuppressFinalize(this);
+            }
         }
     }
 }

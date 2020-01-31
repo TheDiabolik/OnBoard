@@ -82,6 +82,94 @@ namespace OnBoard
 
             Array.Copy(_adaptee.FootPrintTrackSectionID, base.FootPrintTrackSectionID, _adaptee.FootPrintTrackSectionID.Length);
             Array.Copy(_adaptee.VirtualOccupancyTrackSectionID, base.VirtualOccupancyTrackSectionID, _adaptee.VirtualOccupancyTrackSectionID.Length);
+
+            base.BerthingOk = _adaptee.BerthingOk.BoolToHex();
+
+
+            base.TrainNumber = Convert.ToByte(_adaptee.TrainNumber);
+
+
+        }
+
+
+        public override string ToString()
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.AppendFormat("{0} : {1}", "EmergencyBrakeApplied", _adaptee.EmergencyBrakeApplied.ToString());
+            stringBuilder.AppendLine();
+            stringBuilder.AppendFormat("{0} : {1}", "TrainAbsoluteZeroSpeed", _adaptee.TrainAbsoluteZeroSpeed.ToString());
+            stringBuilder.AppendLine();
+
+
+            stringBuilder.AppendFormat("{0} : {1}", "AllTrainDoorsClosedAndLocked", _adaptee.AllTrainDoorsClosedAndLocked.ToString());
+            stringBuilder.AppendLine();
+            stringBuilder.AppendFormat("{0} : {1}", "EnablePSD1", _adaptee.EnablePSD1.ToString());
+            stringBuilder.AppendLine();
+
+
+
+            stringBuilder.AppendFormat("{0} : {1}", "EnablePSD2", _adaptee.EnablePSD2.ToString());
+            stringBuilder.AppendLine();
+            stringBuilder.AppendFormat("{0} : {1}", "ActiveATP", _adaptee.ActiveATP.ToString());
+            stringBuilder.AppendLine();
+
+
+
+            stringBuilder.AppendFormat("{0} : {1}", "TrainDirection", ((Enums.Direction)_adaptee.TrainDirection).ToString());
+            stringBuilder.AppendLine();
+            stringBuilder.AppendFormat("{0} : {1}", "TrainCoupled", _adaptee.TrainCoupled.ToString());
+            stringBuilder.AppendLine();
+
+            stringBuilder.AppendFormat("{0} : {1}", "TrainIntegrity",  _adaptee.TrainIntegrity.ToString());
+            stringBuilder.AppendLine();
+            stringBuilder.AppendFormat("{0} : {1}", "TrainLocationDeterminationFault", _adaptee.TrainLocationDeterminationFault.ToString());
+            stringBuilder.AppendLine();
+
+
+            stringBuilder.AppendFormat("{0} : {1}", "TrackDatabaseVersionMajor", _adaptee.TrackDatabaseVersionMajor.ToString());
+            stringBuilder.AppendLine();
+            stringBuilder.AppendFormat("{0} : {1}", "TrackDatabaseVersionMinor", _adaptee.TrackDatabaseVersionMinor.ToString());
+            stringBuilder.AppendLine();
+
+
+
+            stringBuilder.AppendFormat("{0} : {1}", "TrainDerailment", _adaptee.TrainDerailment.ToString());
+            stringBuilder.AppendLine();
+
+
+
+
+            for (int i = 0; i < _adaptee.FootPrintTrackSectionID.Length; i++)
+            {
+                stringBuilder.AppendFormat("{0}{1} : {2}", "FootPrintTrackSectionID", (i + 1).ToString(), _adaptee.FootPrintTrackSectionID[i].ToString());
+                stringBuilder.AppendLine();
+
+            }
+
+            for (int i = 0; i < _adaptee.VirtualOccupancyTrackSectionID.Length; i++)
+            {
+                stringBuilder.AppendFormat("{0}{1} : {2}", "VirtualOccupancyTrackSectionID", (i + 1).ToString(), _adaptee.VirtualOccupancyTrackSectionID[i].ToString());
+                stringBuilder.AppendLine();
+
+            }
+
+
+
+
+            stringBuilder.AppendFormat("{0} : {1}", "BerthingOk", _adaptee.BerthingOk.ToString());
+            stringBuilder.AppendLine();
+
+
+
+            stringBuilder.AppendFormat("{0} : {1}", "TrainNumber", ((Enums.Train_ID)_adaptee.TrainNumber).ToString());
+            stringBuilder.AppendLine();
+
+
+
+
+
+
+            return stringBuilder.ToString();
         }
     }
 }

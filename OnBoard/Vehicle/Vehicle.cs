@@ -16,6 +16,11 @@ namespace OnBoard
 
         public Enums.Train_ID TrainID { get; set; }
 
+        //public Enums.OBATP_ID OBATP_ID { get; set; }
+
+        //public Enums.OBATO_ID OBATO_ID { get; set; }
+
+
 
         //[DisplayName("First Name"), Description("Emp Last Name")]
         public string TrainName { get; set; }
@@ -105,6 +110,12 @@ namespace OnBoard
                 if (value != currentTrainSpeedKM)
                 {
                     currentTrainSpeedKM = value;
+
+                    //if (currentTrainSpeedKM > TargetSpeedKMH)
+                    //    currentTrainSpeedKM = TargetSpeedKMH;
+
+
+
                     CurrentTrainSpeedCMS = UnitConversion.KilometerHourToCentimeterSecond(currentTrainSpeedKM);
                 }
             }
@@ -124,6 +135,13 @@ namespace OnBoard
                 if (value != currentTrainSpeedCMS)
                 {
                     currentTrainSpeedCMS = value;
+
+                    //double maxTrainSpeedCMS = UnitConversion.KilometerHourToCentimeterSecond(MaxTrainSpeedKMH);
+
+
+                    //if (currentTrainSpeedCMS > TargetSpeedCMS)
+                    //    currentTrainSpeedCMS = TargetSpeedCMS;
+
                     CurrentTrainSpeedKMH = UnitConversion.CentimeterSecondToKilometerHour(currentTrainSpeedCMS);
                 }
             }

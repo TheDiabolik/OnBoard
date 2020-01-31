@@ -11,5 +11,10 @@ namespace OnBoard
         void InformWatcher();
 
         void AddWatcher(IWSATP_TO_OBATPMessageWatcher watcher);
+        void RemoveWatcher(IWSATP_TO_OBATPMessageWatcher watcher);
+
+        
+
+
     }
 }

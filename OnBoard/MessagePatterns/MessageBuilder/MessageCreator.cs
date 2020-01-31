@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace OnBoard
 {
-    public class MessageCreator
+    public class MessageCreator : IDisposable
     {
         private MessageBuilder m_messageBuilder;
-
+        private bool m_disposed = false;
 
         public void SetMessageBuilder(MessageBuilder messageBuilder)
         {
@@ -41,6 +41,35 @@ namespace OnBoard
             m_messageBuilder.CreateMessageNO(NO);
             m_messageBuilder.CreateMessageDATA(DATA);
             m_messageBuilder.CreateMessageCRC(CRC);
+        }
+
+
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!m_disposed)
+            {
+                if (disposing)
+                {
+                    // Dispose time code 
+                    //buraya sonlanma için method eklenecek
+                }
+
+                // Finalize time code 
+                m_disposed = true;
+            }
+
+
+        }
+
+        public void Dispose()
+        {
+            //if (m_disposed)
+            {
+                Dispose(true);
+
+                GC.SuppressFinalize(this);
+            }
         }
     }
 }
